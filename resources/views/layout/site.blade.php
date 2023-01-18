@@ -13,7 +13,7 @@
 <div class="site-wrapper">
     <header class="header">
         <div class="header__container container">
-            <a class="header__logo" href="index.html">
+            <a class="header__logo" href="{{ route('index') }}">
                 <img src="{{ asset('images/logo.svg') }}" alt="">
             </a>
 
@@ -73,101 +73,21 @@
     <div class="main__container container">
         <section class="catalog" data-spoilers>
             <h2 class="catalog__title" data-spoiler><span>Каталог товаров</span></h2>
-            <ul class="catalog__list">
-                <li>
-                    <a class="catalog__link" href="#">Ссылка первого уровня</a>
-                </li>
-                <li>
-                    <a class="catalog__sub">Вложенное меню</a>
-                    <ul>
-                        <li>
-                            <a class="catalog__link" href="#">Ссылка второго уровня</a>
-                        </li>
-                        <li>
-                            <a class="catalog__link" href="#">Ссылка второго уровня</a>
-                        </li>
-                        <li>
-                            <a class="catalog__sub">Вложенное меню</a>
-                            <ul>
-                                <li>
-                                    <a class="catalog__link" href="#">Ссылка третьего уровня</a>
-                                </li>
-                                <li>
-                                    <a class="catalog__link" href="#">Ссылка третьего уровня</a>
-                                </li>
-                                <li>
-                                    <a class="catalog__link" href="#">Ссылка третьего уровня</a>
-                                </li>
-                                <li>
-                                    <a class="catalog__link" href="#">Ссылка третьего уровня</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="catalog__link" href="#">Ссылка второго уровня</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="catalog__sub">Вложенное меню</a>
-                    <ul>
-                        <li>
-                            <a class="catalog__link" href="#">Ссылка второго уровня</a>
-                        </li>
-                        <li>
-                            <a class="catalog__link" href="#">Ссылка второго уровня</a>
-                        </li>
-                        <li>
-                            <span class="catalog__sub">Вложенное меню</span>
-                            <ul>
-                                <li>
-                                    <a class="catalog__link" href="#">Ссылка третьего уровня</a>
-                                </li>
-                                <li>
-                                    <a class="catalog__link" href="#">Ссылка третьего уровня</a>
-                                </li>
-                                <li>
-                                    <a class="catalog__link" href="#">Ссылка третьего уровня</a>
-                                </li>
-                                <li>
-                                    <a class="catalog__link" href="#">Ссылка третьего уровня</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="catalog__link" href="#">Ссылка второго уровня</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="catalog__link" href="#">Ссылка первого уровня</a>
-                </li>
-                <li>
-                    <a class="catalog__link" href="#">Ссылка первого уровня</a>
-                </li>
-                <li>
-                    <a class="catalog__link" href="#">Ссылка первого уровня</a>
-                </li>
-                <li>
-                    <a class="catalog__link" href="#">Ссылка первого уровня</a>
-                </li>
-            </ul>
+            @include('catalog.burger')
 
             <section class="catalog__section init" data-spoilers>
                 <h3 class="catalog__section-header active" data-spoiler>Уточнить раздел</h3>
                 <div class="catalog__section-list">
-                    <a class="catalog__section-item catalog__section-item--link" href="#">
-                        <span>Раздел 1</span>
-                        <span>10</span>
-                    </a>
-                    <a class="catalog__section-item catalog__section-item--link" href="#">
-                        <span>Раздел 2</span>
-                        <span>20</span>
-                    </a>
-                    <a class="catalog__section-item catalog__section-item--link" href="#">
-                        <span>Раздел 3</span>
-                        <span>30</span>
-                    </a>
+
+                    @foreach ($categories as $category)
+                        <a class="catalog__section-item catalog__section-item--link" href="{{ route('catalog.category', ['category' => $category]) }}">
+                            <span>{{ $category->name }}</span>
+
+                            @if ($category->childrenCategories && $category->childrenCategories->count())
+                                <span>{{ $category->childrenCategories->count() }}</span>
+                            @endif
+                        </a>
+                    @endforeach
                 </div>
             </section>
 

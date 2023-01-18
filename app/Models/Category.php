@@ -14,4 +14,21 @@ class Category extends Model
         'name',
         'slug'
     ];
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function childrenCategories()
+    {
+        return $this->hasMany(Category::class, 'parent_id')->with('categories');
+    }
+
+    public static function all_categories()
+    {
+        return self::whereNull('parent_id')
+            ->with('childrenCategories')
+            ->get();
+    }
 }

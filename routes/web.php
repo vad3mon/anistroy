@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('layout.site');
+Route::get('/', [\App\Http\Controllers\CatalogController::class, 'index'])->name('index');
+
+Route::group([
+    'as' => 'catalog.',
+    'prefix' => 'catalog',
+], function() {
+    Route::get('/category/{category:slug}', [\App\Http\Controllers\CatalogController::class, 'category'])->name('category');
 });
