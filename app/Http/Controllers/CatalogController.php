@@ -18,7 +18,13 @@ class CatalogController extends Controller
 
     public function category(Category $category)
     {
+        $category = Category::find($category->id);
+
         $categories = Category::find($category->id)->childrenCategories;
-        return view('layout.site', compact('categories'));
+
+        $products = Category::find($category->id)->all_products();
+
+//        dd($products);
+        return view('catalog.category', compact('categories', 'products', 'category'));
     }
 }

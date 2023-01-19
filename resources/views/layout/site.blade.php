@@ -172,6 +172,14 @@
             </form>
         </section>
 
+
+
+
+
+        <div class="content">
+            @yield('content')
+        </div>
+
     </div>
 </main>
 </div>
