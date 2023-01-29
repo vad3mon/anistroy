@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Document</title>
+    <title> {{ $title ?? 'Anistroy'}} </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" href="{{ asset('css/index.a7f4569d5dc6e8b680aa.css') }}">
@@ -42,7 +42,7 @@
                         <span class="user-nav__counter user-nav__counter--fav">0</span>
                         Избранное
                     </a>
-                    <a class="user-nav__link user-nav__link--cart" href="cart.html">
+                    <a class="user-nav__link user-nav__link--cart" href="{{ route('basket.index') }}">
                         <img class="user-nav__icon" src="{{ asset('images/icon-cart.svg') }}" alt="">
                         <span class="user-nav__counter user-nav__counter--cart">0</span>
                         Корзина
@@ -182,6 +182,51 @@
 
     </div>
 </main>
+
+    <footer class="footer">
+        <div class="footer__container container">
+            <div class="footer__col" data-spoilers="800">
+                <h4 class="footer__title" data-spoiler>Организация</h4>
+                <div class="footer__list">
+                    <a class="footer__link" href="#">О компании</a>
+                    <a class="footer__link" href="#">Услуги</a>
+                    <a class="footer__link" href="#">Новости</a>
+                    <a class="footer__link" href="#">Статьи</a>
+                </div>
+            </div>
+
+            <div class="footer__col" data-spoilers="800">
+                <h4 class="footer__title" data-spoiler>Как купить</h4>
+                <div class="footer__list">
+                    <a class="footer__link" href="#">Оплата</a>
+                    <a class="footer__link" href="#">Доставка</a>
+                    <a class="footer__link" href="#">Оптовый заказ</a>
+                    <a class="footer__link" href="#">Контакты</a>
+                </div>
+            </div>
+
+            <div class="footer__col" data-spoilers="800">
+                <h4 class="footer__title" data-spoiler>Наш адрес</h4>
+                <div class="footer__list">
+                    <a class="footer__link" href="#">О компании</a>
+                    <a class="footer__link" href="#">Услуги</a>
+                    <a class="footer__link" href="#">Новости</a>
+                    <a class="footer__link" href="#">Статьи</a>
+                </div>
+            </div>
+
+            <div class="footer__col">
+                <h4 class="footer__title">Мы на связи</h4>
+                <div class="footer__list">
+                    <a class="footer__link" href="#">О компании</a>
+                    <a class="footer__link" href="#">Услуги</a>
+                    <a class="footer__link" href="#">Новости</a>
+                    <a class="footer__link" href="#">Статьи</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 </div>
 
 </body>
