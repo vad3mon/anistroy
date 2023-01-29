@@ -21,6 +21,11 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
     public function childrenCategories()
     {
         return $this->hasMany(Category::class, 'parent_id')->with('categories');
@@ -38,29 +43,4 @@ class Category extends Model
         return $this->belongsToMany(Product::class);
     }
 
-    public function all_products()
-    {
-        $products = []; //массив продуктов всех дочерних категорий
-        $categories = [$this];
-
-        while (count($categories) > 0)
-        {
-            $nextCategories = []; //дочерние категории
-            foreach ($categories as $category) {
-                if ($category->products->count())
-                {
-                    foreach ($category->products as $childProducts)
-                    {
-                        $products = array_merge($products, [$childProducts]); //добавляет в массив дочернии продукты
-                    }
-                }
-
-                $nextCategories = array_merge($nextCategories, [$category->categories()->with('products')->get()]);
-            }
-
-            $categories = $nextCategories[0];
-        }
-//dd(collect($products));
-        return collect($products);
-    }
 }

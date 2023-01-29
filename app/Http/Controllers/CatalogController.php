@@ -3,28 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
+    private CategoryService $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
+
     public function index()
     {
-        $categories = Category::whereNull('parent_id')
-            ->with('childrenCategories')
-            ->get();
+        $categories = $this->categoryService->getAllCategories();
 
-        return view('layout.site', compact('categories'));
+        $products = $this->categoryService->getDiscountProducts();
+
+        $bannerProduct = $this->categoryService->getBannerProduct();
+
+        return view('index', compact('categories', 'products', 'bannerProduct'));
     }
 
     public function category(Category $category)
     {
-        $category = Category::find($category->id);
+        $currentCategory = $this->categoryService->getCategory($category->id);
 
-        $categories = Category::find($category->id)->childrenCategories;
+        $categories = $this->categoryService->getChildrenCategories($category->id);
 
-        $products = Category::find($category->id)->all_products();
+        $products = $this->categoryService->getProducts($category->id);
 
-//        dd($products);
-        return view('catalog.category', compact('categories', 'products', 'category'));
+        $products  = $this->categoryService->paginate($products, 20);
+
+//        dd($productsPaginate);
+        return view('catalog.category', compact('categories', 'products', 'currentCategory'));
     }
 }
