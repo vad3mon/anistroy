@@ -2619,7 +2619,7 @@ h6 {
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
-  background-image: url(../assets/images/burger.svg);
+  background-image: url(../images/burger.svg);
   background-repeat: no-repeat;
   background-position: center;
 }

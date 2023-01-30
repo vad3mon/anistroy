@@ -1,29 +1,36 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
+@extends("layout.profile")
+
+@section("content")
+    <section class="profile">
+        <h2 class="profile__title">
+            Мои данные
         </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
+        <form method="post" action="{{ route('profile.update') }}">
+            @csrf
+            @method('patch')
+            <div class="form">
+                <div class="form__item">
+                    <label class="form__label">Имя<sup>*</sup></label>
+                    <input type="text" class="form__input" name="name" value="{{ auth()->user()->name }}" data-required>
+                    <p class="form__error-text">{{ $errors->first('name') }}</p>
                 </div>
-            </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
+                <div class="form__item">
+                    <label class="form__label">Почта</label>
+                    <input type="text" class="form__input" name="email" value="{{ auth()->user()->email }}">
+                    <p class="form__error-text">{{ $errors->first('email') }}</p>
                 </div>
-            </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
+                <div class="form__item">
+                    <label class="form__label">Телефон<sup>*</sup></label>
+                    <input type="text" class="form__input" name="phone" value="{{ auth()->user()->phone }}" data-required>
+                    <p class="form__error-text">{{ $errors->first('phone') }}</p>
                 </div>
+
+                <button type="submit" class="form__save-btn">Сохранить</button>
             </div>
-        </div>
-    </div>
-</x-app-layout>
+        </form>
+    </section>
+@endsection
+

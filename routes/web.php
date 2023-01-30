@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\CatalogController::class, 'index'])->name('index');
 
+Route::get('/agreement', [\App\Http\Controllers\PageController::class, 'agreement'])->name('agreement');
+
+Route::get('/address', [\App\Http\Controllers\PageController::class, 'address'])->name('address');
+
+Route::get('/bonus', [\App\Http\Controllers\PageController::class, 'bonus'])->name('bonus');
+
 Route::group([
     'as' => 'catalog.',
     'prefix' => 'catalog',
@@ -41,6 +47,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/change_password', [ProfileController::class, 'change_password'])->name('profile.change_password');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

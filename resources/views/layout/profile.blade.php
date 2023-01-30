@@ -37,7 +37,7 @@
 
                 <div class="user-nav">
                     <a class="user-nav__link user-nav__link--fav" href="fav.html">
-                        <img class="user-nav__icon" src="{{ asset('images/icon-fav.svg') }}" alt="">
+                        <img class="user-nav__icon" src="{{ asset('images/icon-fav.svg') }}" alt="favorites">
                         <span class="user-nav__counter user-nav__counter--fav">0</span>
                         Избранное
                     </a>
@@ -46,12 +46,11 @@
                         <span class="user-nav__counter user-nav__counter--cart">0</span>
                         Корзина
                     </a>
-
                     @if (auth()->user())
                         <!-- если залогинен -->
                         <a class="user-nav__link user-nav__link--profile" href="{{ route('profile.edit') }}">
-                          <img class="user-nav__icon user-nav__icon--profile" src="images/icon-profile.svg" alt="">
-                          Профиль
+                            <img class="user-nav__icon user-nav__icon--profile" src="{{ asset('images/icon-profile.svg') }}" alt="">
+                            Профиль
                         </a>
                         <!-- --- -->
                     @else
@@ -70,121 +69,24 @@
             </button>
         </div>
     </header>
+    <main class="main">
+        <div class="main__container container">
+            <aside class="aside-menu" data-spoilers="992,max">
+                <h2 class="aside-menu__title" data-spoiler><span>Личный кабинет</span></h2>
+                <ul class="aside-menu__list">
+                    <li><a class="aside-menu__link" href="my-orders.html">Мои заказы</a></li>
+                    <li><a class="aside-menu__link" href="{{ route('bonus') }}">Бонусная программа</a></li>
+                    <li><a class="aside-menu__link" href="{{ route('address') }}">Адреса доставки</a></li>
+                    <li><a class="aside-menu__link active" href="{{ route('profile.edit') }}">Мои данные</a></li>
+                    <li><a class="aside-menu__link" href="{{ route('profile.change_password') }}">Смена пароля</a></li>
+                </ul>
+            </aside>
 
-<main class="main">
-    <div class="main__container container">
-        <section class="catalog" data-spoilers>
-            <h2 class="catalog__title" data-spoiler><span>Каталог товаров</span></h2>
-            @include('catalog.burger')
-
-            <section class="catalog__section init" data-spoilers>
-                <h3 class="catalog__section-header active" data-spoiler>Уточнить раздел</h3>
-                <div class="catalog__section-list">
-
-                    @foreach ($categories as $category)
-                        <a class="catalog__section-item catalog__section-item--link" href="{{ route('catalog.category', ['category' => $category]) }}">
-                            <span>{{ $category->name }}</span>
-
-                            @if ($category->childrenCategories && $category->childrenCategories->count())
-                                <span>{{ $category->childrenCategories->count() }}</span>
-                            @endif
-                        </a>
-                    @endforeach
-                </div>
-            </section>
-
-            <form class="catalog__section init" data-spoilers>
-                <h3 class="catalog__section-header active" data-spoiler>Фильтр по параметрам</h3>
-
-                <div class="catalog__section-list init" data-spoilers>
-                    <div class="catalog__section-item">
-                        <p class="catalog__filter-title active" data-spoiler>Вес, кг</p>
-                        <ul class="catalog__filter-list">
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="1">
-                                <label class="catalog__filter-label" for="1">1.11 (количество)</label>
-                            </li>
-
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="2">
-                                <label class="catalog__filter-label" for="2">2.22 (количество)</label>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="catalog__section-item">
-                        <p class="catalog__filter-title active" data-spoiler>Длина, мм</p>
-                        <ul class="catalog__filter-list">
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="3">
-                                <label class="catalog__filter-label" for="3">100 (количество)</label>
-                            </li>
-
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="4">
-                                <label class="catalog__filter-label" for="4">200 (количество)</label>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="catalog__section-item">
-                        <p class="catalog__filter-title active" data-spoiler>Условия эксплуатации</p>
-                        <ul class="catalog__filter-list">
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="5">
-                                <label class="catalog__filter-label" for="5">Внутри помещений с нормальной влажностью (1)</label>
-                            </li>
-
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="6">
-                                <label class="catalog__filter-label" for="6">Внутри помещений с повышенной влажностью (3)</label>
-                            </li>
-
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="7">
-                                <label class="catalog__filter-label" for="7">Внутри сухих помещений (5)</label>
-                            </li>
-
-
-                        </ul>
-                    </div>
-
-                    <div class="catalog__section-item">
-                        <div class="catalog__range-slider range-slider">
-                            <div class="range-slider__counter">
-                                <input type="number" value="25000" min="0" max="120000">
-                                <input type="number" value="50000" min="0" max="120000">
-                            </div>
-                            <input value="25000" min="0" max="120000" step="500" type="range">
-                            <input value="50000" min="0" max="120000" step="500" type="range">
-                        </div>
-
-                        <div class="catalog__button-box">
-                            <button class="catalog__show-btn" type="button">Показать</button>
-                            <button class="catalog__reset-btn" type="reset">Сбросить</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="catalog__bubble">
-                    <span>Найдено: 150 товаров</span>
-                    <button type="button" class="catalog__bubble-show">Показать</button>
-                    <button type="button" class="catalog__bubble-close"></button>
-                </div>
-            </form>
-        </section>
-
-
-
-
-
-        <div class="content">
-            @yield('content')
+            <div class="content">
+                @yield("content")
+            </div>
         </div>
-
-    </div>
-</main>
-
+    </main>
     <footer class="footer">
         <div class="footer__container container">
             <div class="footer__col" data-spoilers="800">
@@ -228,9 +130,7 @@
             </div>
         </div>
     </footer>
-
 </div>
-
 </body>
 <script src="{{ asset('js/header.247d4f67111134fa93dd.js') }}"></script>
 <script src="{{asset('js/54.d0fa7b73b5a57e677cd9.js')}}"></script>
@@ -244,4 +144,3 @@
 <script src="{{ asset('js/modal.c4556f2eebbfb77e49c4.js') }}"></script>
 <script src="{{ asset('js/index.e7bf726abb530d2c0754.js') }}"></script>
 </html>
-
