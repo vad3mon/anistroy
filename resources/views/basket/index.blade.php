@@ -26,23 +26,6 @@
                 </li>
             @endforeach
 
-{{--            <li class="cart__item cart-item" data-pid="4">--}}
-{{--                <input type="hidden" id="4" name="id[]" value="4">--}}
-{{--                <a href="#" class="cart-item__image">--}}
-{{--                    <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" alt="">--}}
-{{--                </a>--}}
-{{--                <a href="" class="cart-item__name">Миксер Dexter Power 1400 Вт</a>--}}
-{{--                <p class="cart-item__price">7000 <span>₽ / шт.</span></p>--}}
-{{--                <div class="cart-item__counter">--}}
-{{--                    <button type="button" class="cart-item__minus-btn">-</button>--}}
-{{--                    <input class="cart-item__input" type="number" value="5">--}}
-{{--                    <button type="button" class="cart-item__plus-btn">+</button>--}}
-{{--                </div>--}}
-{{--                <p class="cart-item__full-price"><span>35000</span> <span>₽</span></p>--}}
-{{--                <button type="button" class="cart-item__delete-btn">Удалить</button>--}}
-{{--            </li>--}}
-
-
         </ul>
         <div class="cart__result">
             <b class="cart__result-text">Итого:</b>

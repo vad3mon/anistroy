@@ -55,7 +55,7 @@
                     <!-- --- -->
 
                     <!-- если не залогинен -->
-                    <a class="user-nav__link user-nav__link--login" href="login.html">
+                    <a class="user-nav__link user-nav__link--login" href="{{ route('login') }}">
                         <img class="user-nav__icon user-nav__icon--login" src="{{ asset('images/icon-login.svg') }}" alt="">
                         Войти
                     </a>
