@@ -3,17 +3,44 @@
 namespace App\Services;
 
 use App\Models\Basket;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 
 class BasketService
 {
-    public function getBasket()
+
+    public function getBasket(Request $request)
     {
-        $basket_id = (int)request()->cookie('basket_id');
+        $session_id = session()->getId();
+        $user_id = !empty($request->user()) ? $request->user()->id : null;
+
+        if (!empty($user_id))
+        {
+            try {
+                $basket = Basket::where('user_id', $user_id)->firstOrFail();
+                $basket_id = $basket->id;
+            }
+
+            catch (ModelNotFoundException $e)
+            {
+                $basket = Basket::create();
+                $basket->user_id = $user_id;
+                $basket->session_id = $session_id;
+                $basket->save();
+                return $basket;
+            }
+        }
+
+        else {
+            $basket_id = session()->get('basket_id');
+        }
+
+
+
         if (!empty($basket_id))
         {
-
             try {
                 $basket = Basket::findOrFail($basket_id);
             }
@@ -21,20 +48,28 @@ class BasketService
             catch (ModelNotFoundException $e)
             {
                 $basket = Basket::create();
+                $basket->session_id = $session_id;
             }
 
         }
         else {
             $basket = Basket::create();
+            $basket->session_id = $session_id;
         }
 
-        Cookie::queue('basket_id', $basket->id, 525600);
+        $basket->save();
+        session()->put('basket_id', $basket->id);
         return $basket;
     }
 
-    public function increase($basketId, $productId, $quantity)
+    public function increase($basketId, $productId, $quantity = 1)
     {
         $this->change($basketId, $productId, $quantity);
+    }
+
+    public function decrease($basketId, $productId, $quantity = 1)
+    {
+        $this->change($basketId, $productId, $quantity * -1);
     }
 
     public function change($basketId, $productId, $quantity)
@@ -77,5 +112,34 @@ class BasketService
         }
 
         return false;
+    }
+
+    public function getAmount(Basket $basket)
+    {
+        $amount = 0.0;
+        foreach($basket->products as $product)
+        {
+            $amount = $amount + $product->price * $product->pivot->quantity;
+        }
+
+        return $amount;
+    }
+
+    public function remove($basket_id, $product_id)
+    {
+        $basket = Basket::find($basket_id);
+
+        $basket->products()->detach($product_id);
+
+        $basket->touch();
+    }
+
+    public function clear($basket_id)
+    {
+        $basket = Basket::find($basket_id);
+
+        $basket->products()->detach();
+
+        $basket->touch();
     }
 }

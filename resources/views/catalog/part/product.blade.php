@@ -5,7 +5,10 @@
     <a href="{{ route('catalog.product', ['category' => $currentCategory->slug, 'product'=>$product->slug]) }}" class="card__name">{{ $product->name }}</a>
     <div class="card__price-wrapper">
         <p class="card__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
-        <p class="card__price-old">{{ $product->old_price }} <span>₽ / {{ $product->unit }}</span></p>
+
+        @if($product->old_price > 0)
+            <p class="card__price-old">{{ $product->old_price }} <span>₽ / {{ $product->unit }}</span></p>
+        @endif
     </div>
     <form action="{{ route('basket.add', ['id' => $product->id])  }}" method="post">
         @csrf
@@ -15,7 +18,14 @@
                 <input class="card__input" type="number" value="1">
                 <button class="card__plus-btn" type="button">+</button>
             </div>
-            <p class="card__amount">В наличии</p>
+
+            @if ($product->volume > 3)
+                <p class="card__amount product__amount--green">В наличии</p>
+                <!-- или -->
+            @else
+                <p class="card__amount product__amount--red">Осталось {{ $product->volume }} шт.</p>
+            @endif
+
         </div>
         <button class="card__cart-btn" title="Добавить в корзину" type="submit">В корзину</button>
 

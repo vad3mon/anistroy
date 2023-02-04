@@ -23,6 +23,8 @@ Route::get('/address', [\App\Http\Controllers\PageController::class, 'address'])
 
 Route::get('/bonus', [\App\Http\Controllers\PageController::class, 'bonus'])->name('bonus');
 
+Route::get('/order/{session_id}/{order_id}', [\App\Http\Controllers\OrderController::class, 'show'])->name('getOrder');
+
 Route::group([
     'as' => 'catalog.',
     'prefix' => 'catalog',
@@ -37,8 +39,12 @@ Route::group([
     'prefix' => 'basket',
 ], function() {
     Route::get('/index', [\App\Http\Controllers\BasketController::class, 'index'])->name('index');
-    Route::get('/ckeckout', [\App\Http\Controllers\BasketController::class, 'checkout'])->name('checkout');
     Route::post('/add/{id}', [\App\Http\Controllers\BasketController::class, 'add'])->name('add');
+    Route::post('/plus/{id}', [\App\Http\Controllers\BasketController::class, 'plus'])->name('plus');
+    Route::post('/minus/{id}', [\App\Http\Controllers\BasketController::class, 'minus'])->name('minus');
+    Route::post('/remove/{id}', [\App\Http\Controllers\BasketController::class, 'remove'])->name('remove');
+    Route::post('/saveorder', [\App\Http\Controllers\BasketController::class, 'saveOrder'])->name('saveorder');
+
 });
 
 Route::get('/dashboard', function () {
@@ -50,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/change_password', [ProfileController::class, 'change_password'])->name('profile.change_password');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/orders', [\App\Http\Controllers\OrderController::class, 'index'])->name('profile.orders');
 });
 
 require __DIR__.'/auth.php';

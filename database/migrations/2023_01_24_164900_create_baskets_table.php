@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('baskets', function (Blueprint $table) {
             $table->id();
+            $table->string('session_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }

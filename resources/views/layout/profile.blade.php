@@ -74,7 +74,7 @@
             <aside class="aside-menu" data-spoilers="992,max">
                 <h2 class="aside-menu__title" data-spoiler><span>Личный кабинет</span></h2>
                 <ul class="aside-menu__list">
-                    <li><a class="aside-menu__link" href="my-orders.html">Мои заказы</a></li>
+                    <li><a class="aside-menu__link" href="{{ route('profile.orders') }}">Мои заказы</a></li>
                     <li><a class="aside-menu__link" href="{{ route('bonus') }}">Бонусная программа</a></li>
                     <li><a class="aside-menu__link" href="{{ route('address') }}">Адреса доставки</a></li>
                     <li><a class="aside-menu__link active" href="{{ route('profile.edit') }}">Мои данные</a></li>
