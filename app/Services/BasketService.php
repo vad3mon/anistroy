@@ -28,6 +28,7 @@ class BasketService
                 $basket = Basket::create();
                 $basket->user_id = $user_id;
                 $basket->session_id = $session_id;
+                session()->put('basket_id', $basket->id);
                 $basket->save();
                 return $basket;
             }

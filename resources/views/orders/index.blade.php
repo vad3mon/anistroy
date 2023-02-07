@@ -17,11 +17,12 @@
                 </tr>
 
                 @foreach($orders as $order)
+
                         <tr class="order__item">
                                 <td class="order__cell">
-                                    <a href="{{ route('getOrder', ['session_id' => auth()->user()->id, 'order_id' => $order->id]) }}">
+
                                         {{ $order->id }}
-                                    </a>
+
                                 </td>
                                 <td class="order__cell">{{ \Illuminate\Support\Carbon::parse($order->created_at)->format('d.m.Y') }}</td>
                                 <td class="order__cell">
@@ -31,6 +32,7 @@
                                 <td class="order__cell">{{ $order->status }}</td>
                                 <td class="order__cell order__cell--accept">{{ $order->payment_status }}</td>
                         </tr>
+
                 @endforeach
 
 

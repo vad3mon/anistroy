@@ -31,7 +31,7 @@
                         <p class="product__amount product__amount--green">В наличии</p>
                         <!-- или -->
                         @else
-                            <p class="product__amount product__amount--red">Осталось {{ $product->volume }} шт.</p>
+                            <p class="product__amount product__amount--red">Осталось {{ $product->volume }} {{ $product->unit }}</p>
 
                         @endif
                     </div>

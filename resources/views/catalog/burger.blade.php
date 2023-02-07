@@ -3,7 +3,7 @@
     @foreach ($items as $category)
         @if ($category->childrenCategories && $category->childrenCategories->count())
 
-            @include('categories/child_category', ['category' => $category])
+            @include('catalog/part/child_category', ['category' => $category])
 
         @else
 

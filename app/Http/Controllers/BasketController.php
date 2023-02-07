@@ -101,7 +101,6 @@ class BasketController extends Controller
         }
 
         $this->basketService->clear($basket->id);
-//        dd($session_id);
         return redirect()->route('getOrder', ['session_id' => $session_id ?? $user_id, 'order_id' => $order->id]);
 
     }

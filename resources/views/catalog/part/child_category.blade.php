@@ -4,7 +4,7 @@
         @foreach($category->childrenCategories as $childCategory)
 
             @if ($childCategory->categories && $childCategory->categories->count())
-                @include('categories/child_category', ['category' => $childCategory])
+                @include('catalog/part/child_category', ['category' => $childCategory])
 
             @else
                 <li>

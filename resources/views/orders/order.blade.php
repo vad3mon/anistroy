@@ -1,4 +1,5 @@
-@extends("layout.profile")
+@extends("layout.profile", ['title' => "Заказ №" . "$order->id"])
+
 
 @section("content")
     <section class="profile">

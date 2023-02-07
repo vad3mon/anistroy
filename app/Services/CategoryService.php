@@ -88,15 +88,13 @@ class CategoryService
 
     public function getDiscountProducts()
     {
-        $products = Product::take(10)->get();
-
+        $products = Product::find([529, 510, 530, 504, 1500, 1525, 2504, 3809]);
         return $products;
     }
 
     public function getBannerProduct()
     {
-        $bannerProduct = Product::find(57);
-
+        $bannerProduct = Product::find(529);
         return $bannerProduct;
     }
 

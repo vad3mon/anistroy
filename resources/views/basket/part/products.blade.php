@@ -1,10 +1,10 @@
 @foreach($products as $product)
     <li class="cart__item cart-item" data-pid="{{ $product->id }}">
         <input type="hidden" id="2" name="id[]" value="2">
-        <a href="#" class="cart-item__image">
+        <a href="{{ route('catalog.product', ['category' => $product->categories->first()->slug, 'product'=>$product->slug]) }}" class="cart-item__image">
             <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" alt="">
         </a>
-        <a href="" class="cart-item__name">{{ $product->name }}</a>
+        <a href="{{ route('catalog.product', ['category' => $product->categories->first()->slug, 'product'=>$product->slug]) }}" class="cart-item__name">{{ $product->name }}</a>
         <p class="cart-item__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
 
         <div class="cart-item__counter">

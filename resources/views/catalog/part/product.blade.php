@@ -15,7 +15,7 @@
         <div class="card__counter-wrapper">
             <div class="card__counter">
                 <button class="card__minus-btn" type="button">-</button>
-                <input class="card__input" type="number" value="1">
+                <input class="card__input" type="number" value="1" name="quantity">
                 <button class="card__plus-btn" type="button">+</button>
             </div>
 
