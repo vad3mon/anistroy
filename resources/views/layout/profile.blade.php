@@ -36,7 +36,7 @@
                 </form>
 
                 <div class="user-nav">
-                    <a class="user-nav__link user-nav__link--fav" href="fav.html">
+                    <a class="user-nav__link user-nav__link--fav" href="{{ route('favorite.index') }}">
                         <img class="user-nav__icon" src="{{ asset('images/icon-fav.svg') }}" alt="favorites">
                         <span class="user-nav__counter user-nav__counter--fav">0</span>
                         Избранное
@@ -80,6 +80,11 @@
                     <li><a class="aside-menu__link active" href="{{ route('profile.edit') }}">Мои данные</a></li>
                     <li><a class="aside-menu__link" href="{{ route('profile.change_password') }}">Смена пароля</a></li>
                 </ul>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit">submit</button>
+                </form>
             </aside>
 
             <div class="content">

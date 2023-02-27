@@ -18,10 +18,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [\App\Http\Controllers\CatalogController::class, 'index'])->name('index');
 
 Route::get('/agreement', [\App\Http\Controllers\PageController::class, 'agreement'])->name('agreement');
-
 Route::get('/address', [\App\Http\Controllers\PageController::class, 'address'])->name('address');
-
 Route::get('/bonus', [\App\Http\Controllers\PageController::class, 'bonus'])->name('bonus');
+
+Route::group([
+    'as' => 'pages.',
+    'prefix' => 'pages',
+], function() {
+    Route::get('/{page:slug}', [\App\Http\Controllers\PageController::class, 'index'])->name('index');
+});
+
 
 Route::get('/order/{session_id}/{order_id}', [\App\Http\Controllers\OrderController::class, 'show'])->name('getOrder');
 
@@ -45,6 +51,15 @@ Route::group([
     Route::post('/remove/{id}', [\App\Http\Controllers\BasketController::class, 'remove'])->name('remove');
     Route::post('/saveorder', [\App\Http\Controllers\BasketController::class, 'saveOrder'])->name('saveorder');
 
+});
+
+Route::group([
+    'as' => 'favorite.',
+    'prefix' => 'favorite',
+], function() {
+    Route::get('/index', [\App\Http\Controllers\FavoriteController::class, 'index'])->name('index');
+    Route::post('/add/{id}', [\App\Http\Controllers\FavoriteController::class, 'add'])->name('add');
+    Route::post('/remove/{id}', [\App\Http\Controllers\FavoriteController::class, 'remove'])->name('remove');
 });
 
 Route::get('/dashboard', function () {

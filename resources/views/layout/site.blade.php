@@ -17,11 +17,7 @@
             </a>
 
             <div class="header__nav-wrapper">
-                <nav class="site-nav">
-                    <a class="site-nav__link" href="about.html">О магазине</a>
-                    <a class="site-nav__link" href="#">Доставка и оплата</a>
-                    <a class="site-nav__link" href="#">Контакты</a>
-                </nav>
+                @include('pages.top_pages')
 
                 <a class="header__phone-box" href="tel:+79221232234">
                     <img class="header__phone-icon" src="{{ asset('images/icon-phone.svg') }}" alt="">
@@ -36,7 +32,7 @@
                 </form>
 
                 <div class="user-nav">
-                    <a class="user-nav__link user-nav__link--fav" href="fav.html">
+                    <a class="user-nav__link user-nav__link--fav" href="{{ route('favorite.index') }}">
                         <img class="user-nav__icon" src="{{ asset('images/icon-fav.svg') }}" alt="">
                         <span class="user-nav__counter user-nav__counter--fav">0</span>
                         Избранное

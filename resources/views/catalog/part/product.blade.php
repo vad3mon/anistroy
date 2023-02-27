@@ -27,8 +27,10 @@
             @endif
 
         </div>
-        <button class="card__cart-btn" title="Добавить в корзину" type="submit">В корзину</button>
-
     </form>
-    <button class="card__fav-btn" title="Добавить в избранное"></button>
+
+    <form action="{{ route('favorite.add', ['id' => $product->id])  }}" method="post">
+        @csrf
+        <button class="card__fav-btn" title="Добавить в избранное"></button>
+    </form>
 </li>

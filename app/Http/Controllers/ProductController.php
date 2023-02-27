@@ -28,7 +28,7 @@ class ProductController extends Controller
 
         $categories = $this->categoryService->getChildrenCategories($currentCategory->id);
 
-        $parentCategories = $this->categoryService->getFullPath($currentCategory->id);
+        $parentCategories = $this->categoryService->getFullPath($product->id);
 
         return view('catalog.product', compact('product', 'categories', 'parentCategories'));
     }

@@ -10,8 +10,18 @@ use Illuminate\Support\Facades\Cookie;
 
 class BasketService
 {
-
-    public function getBasket(Request $request)
+    public function basketUnion($userBasket)
+    {
+        if (session()->get('basket_id'))
+        {
+            $sessionBasket = self::getSessionBasket(session()->get('basket_id'));
+            foreach($sessionBasket->products as $product)
+            {
+                $userBasket->products()->attach($product->id, ['quantity' => $product->pivot->quantity]);
+            }
+        }
+    }
+    public function getUserBasket(Request $request)
     {
         $session_id = session()->getId();
         $user_id = !empty($request->user()) ? $request->user()->id : null;
@@ -21,6 +31,14 @@ class BasketService
             try {
                 $basket = Basket::where('user_id', $user_id)->firstOrFail();
                 $basket_id = $basket->id;
+
+                if ($basket_id != session()->get('basket_id'))
+                {
+                    $this->basketUnion($basket);
+                }
+
+
+
             }
 
             catch (ModelNotFoundException $e)
@@ -28,6 +46,7 @@ class BasketService
                 $basket = Basket::create();
                 $basket->user_id = $user_id;
                 $basket->session_id = $session_id;
+                self::basketUnion($basket);
                 session()->put('basket_id', $basket->id);
                 $basket->save();
                 return $basket;
@@ -36,10 +55,23 @@ class BasketService
 
         else {
             $basket_id = session()->get('basket_id');
+            $basket = self::getSessionBasket($basket_id);
+            return $basket;
         }
 
+        $basket->save();
+        session()->put('basket_id', $basket_id);
+//        dd($basket_id !== session()->get('basket_id'));
+//        dd(session()->get('basket_id') == $basket_id);
+//        dd($basket->products);
+        return $basket;
 
 
+    }
+
+    public function getSessionBasket($basket_id)
+    {
+        $session_id = session()->getId();
         if (!empty($basket_id))
         {
             try {
@@ -60,6 +92,12 @@ class BasketService
 
         $basket->save();
         session()->put('basket_id', $basket->id);
+        return $basket;
+    }
+
+    public function getBasket(Request $request)
+    {
+        $basket = self::getUserBasket($request);
         return $basket;
     }
 

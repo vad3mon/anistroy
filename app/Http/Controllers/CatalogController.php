@@ -36,7 +36,6 @@ class CatalogController extends Controller
 
         $products  = $this->categoryService->paginate($products, 20);
 
-//        dd($productsPaginate);
         return view('catalog.category', compact('categories', 'products', 'currentCategory'));
     }
 }

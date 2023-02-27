@@ -61,9 +61,10 @@ class CategoryService
         return collect($products);
     }
 
-    public function getFullPath($id)
+    public function getFullPath($product_id)
     {
-        $category = Category::find($id);
+        $product = Product::find($product_id);
+        $category = $product->category;
         $parentCategories = [$category];
         while ($category->parent)
         {

@@ -1413,7 +1413,7 @@ h6 {
   transform: translateY(-50%);
   width: 23px;
   height: 23px;
-  background-image: url(../assets/images/book.svg);
+  background-image: url(../images/book.svg);
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -1621,7 +1621,7 @@ h6 {
   z-index: 2;
   width: 25px;
   height: 25px;
-  background-image: url(../assets/images/icon-fav.svg);
+  background-image: url(../images/icon-fav.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -1629,7 +1629,7 @@ h6 {
   transition: background-image 0.3s;
 }
 .card__fav-btn.active {
-  background-image: url(../assets/images/icon-fav-fill.svg);
+  background-image: url(../images/icon-fav-fill.svg);
 }
 
 @media (min-width: 480px) {
@@ -1883,13 +1883,13 @@ h6 {
   width: 36px;
   height: 36px;
   background-color: transparent;
-  background-image: url(../assets/images/icon-pass2.svg);
+  background-image: url(../images/icon-pass2.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 20px 20px;
 }
 .form__eye-btn.show {
-  background-image: url(../assets/images/icon-pass1.svg);
+  background-image: url(../images/icon-pass1.svg);
 }
 .form__input {
   padding: 7px 10px;
@@ -2539,7 +2539,7 @@ h6 {
   width: 25px;
   height: 25px;
   background-color: transparent;
-  background-image: url(../assets/images/icon-add.svg);
+  background-image: url(../images/icon-add.svg);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 20px 20px;
@@ -2770,7 +2770,7 @@ h6 {
   width: 20px;
   height: 20px;
   background-color: transparent;
-  background-image: url(../assets/images/icon-edit.svg);
+  background-image: url(../images/icon-edit.svg);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 18px 18px;
@@ -2784,7 +2784,7 @@ h6 {
   transform: scale(1.1);
 }
 .address__delete-btn {
-  background-image: url(../assets/images/icon-delete.svg);
+  background-image: url(../images/icon-delete.svg);
 }
 
 .modal {

@@ -38,6 +38,12 @@
 
                     <div class="product__button-box">
                         <button class="product__cart-btn" type="submit">В корзину</button>
+                    </div>
+                </form>
+
+                <form action="{{ route('favorite.add', ['id' => $product->id])  }}" method="post">
+                    @csrf
+                    <div class="product__button-box">
                         <button class="product__fav-btn">В избранное</button>
                     </div>
                 </form>
@@ -140,13 +146,7 @@
         </h2>
         <div class="products__swiper swiper">
             <ul class="swiper-wrapper">
-
-                @if($parentCategories[count($parentCategories) - 1]->products)
-                    @include('catalog.part.similarProducts', ['parentCategory' => $parentCategories[count($parentCategories) - 1]])
-                @endif
-
-
-
+                @include('catalog.part.similarProducts', ['parentCategory' => $product->category])
             </ul>
             <button class="swiper-button-prev"></button>
             <button class="swiper-button-next"></button>
