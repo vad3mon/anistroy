@@ -27,13 +27,13 @@
 
                 <div class="form__item">
                     <label class="form__label" for="email">Почта</label>
-                    <input type="text" class="form__input" name="email" id="email" {{ old('email') ?? '' }}>
+                    <input type="text" class="form__input" name="email" id="email" value="{{ old('email') ?? '' }}">
                     <p class="form__error-text">{{ $errors->first('email') }}</p>
                 </div>
 
                 <div class="form__item">
                     <label class="form__label" for="phone">Телефон<sup>*</sup></label>
-                    <input type="text" class="form__input" name="phone" id="phone" data-required {{ old('phone') ?? '' }}>
+                    <input type="text" class="form__input" name="phone" id="phone" data-required value="{{ old('phone') ?? '' }}">
                     <p class="form__error-text">{{ $errors->first('phone') }}</p>
                 </div>
 
