@@ -26,6 +26,8 @@ class ProductController extends Controller
 
         $product = $this->productService->getProductBySlug($productSlug);
 
+
+
         $categories = $this->categoryService->getChildrenCategories($currentCategory->id);
 
         $parentCategories = $this->categoryService->getFullPath($product->id);

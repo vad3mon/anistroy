@@ -7,7 +7,11 @@
             <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="fav-item__name">{{ $product->name }}</a>
             <p class="fav-item__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
 
-            <button class="fav-item__cart-btn active">В корзину</button>
+            <form action="{{ route('basket.add', ['id' => $product->id])  }}" method="post">
+                @csrf
+                <button class="fav-item__cart-btn active" type="submit">В корзину</button>
+            </form>
+
 
             <form action="{{ route('favorite.remove', ['id' => $product->id])  }}" method="post">
                 @csrf

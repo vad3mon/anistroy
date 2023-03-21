@@ -8,7 +8,11 @@
                 <div class="lead__slide swiper-slide">
                     <a class="lead__link" href="{{ route('catalog.product', ['category' => $bannerProduct->category->slug, 'product'=>$bannerProduct->slug]) }}"></a>
                     <div class="lead__image">
-                        <img src="https://anistroy.ru/images/products/239212c9-65d7-11ed-0a80-0bbe00013d14/1c8_me6wzrjlbho9e0v0ku8hh6pik2bqv1s2.jpeg" alt="">
+                        @if (file_exists('images/products/' . $bannerProduct->image) && $bannerProduct->image)
+                            <img src="{{ asset('images/products/' . $bannerProduct->image) }}" alt="{{ $bannerProduct->name }}">
+                        @else
+                            <img src="{{ asset('images/products/images_empty.png') }}" alt="{{ $bannerProduct->name }}">
+                        @endif
                     </div>
                     <div class="lead__info">
                         <h3 class="lead__name">
@@ -30,7 +34,11 @@
                     @foreach($products as $product)
                         <li class="card swiper-slide" data-pid="{{ $product->id }}" data-stock="{{ $product->volume }}" data-img="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
                             <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__image">
-                                <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" alt="">
+                                @if (file_exists('images/products/' . $product->image) && $product->image)
+                                    <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}">
+                                @else
+                                    <img src="{{ asset('images/products/images_empty.png') }}" alt="{{ $product->name }}">
+                                @endif
                             </a>
                             <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__name">{{ $product->name }}</a>
                             <div class="card__price-wrapper">

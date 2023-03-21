@@ -14,7 +14,7 @@ class ProductService
 {
     public function getProductBySlug($slug)
     {
-        $product = Product::where('slug', $slug)->first();
+        $product = Product::where('slug', $slug)->with('properties')->first();
 
         return $product;
     }

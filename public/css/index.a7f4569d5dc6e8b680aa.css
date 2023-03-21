@@ -1678,6 +1678,10 @@ h6 {
   margin-top: 40px;
 }
 
+.cart__result a {
+    text-decoration: underline;
+}
+
 .cart-item {
   margin-bottom: 15px;
   border: 1px solid #E0E6EC;

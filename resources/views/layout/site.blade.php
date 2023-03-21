@@ -26,9 +26,10 @@
               </span>
                 </a>
 
-                <form class="header__search-box">
-                    <input class="header__search-input" type="text" placeholder="Поиск по названию">
-                    <button class="header__search-button">Поиск</button>
+                <form class="header__search-box" method="post" action="{{ route('catalog.search') }}">
+                    @csrf
+                    <input name="query" class="header__search-input" type="text" placeholder="Поиск по названию">
+                    <button type="submit" class="header__search-button">Поиск</button>
                 </form>
 
                 <div class="user-nav">
@@ -89,85 +90,56 @@
                 </div>
             </section>
 
-            <form class="catalog__section init" data-spoilers>
-                <h3 class="catalog__section-header active" data-spoiler>Фильтр по параметрам</h3>
+            @if (Route::is('catalog.category'))
+                <form action="{{ route('catalog.category', ['category' => $currentCategory]) }}" class="catalog__section init" data-spoilers>
+                    <h3 class="catalog__section-header active" data-spoiler>Фильтр по параметрам</h3>
 
-                <div class="catalog__section-list init" data-spoilers>
-                    <div class="catalog__section-item">
-                        <p class="catalog__filter-title active" data-spoiler>Вес, кг</p>
-                        <ul class="catalog__filter-list">
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="1">
-                                <label class="catalog__filter-label" for="1">1.11 (количество)</label>
-                            </li>
+                    <div class="catalog__section-list init" data-spoilers>
 
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="2">
-                                <label class="catalog__filter-label" for="2">2.22 (количество)</label>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="catalog__section-item">
-                        <p class="catalog__filter-title active" data-spoiler>Длина, мм</p>
-                        <ul class="catalog__filter-list">
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="3">
-                                <label class="catalog__filter-label" for="3">100 (количество)</label>
-                            </li>
-
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="4">
-                                <label class="catalog__filter-label" for="4">200 (количество)</label>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="catalog__section-item">
-                        <p class="catalog__filter-title active" data-spoiler>Условия эксплуатации</p>
-                        <ul class="catalog__filter-list">
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="5">
-                                <label class="catalog__filter-label" for="5">Внутри помещений с нормальной влажностью (1)</label>
-                            </li>
-
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="6">
-                                <label class="catalog__filter-label" for="6">Внутри помещений с повышенной влажностью (3)</label>
-                            </li>
-
-                            <li class="catalog__filter-item">
-                                <input class="catalog__filter-input" type="checkbox" id="7">
-                                <label class="catalog__filter-label" for="7">Внутри сухих помещений (5)</label>
-                            </li>
-
-
-                        </ul>
-                    </div>
-
-                    <div class="catalog__section-item">
-                        <div class="catalog__range-slider range-slider">
-                            <div class="range-slider__counter">
-                                <input type="number" value="25000" min="0" max="120000">
-                                <input type="number" value="50000" min="0" max="120000">
+                        @foreach($currentCategory->properties as $property)
+                            <div class="catalog__section-item">
+                                <p class="catalog__filter-title active" data-spoiler>{{ $property->title }}</p>
+                                <ul class="catalog__filter-list">
+                                    @foreach($property->values as $key => $value)
+                                        <li class="catalog__filter-item">
+                                            <input class="catalog__filter-input"
+                                                   type="checkbox"
+                                                   id="filters-properties-{{ $property->id }}-{{ $key }}"
+                                                   name="filters[properties][{{ $property->id }}][{{ $value->pivot->value }}]"
+                                                   value="{{ $value->pivot->value }}"
+                                                   @checked(request('filters.properties.' . $property->id . '.' . $value->pivot->value))
+                                            >
+                                            <label class="catalog__filter-label" for="filters-properties-{{ $property->id }}-{{ $key }}">{{ $value->pivot->value }}</label>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
-                            <input value="25000" min="0" max="120000" step="500" type="range">
-                            <input value="50000" min="0" max="120000" step="500" type="range">
-                        </div>
+                        @endforeach
 
-                        <div class="catalog__button-box">
-                            <button class="catalog__show-btn" type="button">Показать</button>
-                            <button class="catalog__reset-btn" type="reset">Сбросить</button>
+                        <div class="catalog__section-item">
+                            <div class="catalog__range-slider range-slider">
+                                <div class="range-slider__counter">
+                                    <input type="number" value="{{ request('filters.price.from', 0) }}" min="0" max="120000" name="filters[price][from]">
+                                    <input type="number" value="{{ request('filters.price.to', 120000) }}" min="0" max="120000" name="filters[price][to]">
+                                </div>
+                                <input value="{{ request('filters.price.from', 0) }}" min="0" max="120000" step="500" type="range">
+                                <input value="{{ request('filters.price.to', 120000) }}" min="0" max="120000" step="500" type="range">
+                            </div>
+
+                            <div class="catalog__button-box">
+                                <button class="catalog__show-btn" type="submit">Показать</button>
+                                <button class="catalog__reset-btn" type="reset">Сбросить</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="catalog__bubble">
-                    <span>Найдено: 150 товаров</span>
-                    <button type="button" class="catalog__bubble-show">Показать</button>
-                    <button type="button" class="catalog__bubble-close"></button>
-                </div>
-            </form>
+                    <div class="catalog__bubble">
+                        <span>Найдено:  </span>
+                        <button type="button" class="catalog__bubble-show">Показать</button>
+                        <button type="button" class="catalog__bubble-close"></button>
+                    </div>
+                </form>
+            @endif
         </section>
 
 

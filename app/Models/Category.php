@@ -43,4 +43,21 @@ class Category extends Model
         return $this->hasMany(Product::class, 'category_id');
     }
 
+    public function properties()
+    {
+        return $this->belongsToMany(Property::class);
+    }
+
+    public static function getAllChildren($id) {
+        $children = self::where('parent_id', $id)->with('categories')->get();
+        $ids = [];
+        foreach ($children as $child) {
+            $ids[] = $child->id;
+            if ($child->categories->count()) {
+                $ids = array_merge($ids, self::getAllChildren($child->id));
+            }
+        }
+
+        return $ids;
+    }
 }

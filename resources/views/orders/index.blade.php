@@ -20,8 +20,8 @@
 
                         <tr class="order__item">
                                 <td class="order__cell">
+                                    <a href="{{ route('getOrder', ['session_id' => session()->getId(), 'order_id' => $order->id]) }}">{{ $order->id }}</a>
 
-                                        {{ $order->id }}
 
                                 </td>
                                 <td class="order__cell">{{ \Illuminate\Support\Carbon::parse($order->created_at)->format('d.m.Y') }}</td>

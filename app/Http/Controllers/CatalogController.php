@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
@@ -32,10 +33,26 @@ class CatalogController extends Controller
 
         $categories = $this->categoryService->getChildrenCategories($category->id);
 
-        $products = $this->categoryService->getProducts($category->id);
+        $products = $this->categoryService->getCategoryProducts($category->id);
+
+//        $products = $this->categoryService->getProducts($category->id);
+//
+//        $products  = $this->categoryService->paginate($products, 20);
+//
+//        $products = $products->filtered();
+//        dd($currentCategory->properties[0]->values[0]->pivot);
+
+        return view('catalog.category', compact('categories', 'products', 'currentCategory'));
+    }
+
+    public function search(Request $request)
+    {
+        $products = $this->categoryService->search($request['query']);
 
         $products  = $this->categoryService->paginate($products, 20);
 
-        return view('catalog.category', compact('categories', 'products', 'currentCategory'));
+        $categories = $this->categoryService->getAllCategories();
+
+        return view('catalog.search', compact('categories', 'products'));
     }
 }

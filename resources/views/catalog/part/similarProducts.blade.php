@@ -3,7 +3,11 @@
     @if($similarProduct->id !== $product->id)
         <li class="card swiper-slide" data-pid="{{ $similarProduct->id }}" data-stock="{{ $similarProduct->volume }}" data-img="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" data-price="{{ $similarProduct->price }}" data-title="{{ $similarProduct->name }}">
             <a href="{{ route('catalog.product', ['category' => $parentCategory->slug, 'product'=>$similarProduct->slug]) }}" class="card__image">
-                <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" alt="">
+                @if (file_exists('images/products/' . $similarProduct->image) && $similarProduct->image)
+                    <img src="{{ asset('images/products/' . $similarProduct->image) }}" alt="{{ $similarProduct->name }}">
+                @else
+                    <img src="{{ asset('images/products/images_empty.png') }}" alt="{{ $similarProduct->name }}">
+                @endif
             </a>
             <a href="{{ route('catalog.product', ['category' => $parentCategory->slug, 'product'=>$similarProduct->slug]) }}" class="card__name">{{ $similarProduct->name }}</a>
             <div class="card__price-wrapper">

@@ -37,6 +37,7 @@ Route::group([
 ], function() {
     Route::get('/{category:slug}', [\App\Http\Controllers\CatalogController::class, 'category'])->name('category');
     Route::get('/{category:slug}/{product:slug}', [\App\Http\Controllers\ProductController::class, 'show'])->name('product');
+    Route::post('/search', [\App\Http\Controllers\CatalogController::class, 'search'])->name('search');;
 });
 
 

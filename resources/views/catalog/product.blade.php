@@ -69,17 +69,21 @@
             <div class="swiper product__slider">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82038772_01.jpg">
+                        @if (file_exists('images/products/' . $product->image) && $product->image)
+                            <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}">
+                        @else
+                            <img src="{{ asset('images/products/images_empty.png') }}" alt="{{ $product->name }}">
+                        @endif
                     </div>
-                    <div class="swiper-slide">
-                        <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82038772.jpg">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82038772_02.jpg">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82038772_05.jpg">
-                    </div>
+{{--                    <div class="swiper-slide">--}}
+{{--                        <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82038772.jpg">--}}
+{{--                    </div>--}}
+{{--                    <div class="swiper-slide">--}}
+{{--                        <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82038772_02.jpg">--}}
+{{--                    </div>--}}
+{{--                    <div class="swiper-slide">--}}
+{{--                        <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82038772_05.jpg">--}}
+{{--                    </div>--}}
                 </div>
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
@@ -96,48 +100,16 @@
     <section class="product-info">
         <div class="product-info__block" id="description">
             <h2 class="product-info__title">Описание</h2>
-            <p class="product-info__description">{{ $product->text }}</p>
+            <p class="product-info__description">{!! $product->text !!}</p>
 
             <a class="product-info__link" href="https://res.cloudinary.com/lmru/image/upload/v1575382563/LMCode/82038772_ins.pdf" target="_blank">
                 Инструкция для {{ $product->name }}
             </a>
         </div>
 
-        <div class="product-info__block" id="about">
-            <h2 class="product-info__title">Характеристики</h2>
-
-            <div class="product-table">
-                <p class="product-table__item">
-                    <span class="product-table__key">Страна</span>
-                    <span class="product-table__value">Китай</span>
-                </p>
-
-                <p class="product-table__item">
-                    <span class="product-table__key">Гарантия</span>
-                    <span class="product-table__value">2 года</span>
-                </p>
-
-                <p class="product-table__item">
-                    <span class="product-table__key">Мощность (Вт)</span>
-                    <span class="product-table__value">1700.0</span>
-                </p>
-
-                <p class="product-table__item">
-                    <span class="product-table__key">Мощность (Вт)</span>
-                    <span class="product-table__value">1700.0</span>
-                </p>
-
-                <p class="product-table__item">
-                    <span class="product-table__key">Мощность (Вт)</span>
-                    <span class="product-table__value">1700.0</span>
-                </p>
-
-                <p class="product-table__item">
-                    <span class="product-table__key">Мощность (Вт)</span>
-                    <span class="product-table__value">1700.0</span>
-                </p>
-            </div>
-        </div>
+        @if ($product->properties()->count())
+            @include('catalog.part.properties')
+        @endif
     </section>
 
     <div class="products" id="similar">

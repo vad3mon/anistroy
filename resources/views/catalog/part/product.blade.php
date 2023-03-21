@@ -1,8 +1,12 @@
 <li class="card" data-pid="{{ $product->id }}" data-stock="{{ $product->volume }}" data-img="{{ $product->image }}" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
-    <a href="{{ route('catalog.product', ['category' => $currentCategory->slug, 'product'=>$product->slug]) }}" class="card__image">
-        <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" alt="">
+    <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__image">
+        @if (file_exists('images/products/' . $product->image) && $product->image)
+            <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}">
+        @else
+            <img src="{{ asset('images/products/images_empty.png') }}" alt="{{ $product->name }}">
+        @endif
     </a>
-    <a href="{{ route('catalog.product', ['category' => $currentCategory->slug, 'product'=>$product->slug]) }}" class="card__name">{{ $product->name }}</a>
+    <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__name">{{ $product->name }}</a>
     <div class="card__price-wrapper">
         <p class="card__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
 
@@ -27,6 +31,7 @@
             @endif
 
         </div>
+        <button class="card__cart-btn" title="Добавить в корзину" type="submit">В корзину</button>
     </form>
 
     <form action="{{ route('favorite.add', ['id' => $product->id])  }}" method="post">

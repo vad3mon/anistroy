@@ -119,4 +119,38 @@ class CategoryService
             'items', 'total', 'perPage', 'currentPage', 'options'
         ));
     }
+
+    public function search($query)
+    {
+        $query = trim($query);
+        $products = Product::where('name', 'like', '%' . $query . '%')
+                             ->orWhere('article', 'like', '%' . $query . '%')
+                             ->orWhere('slug', 'like', '%' . $query . '%')
+                             ->orWhere('text', 'like', '%' . $query . '%')->distinct()->with('category')->get();
+
+        return $products;
+    }
+
+    public static function getAllChildren($id) {
+        $children = self::where('parent_id', $id)->with('categories')->get();
+        $ids = [];
+        foreach ($children as $child) {
+            $ids[] = $child->id;
+            // для каждого прямого потомка получаем его прямых потомков
+            if ($child->children->count()) {
+                $ids = array_merge($ids, self::getAllChildren($child->id));
+            }
+        }
+        return $ids;
+    }
+
+    public function getCategoryProducts($category_id)
+    {
+        $products = Product::categoryProducts($category_id)
+                ->filtered()
+                ->paginate(20)
+                ->withQueryString();
+
+        return $products;
+    }
 }

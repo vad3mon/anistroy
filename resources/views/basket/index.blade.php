@@ -12,8 +12,14 @@
 
         </ul>
         <div class="cart__result">
-            <b class="cart__result-text">Итого:</b>
-            <b class="cart__result-price">{{ $amount }} ₽</b>
+            @if ($amount > 0)
+                <b class="cart__result-text">Итого:</b>
+                <b class="cart__result-price">{{ $amount }} ₽</b>
+
+            @else
+                Ваша корзина пуста. Перейти в <a href="{{ route('index') }}">каталог</a>
+            @endif
+
         </div>
         <div class="cart__form">
             <div class="form">
