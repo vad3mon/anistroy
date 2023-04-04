@@ -10,6 +10,20 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'ms_id',
+        'category_id',
+        'name',
+        'slug',
+        'article',
+        'image',
+        'text',
+        'price',
+        'unit',
+        'weight',
+        'volume'
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -45,6 +59,19 @@ class Product extends Model
 
 //                $q->whereRelation([['properties', 'property_id', '=', 1], ['properties', 'value', 'Китай']]);
 
+            })
+
+            ->when(request('filters.range'), function (Builder $q) {
+                foreach(request('filters.range') as $id => $value)
+                {
+                    $q->whereHas('properties', function (Builder $query) use ($id, $value) {
+                        $query->where('property_id','=', $id)
+                            ->whereBetween('value', [
+                                (int)$value['from'],
+                                (int)$value['to']
+                            ]);
+                    });
+                }
             });
     }
 

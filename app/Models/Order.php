@@ -11,14 +11,18 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
+        'session_id',
         'name',
         'email',
         'phone',
         'address',
         'amount',
         'status',
-        'payment_status'
-    ];
+        'payment_status',
+        'ms_id',
+        'ms_error',
+        'ms_products_added'
+        ];
 
 
     public function items()

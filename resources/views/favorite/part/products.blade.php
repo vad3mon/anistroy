@@ -2,7 +2,11 @@
     @foreach($products as $product)
         <li class="fav__item fav-item" data-pid="{{ $product->id }}">
             <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="fav-item__image">
-                <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" alt="">
+                @if (file_exists('images/products/' . $product->image) && $product->image)
+                    <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}">
+                @else
+                    <img src="{{ asset('images/products/images_empty.png') }}" alt="{{ $product->name }}">
+                @endif
             </a>
             <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="fav-item__name">{{ $product->name }}</a>
             <p class="fav-item__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>

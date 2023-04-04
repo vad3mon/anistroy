@@ -88,7 +88,9 @@ class BasketController extends Controller
         $user_id = !empty($request->user()) ? $request->user()->id : null;
         $session_id = empty($user_id) ? session()->getId() : null;
 
-        $order = Order::create($request->all() + ['amount' => $this->basketService->getAmount($basket), 'user_id' => $user_id, 'session_id' => $session_id]);
+        $order = Order::create($request->all() + ['amount' => $this->basketService->getAmount($basket),
+                                                  'user_id' => $user_id,
+                                                  'session_id' => $session_id]);
 
         foreach ($basket->products as $product) {
             $order->items()->create([

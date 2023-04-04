@@ -44,7 +44,7 @@
         </h3>
 
         <section class="buy">
-            @include('orders.part.products', ['products' => $order->items])
+            @include('orders.part.products', ['items' => $order->items])
             <div class="buy__result">
                 <b class="buy__result-text">К оплате:</b>
                 <b class="buy__result-price">{{ $order->amount }} ₽</b>
