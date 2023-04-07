@@ -32,7 +32,7 @@
                 <ul class="swiper-wrapper">
 
                     @foreach($products as $product)
-                        <li class="card swiper-slide" data-pid="{{ $product->id }}" data-stock="{{ $product->volume }}" data-img="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
+                        <li class="card swiper-slide" data-pid="{{ $product->id }}" data-stock="100" data-img="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
                             <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__image">
                                 @if (file_exists('images/products/' . $product->image) && $product->image)
                                     <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}">
@@ -58,12 +58,12 @@
                                         <button class="card__plus-btn" type="button">+</button>
                                     </div>
 
-                                    @if ($product->volume > 3)
-                                        <p class="card__amount product__amount--green">В наличии</p>
-                                        <!-- или -->
-                                    @else
-                                        <p class="card__amount product__amount--red">Осталось {{ $product->volume }} шт.</p>
-                                    @endif
+{{--                                    @if ($product->volume > 3)--}}
+{{--                                        <p class="card__amount product__amount--green">В наличии</p>--}}
+{{--                                        <!-- или -->--}}
+{{--                                    @else--}}
+{{--                                        <p class="card__amount product__amount--red">Осталось {{ $product->volume }} шт.</p>--}}
+{{--                                    @endif--}}
 
                                 </div>
                                 <button class="card__cart-btn" title="Добавить в корзину" type="submit">В корзину</button>

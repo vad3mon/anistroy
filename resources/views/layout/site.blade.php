@@ -96,34 +96,34 @@
 
                     <div class="catalog__section-list init" data-spoilers>
 
-                        @foreach($currentCategory->properties as $property)
+                        @foreach($properties as $property)
                             <div class="catalog__section-item">
-                                @if($property->type == 'range')
+                                @if($property['type'] == 'range')
                                     <div class="catalog__range-slider range-slider">
-                                        <p class="catalog__filter-title active" data-spoiler>{{ $property->title }}</p>
+                                        <p class="catalog__filter-title active" data-spoiler>{{ $property['title'] }}</p>
                                         <div>
                                             <div class="range-slider__counter">
-                                                <input type="number" value="{{ request('filters.range' . $property->id . '.from', 0) }}" min="0" max="120000" name="filters[range][{{ $property->id }}][from]">
-                                                <input type="number" value="{{ request('filters.range' . $property->id . '.to', 120000) }}" min="0" max="120000" name="filters[range][{{ $property->id }}][to]">
+                                                <input type="number" value="{{ request('filters.range' . $property['id'] . '.from', 0) }}" min="0" max="120000" name="filters[range][{{ $property['id'] }}][from]">
+                                                <input type="number" value="{{ request('filters.range' . $property['id'] . '.to', 120000) }}" min="0" max="120000" name="filters[range][{{ $property['id'] }}][to]">
                                             </div>
-                                            <input value="{{ request('filters.range' . $property->id . '.from', 0) }}" min="0" max="120000" step="500" type="range">
-                                            <input value="{{ request('filters.range' . $property->id . '.to', 120000) }}" min="0" max="120000" step="500" type="range">
+                                            <input value="{{ request('filters.range' . $property['id'] . '.from', 0) }}" min="0" max="120000" step="500" type="range">
+                                            <input value="{{ request('filters.range' . $property['id'] . '.to', 120000) }}" min="0" max="120000" step="500" type="range">
                                         </div>
                                     </div>
 
                                 @else
-                                    <p class="catalog__filter-title active" data-spoiler>{{ $property->title }}</p>
+                                    <p class="catalog__filter-title active" data-spoiler>{{ $property['title'] }}</p>
                                     <ul class="catalog__filter-list">
-                                        @foreach($property->values as $key => $value)
+                                        @foreach($property['values'] as $key => $value)
                                             <li class="catalog__filter-item">
                                                 <input class="catalog__filter-input"
                                                        type="checkbox"
-                                                       id="filters-properties-{{ $property->id }}-{{ $key }}"
-                                                       name="filters[properties][{{ $property->id }}][{{ $value->pivot->value }}]"
-                                                       value="{{ $value->pivot->value }}"
-                                                       @checked(request('filters.properties.' . $property->id . '.' . $value->pivot->value))
+                                                       id="filters-properties-{{ $property['id'] }}-{{ $key }}"
+                                                       name="filters[properties][{{ $property['id'] }}][{{ $value }}]"
+                                                       value="{{ $value }}"
+                                                       @checked(request('filters.properties.' . $property['id'] . '.' . $value))
                                                 >
-                                                <label class="catalog__filter-label" for="filters-properties-{{ $property->id }}-{{ $key }}">{{ $value->pivot->value }}</label>
+                                                <label class="catalog__filter-label" for="filters-properties-{{ $property['id'] }}-{{ $key }}">{{ $value }}</label>
                                             </li>
                                         @endforeach
                                     </ul>

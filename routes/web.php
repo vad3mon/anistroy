@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/sync_product_folder', [\App\Http\Controllers\SyncController::class, 'sync_product_folder']);
 Route::get('/sync_products', [\App\Http\Controllers\SyncController::class, 'sync_products']);
 Route::get('/sync_orders', [\App\Http\Controllers\SyncController::class, 'sync_orders']);
+Route::get('/sync_clean', [\App\Http\Controllers\SyncController::class, 'clean']);
+Route::get('/sync_counterparty', [\App\Http\Controllers\SyncController::class, 'sync_counterparty']);
 
 Route::get('/', [\App\Http\Controllers\CatalogController::class, 'index'])->name('index');
 

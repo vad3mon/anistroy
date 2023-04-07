@@ -10,9 +10,16 @@ class Property extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'type'
+    ];
+
     public function values(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
             ->withPivot('value');
     }
+
+
 }

@@ -31,18 +31,13 @@ class CatalogController extends Controller
     {
         $currentCategory = $this->categoryService->getCategory($category->id);
 
+        $properties = $this->categoryService->getCategoryProperties($currentCategory->id);
+
         $categories = $this->categoryService->getChildrenCategories($category->id);
 
         $products = $this->categoryService->getCategoryProducts($category->id);
 
-//        $products = $this->categoryService->getProducts($category->id);
-//
-//        $products  = $this->categoryService->paginate($products, 20);
-//
-//        $products = $products->filtered();
-//        dd($currentCategory->properties[0]->values[0]->pivot);
-
-        return view('catalog.category', compact('categories', 'products', 'currentCategory'));
+        return view('catalog.category', compact('categories', 'products', 'currentCategory', 'properties'));
     }
 
     public function search(Request $request)

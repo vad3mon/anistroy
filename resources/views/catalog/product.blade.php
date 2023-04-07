@@ -4,7 +4,7 @@
 
     @include('catalog.part.breadcrumbs', ['parentCategories' => $parentCategories])
 
-    <section class="product" data-pid="{{ $product->id }}" data-stock="{{ $product->volume }}" data-img="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
+    <section class="product" data-pid="{{ $product->id }}" data-stock="100" data-img="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
         <div class="product__info-box">
             <p class="product__art">Артикул: {{ $product->article }}</p>
             <h2 class="product__title">
@@ -27,13 +27,13 @@
                             <button type="button" class="product__plus-btn">+</button>
                         </div>
 
-                        @if ($product->volume > 3)
-                        <p class="product__amount product__amount--green">В наличии</p>
-                        <!-- или -->
-                        @else
-                            <p class="product__amount product__amount--red">Осталось {{ $product->volume }} {{ $product->unit }}</p>
+{{--                        @if ($product->volume > 3)--}}
+{{--                        <p class="product__amount product__amount--green">В наличии</p>--}}
+{{--                        <!-- или -->--}}
+{{--                        @else--}}
+{{--                            <p class="product__amount product__amount--red">Осталось {{ $product->volume }} {{ $product->unit }}</p>--}}
 
-                        @endif
+{{--                        @endif--}}
                     </div>
 
                     <div class="product__button-box">
@@ -48,20 +48,20 @@
                     </div>
                 </form>
 
-                <div class="delivery">
-                    <p class="delivery__item">
-                      <span class="delivery__key">Доставка
-                        <b class="delivery__date">12 апреля</b>
-                      </span>
-                        <b class="delivery__value">от 450 ₽</b>
-                    </p>
-                    <p class="delivery__item">
-                      <span class="delivery__key">Самовывоз
-                        <b class="delivery__date">10 апреля</b>
-                      </span>
-                        <b class="delivery__value">бесплатно</b>
-                    </p>
-                </div>
+{{--                <div class="delivery">--}}
+{{--                    <p class="delivery__item">--}}
+{{--                      <span class="delivery__key">Доставка--}}
+{{--                        <b class="delivery__date">12 апреля</b>--}}
+{{--                      </span>--}}
+{{--                        <b class="delivery__value">от 450 ₽</b>--}}
+{{--                    </p>--}}
+{{--                    <p class="delivery__item">--}}
+{{--                      <span class="delivery__key">Самовывоз--}}
+{{--                        <b class="delivery__date">10 апреля</b>--}}
+{{--                      </span>--}}
+{{--                        <b class="delivery__value">бесплатно</b>--}}
+{{--                    </p>--}}
+{{--                </div>--}}
             </div>
         </div>
 
@@ -102,9 +102,9 @@
             <h2 class="product-info__title">Описание</h2>
             <p class="product-info__description">{!! $product->text !!}</p>
 
-            <a class="product-info__link" href="https://res.cloudinary.com/lmru/image/upload/v1575382563/LMCode/82038772_ins.pdf" target="_blank">
-                Инструкция для {{ $product->name }}
-            </a>
+{{--            <a class="product-info__link" href="https://res.cloudinary.com/lmru/image/upload/v1575382563/LMCode/82038772_ins.pdf" target="_blank">--}}
+{{--                Инструкция для {{ $product->name }}--}}
+{{--            </a>--}}
         </div>
 
         @if ($product->properties()->count())

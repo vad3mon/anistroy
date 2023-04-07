@@ -4,10 +4,12 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Property;
 use Illuminate\Container\Container;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use function PHPUnit\Framework\isNull;
 
 class CategoryService
 {
@@ -30,7 +32,7 @@ class CategoryService
     public function getChildrenCategories($id)
     {
         $category = Category::find($id);
-        $categories = $category->childrenCategories;
+        $categories = count($category->childrenCategories) > 1 ? $category->childrenCategories : [$category];
 
         return $categories;
     }
@@ -152,5 +154,54 @@ class CategoryService
                 ->withQueryString();
 
         return $products;
+    }
+
+    public function getCategoryProperties($category_id)
+    {
+        $category = Category::find($category_id);
+
+        $categories = $category->childrenCategories;
+        $categories->push($category);
+
+        $properties = [];
+
+        foreach ($categories as $category)
+        {
+            foreach ($category->properties as $property) {
+                $values = $this->getUniquePivotValues($property->values);
+                $properties[] =
+                    collect([
+                        'id' => $property->id,
+                        'title' => $property->title,
+                        'type' => $property->type,
+                        'values' => $values
+                    ]);
+            }
+        }
+
+        return collect($properties);
+    }
+
+    public function getUniquePivotValues($values) {
+        $pivots = [];
+        foreach ($values as $value)
+        {
+            $pivots[] = $value->pivot->value;
+        }
+
+        return collect(array_unique($pivots));
+    }
+
+    public function getParentCategories($category)
+    {
+        $parentCategories = [$category];
+        while ($category->parent)
+        {
+            $parent = $category->parent;
+
+            $parentCategories = array_merge($parentCategories, [$parent]);
+
+            $category = $category->parent;
+        }
     }
 }
