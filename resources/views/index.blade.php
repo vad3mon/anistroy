@@ -5,23 +5,25 @@
     <section class="lead">
         <div class="lead__swiper swiper">
             <div class="swiper-wrapper">
-                <div class="lead__slide swiper-slide">
-                    <a class="lead__link" href="{{ route('catalog.product', ['category' => $bannerProduct->category->slug, 'product'=>$bannerProduct->slug]) }}"></a>
-                    <div class="lead__image">
-                        @if (file_exists('images/products/' . $bannerProduct->image) && $bannerProduct->image)
-                            <img src="{{ asset('images/products/' . $bannerProduct->image) }}" alt="{{ $bannerProduct->name }}">
-                        @else
-                            <img src="{{ asset('images/products/images_empty.png') }}" alt="{{ $bannerProduct->name }}">
-                        @endif
+                @foreach($bannerProducts as $bannerProduct)
+                    <div class="lead__slide swiper-slide">
+                        <a class="lead__link" href="{{ route('catalog.product', ['category' => $bannerProduct->category->slug, 'product'=>$bannerProduct->slug]) }}"></a>
+                        <div class="lead__image">
+                            @if (file_exists('images/products/' . $bannerProduct->image) && $bannerProduct->image)
+                                <img src="{{ asset('images/products/' . $bannerProduct->image) }}" alt="{{ $bannerProduct->name }}">
+                            @else
+                                <img src="{{ asset('images/products/images_empty.png') }}" alt="{{ $bannerProduct->name }}">
+                            @endif
+                        </div>
+                        <div class="lead__info">
+                            <h3 class="lead__name">
+                                {{ $bannerProduct->name }} <br class="hide-on-mobile">
+                            </h3>
+                            <p class="lead__price">{{ $bannerProduct->price }} <span>₽ / {{ $bannerProduct->unit }}</span></p>
+                            <a class="lead__more-btn" href="{{ route('catalog.product', ['category' => $bannerProduct->category->slug, 'product'=>$bannerProduct->slug]) }}">Подробнее</a>
+                        </div>
                     </div>
-                    <div class="lead__info">
-                        <h3 class="lead__name">
-                            {{ $bannerProduct->name }} <br class="hide-on-mobile">
-                        </h3>
-                        <p class="lead__price">{{ $bannerProduct->price }} <span>₽ / {{ $bannerProduct->unit }}</span></p>
-                        <a class="lead__more-btn" href="#">Подробнее</a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
         <div class="products">
@@ -31,7 +33,7 @@
             <div class="products__swiper swiper">
                 <ul class="swiper-wrapper">
 
-                    @foreach($products as $product)
+                    @foreach($discountProducts as $product)
                         <li class="card swiper-slide" data-pid="{{ $product->id }}" data-stock="100" data-img="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
                             <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__image">
                                 @if (file_exists('images/products/' . $product->image) && $product->image)

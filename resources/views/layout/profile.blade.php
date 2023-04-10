@@ -6,7 +6,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" href="{{ asset('css/index.a7f4569d5dc6e8b680aa.css') }}">
+    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('css/slider.77893fdbf14175a4d1ad.css') }}">
+
 </head>
 <body>
 <div class="site-wrapper">

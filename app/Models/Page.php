@@ -11,6 +11,11 @@ class Page extends Model
 
     public static function getTopPages()
     {
-        return self::where('binding', 'top')->get();
+        return self::where('binding', 'top')->orWhere('binding', 'top_footer')->get();
+    }
+
+    public static function getFooterPages()
+    {
+        return self::where('binding', 'footer')->orWhere('binding', 'top_footer')->get();
     }
 }

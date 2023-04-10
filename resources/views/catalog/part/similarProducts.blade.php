@@ -12,7 +12,9 @@
             <a href="{{ route('catalog.product', ['category' => $parentCategory->slug, 'product'=>$similarProduct->slug]) }}" class="card__name">{{ $similarProduct->name }}</a>
             <div class="card__price-wrapper">
                 <p class="card__price">{{ $similarProduct->price }} <span>₽ / {{ $similarProduct->unit }}</span></p>
-                <p class="card__price-old">{{ $similarProduct->old_price }} <span>₽ / {{ $similarProduct->unit }}</span></p>
+                @if($product->old_price > 0)
+                    <p class="card__price-old">{{ $product->old_price }} <span>₽ / {{ $product->unit }}</span></p>
+                @endif
             </div>
             <form action="">
                 <div class="card__counter-wrapper">

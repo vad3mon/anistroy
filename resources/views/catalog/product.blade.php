@@ -85,8 +85,8 @@
 {{--                        <img src="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82038772_05.jpg">--}}
 {{--                    </div>--}}
                 </div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
+{{--                <div class="swiper-button-next"></div>--}}
+{{--                <div class="swiper-button-prev"></div>--}}
             </div>
         </div>
     </section>

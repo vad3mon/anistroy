@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="about">
-        <h2>{{ $page->name }}</h2>
-        <p>{{ $page->content }}</p>
+        <h1>{{ $page->name }}</h1>
+        {!! $page->content !!}
     </section>
 @endsection

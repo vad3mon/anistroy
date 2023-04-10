@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" href="{{ asset('css/index.a7f4569d5dc6e8b680aa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/slider.77893fdbf14175a4d1ad.css') }}">
+    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
 </head>
 <body>
 <div class="site-wrapper">
@@ -103,15 +104,15 @@
                                         <p class="catalog__filter-title active" data-spoiler>{{ $property['title'] }}</p>
                                         <div>
                                             <div class="range-slider__counter">
-                                                <input type="number" value="{{ request('filters.range' . $property['id'] . '.from', 0) }}" min="0" max="120000" name="filters[range][{{ $property['id'] }}][from]">
-                                                <input type="number" value="{{ request('filters.range' . $property['id'] . '.to', 120000) }}" min="0" max="120000" name="filters[range][{{ $property['id'] }}][to]">
+                                                <input type="number" value="{{ request('filters.range' . $property['id'] . '.from', $property['values']['min']) }}" min="{{ $property['values']['min'] }}" max="{{ $property['values']['max'] }}" name="filters[range][{{ $property['id'] }}][from]">
+                                                <input type="number" value="{{ request('filters.range' . $property['id'] . '.to', $property['values']['max']) }}" min="{{ $property['values']['min'] }}" max="{{ $property['values']['max'] }}" name="filters[range][{{ $property['id'] }}][to]">
                                             </div>
-                                            <input value="{{ request('filters.range' . $property['id'] . '.from', 0) }}" min="0" max="120000" step="500" type="range">
-                                            <input value="{{ request('filters.range' . $property['id'] . '.to', 120000) }}" min="0" max="120000" step="500" type="range">
+                                            <input value="{{ request('filters.range' . $property['id'] . '.from', $property['values']['min']) }}" min="{{ $property['values']['min'] }}" max="{{ $property['values']['max'] }}" step="500" type="range">
+                                            <input value="{{ request('filters.range' . $property['id'] . '.to', $property['values']['max']) }}" min="{{ $property['values']['min'] }}" max="{{ $property['values']['max'] }}" step="500" type="range">
                                         </div>
                                     </div>
 
-                                @else
+                                @elseif($property['type'] == 'list')
                                     <p class="catalog__filter-title active" data-spoiler>{{ $property['title'] }}</p>
                                     <ul class="catalog__filter-list">
                                         @foreach($property['values'] as $key => $value)
@@ -127,25 +128,61 @@
                                             </li>
                                         @endforeach
                                     </ul>
+
+
+                                @elseif($property['type'] == 'price')
+                                    <div class="catalog__section-item">
+                                        <div class="catalog__range-slider range-slider">
+                                            <div class="range-slider__counter">
+
+                                                <input type="number"
+                                                       value="{{
+                                                            request('filters.price.from', $property['values']['min']) >= $property['values']['min'] ?
+                                                            request('filters.price.from', $property['values']['min']) : $property['values']['min']
+                                                       }}"
+                                                        min="{{ $property['values']['min'] }}"
+                                                        max="{{ $property['values']['max'] - 1 }}"
+                                                        name="filters[price][from]">
+
+                                                <input type="number"
+                                                       value="{{
+                                                            request('filters.price.to', $property['values']['max']) <= $property['values']['max'] ?
+                                                            request('filters.price.to', $property['values']['max']) : $property['values']['max']
+                                                       }}"
+                                                        min="{{ $property['values']['min'] + 1 }}"
+                                                        max="{{ $property['values']['max'] }}"
+                                                        name="filters[price][to]">
+                                            </div>
+
+                                            <input value="{{
+                                                            request('filters.price.from', $property['values']['min']) >= $property['values']['min'] ?
+                                                            request('filters.price.from', $property['values']['min']) : $property['values']['min']
+                                                       }}"
+                                                   min="{{ $property['values']['min'] }}"
+                                                   max="{{ $property['values']['max'] - 1 }}"
+                                                   step="{{ $property['values']['step'] }}"
+                                                   type="range">
+
+                                            <input value="{{
+                                                            request('filters.price.to', $property['values']['max']) >= $property['values']['max'] ?
+                                                            request('filters.price.to', $property['values']['max']) : $property['values']['max']
+                                                       }}"
+                                                   min="{{ $property['values']['min'] + 1 }}"
+                                                   max="{{ $property['values']['max'] }}"
+                                                   step="{{ $property['values']['step'] }}"
+                                                   type="range">
+
+                                        </div>
+
+                                        <div class="catalog__button-box">
+                                            <button class="catalog__show-btn" type="submit">Показать</button>
+                                            <button class="catalog__reset-btn" type="reset">Сбросить</button>
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         @endforeach
 
-                        <div class="catalog__section-item">
-                            <div class="catalog__range-slider range-slider">
-                                <div class="range-slider__counter">
-                                    <input type="number" value="{{ request('filters.price.from', 0) }}" min="0" max="120000" name="filters[price][from]">
-                                    <input type="number" value="{{ request('filters.price.to', 120000) }}" min="0" max="120000" name="filters[price][to]">
-                                </div>
-                                <input value="{{ request('filters.price.from', 0) }}" min="0" max="120000" step="500" type="range">
-                                <input value="{{ request('filters.price.to', 120000) }}" min="0" max="120000" step="500" type="range">
-                            </div>
-
-                            <div class="catalog__button-box">
-                                <button class="catalog__show-btn" type="submit">Показать</button>
-                                <button class="catalog__reset-btn" type="reset">Сбросить</button>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="catalog__bubble">
@@ -168,49 +205,7 @@
     </div>
 </main>
 
-    <footer class="footer">
-        <div class="footer__container container">
-            <div class="footer__col" data-spoilers="800">
-                <h4 class="footer__title" data-spoiler>Организация</h4>
-                <div class="footer__list">
-                    <a class="footer__link" href="#">О компании</a>
-                    <a class="footer__link" href="#">Услуги</a>
-                    <a class="footer__link" href="#">Новости</a>
-                    <a class="footer__link" href="#">Статьи</a>
-                </div>
-            </div>
-
-            <div class="footer__col" data-spoilers="800">
-                <h4 class="footer__title" data-spoiler>Как купить</h4>
-                <div class="footer__list">
-                    <a class="footer__link" href="#">Оплата</a>
-                    <a class="footer__link" href="#">Доставка</a>
-                    <a class="footer__link" href="#">Оптовый заказ</a>
-                    <a class="footer__link" href="#">Контакты</a>
-                </div>
-            </div>
-
-            <div class="footer__col" data-spoilers="800">
-                <h4 class="footer__title" data-spoiler>Наш адрес</h4>
-                <div class="footer__list">
-                    <a class="footer__link" href="#">О компании</a>
-                    <a class="footer__link" href="#">Услуги</a>
-                    <a class="footer__link" href="#">Новости</a>
-                    <a class="footer__link" href="#">Статьи</a>
-                </div>
-            </div>
-
-            <div class="footer__col">
-                <h4 class="footer__title">Мы на связи</h4>
-                <div class="footer__list">
-                    <a class="footer__link" href="#">О компании</a>
-                    <a class="footer__link" href="#">Услуги</a>
-                    <a class="footer__link" href="#">Новости</a>
-                    <a class="footer__link" href="#">Статьи</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    @include('pages.footer_pages')
 
 </div>
 

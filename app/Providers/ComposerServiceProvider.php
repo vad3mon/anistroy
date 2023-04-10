@@ -34,7 +34,10 @@ class ComposerServiceProvider extends ServiceProvider
 
         View::composer('pages.top_pages', function($view) {
             $view->with(['items' => Page::getTopPages()]);
-//            $view->with(['items' => [PageService::class, 'getTopPages']]);
+        });
+
+        View::composer('pages.footer_pages', function($view) {
+            $view->with(['items' => Page::getFooterPages()]);
         });
 
     }

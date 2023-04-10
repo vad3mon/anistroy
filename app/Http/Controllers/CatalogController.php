@@ -20,11 +20,11 @@ class CatalogController extends Controller
     {
         $categories = $this->categoryService->getAllCategories();
 
-        $products = $this->categoryService->getDiscountProducts();
+        $discountProducts = $this->categoryService->getDiscountProducts();
 
-        $bannerProduct = $this->categoryService->getBannerProduct();
+        $bannerProducts = $this->categoryService->getBannerProducts();
 
-        return view('index', compact('categories', 'products', 'bannerProduct'));
+        return view('index', compact('categories', 'discountProducts', 'bannerProducts'));
     }
 
     public function category(Category $category)

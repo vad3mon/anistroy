@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\BannerProducts;
 use App\Models\Category;
+use App\Models\DiscountProducts;
 use App\Models\Product;
 use App\Models\Property;
 use Illuminate\Container\Container;
@@ -91,14 +93,26 @@ class CategoryService
 
     public function getDiscountProducts()
     {
-        $products = Product::find([6819, 6820, 6821, 6822]);
+        $products = [];
+        $discountProducts = DiscountProducts::orderBy('queue')->get();
+        foreach ($discountProducts as $discountProduct)
+        {
+            $products[] = $discountProduct->product;
+        }
+
         return $products;
     }
 
-    public function getBannerProduct()
+    public function getBannerProducts()
     {
-        $bannerProduct = Product::find(7115);
-        return $bannerProduct;
+        $products = [];
+        $bannerProducts = BannerProducts::orderBy('queue')->get();
+        foreach ($bannerProducts as $bannerProduct)
+        {
+            $products[] = $bannerProduct->product;
+        }
+
+        return $products;
     }
 
 
@@ -156,6 +170,31 @@ class CategoryService
         return $products;
     }
 
+//    функция округления до сотого числа (если вдруг шаг будет не 1)
+    function round_up($num, $precision) {
+        $num = $num / pow(10, $precision);
+        $num = ceil($num);
+        return $num * pow(10, $precision);
+    }
+
+    public function getCategoryPriceProperty($category_id)
+    {
+        $products = array_unique(Product::categoryProducts($category_id)
+//          ->filtered()
+            ->get('price')->pluck('price')->toArray());
+        $property =  collect([
+            'title' => 'Цена',
+            'type' => 'price',
+            'values' => collect([
+                'min' => floor(min($products)),
+                'max' => ceil(max($products)),
+                'step' => 1
+            ])
+        ]);
+
+        return $property;
+    }
+
     public function getCategoryProperties($category_id)
     {
         $category = Category::find($category_id);
@@ -168,7 +207,7 @@ class CategoryService
         foreach ($categories as $category)
         {
             foreach ($category->properties as $property) {
-                $values = $this->getUniquePivotValues($property->values);
+                $values = $property->type == 'list' ? $this->getUniquePivotValues($property->values) : $this->getMinMaxPivotValues($property->values);
                 $properties[] =
                     collect([
                         'id' => $property->id,
@@ -178,6 +217,8 @@ class CategoryService
                     ]);
             }
         }
+
+        $properties[] = $this->getCategoryPriceProperty($category_id);
 
         return collect($properties);
     }
@@ -190,6 +231,20 @@ class CategoryService
         }
 
         return collect(array_unique($pivots));
+    }
+
+    public function getMinMaxPivotValues($values) {
+        $pivots = [];
+        foreach ($values as $value)
+        {
+            $pivots[] = $value->pivot->value;
+        }
+
+        $pivots = array_unique($pivots);
+        return collect([
+            'min' => min($pivots),
+            'max' => max($pivots)
+        ]);
     }
 
     public function getParentCategories($category)
