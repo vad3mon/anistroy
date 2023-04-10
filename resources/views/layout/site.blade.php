@@ -48,7 +48,7 @@
                     @if (auth()->user())
                         <!-- если залогинен -->
                         <a class="user-nav__link user-nav__link--profile" href="{{ route('profile.edit') }}">
-                          <img class="user-nav__icon user-nav__icon--profile" src="images/icon-profile.svg" alt="">
+                          <img class="user-nav__icon user-nav__icon--profile" src="{{ asset('images/icon-profile.svg') }}" alt="">
                           Профиль
                         </a>
                         <!-- --- -->
