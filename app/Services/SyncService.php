@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Property;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SyncService
@@ -84,7 +85,8 @@ class SyncService
 
 //        $images_dir = $_SERVER['DOCUMENT_ROOT'] . '/images/products/' . $product_ms_id;
 
-        $images_dir = public_path('images\products');
+        $images_dir = storage_path('images/products');
+
 //        if(!file_exists($images_dir )) {
 //            mkdir($images_dir, 0777, true);
 //        }
@@ -102,7 +104,8 @@ class SyncService
             curl_close($ch_image);
 
             if(!file_exists($images_dir . '/' . $image['filename'])) {
-                file_put_contents($images_dir . '/' . $image['filename'], $result);
+                Storage::put('public/products/' . $image['filename'], $result);
+//                file_put_contents($images_dir . '/' . $image['filename'], $result);
             }
 
             $return_result[] = $image['filename'];

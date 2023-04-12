@@ -21,9 +21,9 @@
             <div class="form">
                 <h2 class="form__title">Авторизация</h2>
                 <div class="form__item">
-                    <label class="form__label" for="phone">Телефон<sup>*</sup></label>
-                    <input type="text" class="form__input" name="phone" id="phone" data-required value="{{ old('phone') ?? '' }}">
-                    <p class="form__error-text">{{ $errors->first('phone') }}</p>
+                    <label class="form__label" for="phone">Телефон или email<sup>*</sup></label>
+                    <input type="text" class="form__input" name="login" id="login" data-required value="{{ old('login') ?? '' }}">
+                    <p class="form__error-text">{{ $errors->first('login') }}</p>
                 </div>
 
                 <div class="form__item">
