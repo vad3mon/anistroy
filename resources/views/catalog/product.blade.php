@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('catalog.part.breadcrumbs', ['parentCategories' => $parentCategories])
+    @include('catalog.part.breadcrumbs', ['parentCategories' => $fullPath])
 
     <section class="product" data-pid="{{ $product->id }}" data-stock="100" data-img="https://res.cloudinary.com/lmru/image/upload/dpr_2.0,f_auto,q_auto,w_240,h_240,c_pad,b_white,d_photoiscoming.png/LMCode/82325238.jpg" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
         <div class="product__info-box">

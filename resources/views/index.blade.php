@@ -87,4 +87,8 @@
         </div>
     </section>
 
+    <section class="cookie">
+        <p>We use cookie to improve your experience on our site. By using our site you consent cookies. <a class="cookie__link" href="">Learn more</a>We use cookie to improve your experience on our site. By using our site you consent cookies. <a class="cookie__link" href="">Learn more</a>We use cookie to improve your experience on our site. By using our site you consent cookies. <a class="cookie__link" href="">Learn more</a>We use cookie to improve your experience on our site. By using our site you consent cookies. <a class="cookie__link" href="">Learn more</a></p>
+        <button class="cookie__save-btn">Принимаю</button>
+    </section>
 @endsection

@@ -5,7 +5,7 @@
     <title> {{ $title ?? 'Anistroy'}} </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="{{ asset('css/index.a7f4569d5dc6e8b680aa.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/index.8ff14a9889db2a568ce7.css') }}">
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('css/slider.77893fdbf14175a4d1ad.css') }}">
 
@@ -73,81 +73,43 @@
     </header>
     <main class="main">
         <div class="main__container container">
-            <aside class="aside-menu" data-spoilers="992,max">
-                <h2 class="aside-menu__title" data-spoiler><span>Личный кабинет</span></h2>
-                <ul class="aside-menu__list">
-                    <li><a class="aside-menu__link" href="{{ route('profile.orders') }}">Мои заказы</a></li>
-                    <li><a class="aside-menu__link" href="{{ route('bonus') }}">Бонусная программа</a></li>
-                    <li><a class="aside-menu__link" href="{{ route('address') }}">Адреса доставки</a></li>
-                    <li><a class="aside-menu__link active" href="{{ route('profile.edit') }}">Мои данные</a></li>
-                    <li><a class="aside-menu__link" href="{{ route('profile.change_password') }}">Смена пароля</a></li>
-                </ul>
+            @if (auth()->user())
+                <aside class="aside-menu" data-spoilers="992,max">
+                    <h2 class="aside-menu__title" data-spoiler><span>Личный кабинет</span></h2>
+                    <ul class="aside-menu__list">
+                        <li><a class="aside-menu__link @if(Route::is('profile.orders')) active @endif" href="{{ route('profile.orders') }}">Мои заказы</a></li>
+{{--                        <li><a class="aside-menu__link" href="{{ route('bonus') }}">Бонусная программа</a></li>--}}
+{{--                        <li><a class="aside-menu__link" href="{{ route('address') }}">Адреса доставки</a></li>--}}
+                        <li><a class="aside-menu__link @if(Route::is('profile.edit')) active @endif" href="{{ route('profile.edit') }}">Мои данные</a></li>
+                        <li><a class="aside-menu__link @if(Route::is('profile.change_password')) active @endif" href="{{ route('profile.change_password') }}">Смена пароля</a></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button class="aside-menu__link" type="submit">Выход</button>
+                            </form>
+                        </li>
+                    </ul>
 
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit">submit</button>
-                </form>
-            </aside>
+                </aside>
+            @endif
 
             <div class="content">
                 @yield("content")
             </div>
         </div>
     </main>
-    <footer class="footer">
-        <div class="footer__container container">
-            <div class="footer__col" data-spoilers="800">
-                <h4 class="footer__title" data-spoiler>Организация</h4>
-                <div class="footer__list">
-                    <a class="footer__link" href="#">О компании</a>
-                    <a class="footer__link" href="#">Услуги</a>
-                    <a class="footer__link" href="#">Новости</a>
-                    <a class="footer__link" href="#">Статьи</a>
-                </div>
-            </div>
-
-            <div class="footer__col" data-spoilers="800">
-                <h4 class="footer__title" data-spoiler>Как купить</h4>
-                <div class="footer__list">
-                    <a class="footer__link" href="#">Оплата</a>
-                    <a class="footer__link" href="#">Доставка</a>
-                    <a class="footer__link" href="#">Оптовый заказ</a>
-                    <a class="footer__link" href="#">Контакты</a>
-                </div>
-            </div>
-
-            <div class="footer__col" data-spoilers="800">
-                <h4 class="footer__title" data-spoiler>Наш адрес</h4>
-                <div class="footer__list">
-                    <a class="footer__link" href="#">О компании</a>
-                    <a class="footer__link" href="#">Услуги</a>
-                    <a class="footer__link" href="#">Новости</a>
-                    <a class="footer__link" href="#">Статьи</a>
-                </div>
-            </div>
-
-            <div class="footer__col">
-                <h4 class="footer__title">Мы на связи</h4>
-                <div class="footer__list">
-                    <a class="footer__link" href="#">О компании</a>
-                    <a class="footer__link" href="#">Услуги</a>
-                    <a class="footer__link" href="#">Новости</a>
-                    <a class="footer__link" href="#">Статьи</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    @include('pages.footer_pages')
 </div>
 </body>
-<script src="{{ asset('js/header.247d4f67111134fa93dd.js') }}"></script>
-<script src="{{asset('js/54.d0fa7b73b5a57e677cd9.js')}}"></script>
-<script src="{{ asset('js/slider.4e43f9d3b8ed5d964970.js') }}"></script>
-<script src="{{ asset('js/catalog-and-spoiler.72132c7401a28c7a9e7b.js') }}"></script>
-<script src="{{ asset('js/imask.93caf3dc1c70c1a43a6d.js') }}"></script>
-<script src="{{ asset('js/product-item.3c3baec3d647db3cf99f.js') }}"></script>
-<script src="{{ asset('js/smooth-scroll.57815a8e958fb878b943.js') }}"></script>
-<script src="{{ asset('js/cart-form.634482d529a016264323.js') }}"></script>
 <script src="{{ asset('js/auth.f6bba4a20c4ae77f807e.js') }}"></script>
+<script src="{{ asset('js/validate.7d8d21e0792b4b716efd.js') }}"></script>
+<script src="{{ asset('js/catalog-and-spoiler.5b93e478149cef6b08ba.js') }}"></script>
+<script src="{{ asset('js/header.725bb8121f6d16923273.js') }}"></script>
 <script src="{{ asset('js/modal.c4556f2eebbfb77e49c4.js') }}"></script>
-<script src="{{ asset('js/index.e7bf726abb530d2c0754.js') }}"></script>
+<script src="{{ asset('js/product-item.822b961ebf917d00668a.js') }}"></script>
+<script src="{{ asset('js/54.d0fa7b73b5a57e677cd9.js') }}"></script>
+<script src="{{ asset('js/slider.4e43f9d3b8ed5d964970.js') }}"></script>
+<script src="{{ asset('js/cookie.cdb72658b07995caf8c5.js') }}"></script>
+<script src="{{ asset('js/smooth-scroll.57815a8e958fb878b943.js') }}"></script>
+<script src="{{ asset('js/index.1777611d218d1a8828b2.js') }}"></script>
 </html>

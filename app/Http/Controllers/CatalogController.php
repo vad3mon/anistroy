@@ -37,7 +37,9 @@ class CatalogController extends Controller
 
         $products = $this->categoryService->getCategoryProducts($category->id);
 
-        return view('catalog.category', compact('categories', 'products', 'currentCategory', 'properties'));
+        $fullPath = $this->categoryService->getFullPath($category->id);
+
+        return view('catalog.category', compact('categories', 'products', 'currentCategory', 'properties', 'fullPath'));
     }
 
     public function search(Request $request)

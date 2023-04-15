@@ -264,7 +264,7 @@ class SyncService
                         $ms_parent = str_replace('https://online.moysklad.ru/api/remap/1.2/entity/productfolder/', '', $product_folder['productFolder']['meta']['href']);
                     }
                     else {
-                        $ms_parent = '';
+                        $ms_parent = NULL;
                     }
 
                     $ms_id = $product_folder['id'];
@@ -433,7 +433,7 @@ class SyncService
                     $parent_id = $all_rubrics[$ms_parent]['id'];
                 } else {
                     $ms_parent = '';
-                    $parent_id = 0;
+                    $parent_id = NULL;
                 }
 
 

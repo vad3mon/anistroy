@@ -34,7 +34,7 @@ class CategoryService
     public function getChildrenCategories($id)
     {
         $category = Category::find($id);
-        $categories = count($category->childrenCategories) > 1 ? $category->childrenCategories : [$category];
+        $categories = count($category->childrenCategories) > 1 ? $category->childrenCategories : $category->parent->childrenCategories;
 
         return $categories;
     }
@@ -65,10 +65,9 @@ class CategoryService
         return collect($products);
     }
 
-    public function getFullPath($product_id)
+    public function getFullPath($category_id)
     {
-        $product = Product::find($product_id);
-        $category = $product->category;
+        $category = Category::find($category_id);
         $parentCategories = [$category];
         while ($category->parent)
         {
@@ -139,10 +138,15 @@ class CategoryService
     public function search($query)
     {
         $query = trim($query);
-        $products = Product::where('name', 'like', '%' . $query . '%')
-                             ->orWhere('article', 'like', '%' . $query . '%')
-                             ->orWhere('slug', 'like', '%' . $query . '%')
-                             ->orWhere('text', 'like', '%' . $query . '%')->distinct()->with('category')->get();
+        $products = Product::whereNotNull('category_id')
+                             ->where(function ($q) use ($query)
+                             {
+                                 $q->where('name', 'like', '%' . $query . '%')
+                                     ->orWhere('article', 'like', '%' . $query . '%')
+                                     ->orWhere('slug', 'like', '%' . $query . '%')
+                                     ->orWhere('text', 'like', '%' . $query . '%');
+                             })->distinct()->with('category')->get();
+
 
         return $products;
     }
@@ -186,8 +190,8 @@ class CategoryService
             'title' => 'Цена',
             'type' => 'price',
             'values' => collect([
-                'min' => floor(min($products)),
-                'max' => ceil(max($products)),
+                'min' => count($products) ? floor(min($products)) : 0,
+                'max' => count($products) ? ceil(max($products)) : 0,
                 'step' => 1
             ])
         ]);

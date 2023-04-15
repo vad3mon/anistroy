@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="all-products products">
-        <h2 class="products__title">Резульаты поиска</h2>
+        <h2 class="products__title">Результаты поиска</h2>
 
         <ul class="products__list">
             {{--        @each('catalog.part.product', $products, 'product')--}}

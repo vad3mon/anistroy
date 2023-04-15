@@ -1,43 +1,24 @@
 <footer class="footer">
     <div class="footer__container container">
-        <div class="footer__col" data-spoilers="800">
-            <h4 class="footer__title" data-spoiler>Организация</h4>
-            <div class="footer__list">
-                <a class="footer__link" href="#">О компании</a>
-                <a class="footer__link" href="#">Услуги</a>
-                <a class="footer__link" href="#">Новости</a>
-                <a class="footer__link" href="#">Статьи</a>
+        @foreach($items as $page)
+            <div class="footer__col" data-spoilers="800">
+                <h4 class="footer__title" data-spoiler>{{ $page->name }}</h4>
+                <div class="footer__list">
+                    @foreach($page->childrens as $children)
+                        <a class="footer__link" href="{{ route('pages.index', ['page' => $children->slug]) }}">{{ $children->name }}</a>
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endforeach
 
-        <div class="footer__col" data-spoilers="800">
-            <h4 class="footer__title" data-spoiler>Как купить</h4>
-            <div class="footer__list">
-                <a class="footer__link" href="#">Оплата</a>
-                <a class="footer__link" href="#">Доставка</a>
-                <a class="footer__link" href="#">Оптовый заказ</a>
-                <a class="footer__link" href="#">Контакты</a>
-            </div>
+        <div class="footer__copy">
+            © "Анистрой" 2022-2023. Все права защищены, <a class="footer__copy-link" href="#">читать подробнее.</a>
+            <p>Информация на сайте не является публичной офертой. Наличие товара, количество и ассортимент подлежат уточнению до момента заключения договора купли-продажи</p>
         </div>
-
-        <div class="footer__col" data-spoilers="800">
-            <h4 class="footer__title" data-spoiler>Наш адрес</h4>
-            <div class="footer__list">
-                <a class="footer__link" href="#">О компании</a>
-                <a class="footer__link" href="#">Услуги</a>
-                <a class="footer__link" href="#">Новости</a>
-                <a class="footer__link" href="#">Статьи</a>
-            </div>
-        </div>
-
-        <div class="footer__col">
-            <h4 class="footer__title">Мы на связи</h4>
-            <div class="footer__list">
-                <a class="footer__link" href="#">О компании</a>
-                <a class="footer__link" href="#">Услуги</a>
-                <a class="footer__link" href="#">Новости</a>
-                <a class="footer__link" href="#">Статьи</a>
-            </div>
+        <div class="footer__cards">
+            <img src="{{ asset('images/mastercard.svg') }}" alt="mastercard">
+            <img src="{{ asset('images/visa.svg') }}" alt="visa">
+            <img src="{{ asset('images/mir.svg') }}" alt="mir">
         </div>
     </div>
 </footer>

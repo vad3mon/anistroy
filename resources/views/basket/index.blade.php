@@ -28,25 +28,27 @@
                     <h2 class="cart__title">Введите данные для заказа</h2>
                     <div class="form__item">
                         <label class="form__label">Имя<sup>*</sup></label>
-                        <input type="text" class="form__input" name="name" data-required="" data-valid="true">
+                        <input type="text" class="form__input" name="name" data-required="true" value="{{ auth()->user() ? auth()->user()->name : "" }}">
                         <p class="form__error-text"></p>
                     </div>
 
                     <div class="form__item">
                         <label class="form__label">Почта</label>
-                        <input type="text" class="form__input" name="email" data-valid="true">
+                        <input type="text" class="form__input" name="email" data-valid="true" value="{{ auth()->user() ? auth()->user()->email : "" }}">
                         <p class="form__error-text"></p>
                     </div>
 
                     <div class="form__item">
                         <label class="form__label">Телефон<sup>*</sup></label>
-                        <input type="text" class="form__input" name="phone" data-required="" data-valid="true">
+                        <input type="text" class="form__input" name="phone" data-required="" data-valid="true" value="{{ auth()->user() ? auth()->user()->phone : "" }}">
                         <p class="form__error-text"></p>
                     </div>
 
                     <div class="form__item">
                         <label class="form__label">Адрес доставки</label>
-                        <input type="text" class="form__input" name="address" data-valid="true">
+                        <input type="text" class="form__input" name="address" data-valid="true"
+{{--                               value="{{ auth()->user()->orders()->get()->last() ? auth()->user()->orders()->get()->last()->address : "" }}"--}}
+                        >
                         <p class="form__error-text"></p>
                     </div>
 

@@ -2,6 +2,8 @@
 
 @section('content')
 
+    @include('catalog.part.breadcrumbs', ['parentCategories' => $fullPath])
+
 <section class="all-products products">
     <h2 class="products__title">{{ $currentCategory->name }}</h2>
 
