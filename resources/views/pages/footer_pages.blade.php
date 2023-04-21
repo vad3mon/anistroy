@@ -5,14 +5,18 @@
                 <h4 class="footer__title" data-spoiler>{{ $page->name }}</h4>
                 <div class="footer__list">
                     @foreach($page->childrens as $children)
-                        <a class="footer__link" href="{{ route('pages.index', ['page' => $children->slug]) }}">{{ $children->name }}</a>
+                        @if ($page->id == 8)
+                            <span class="footer__span">{{ $children->name }}</span>
+                        @else
+                            <a class="footer__link" href="{{ route('pages.index', ['page' => $children->slug]) }}">{{ $children->name }}</a>
+                        @endif
                     @endforeach
                 </div>
             </div>
         @endforeach
 
         <div class="footer__copy">
-            © "Анистрой" 2022-2023. Все права защищены, <a class="footer__copy-link" href="#">читать подробнее.</a>
+            © "Анистрой" 2022-2023. Все права защищены, <a class="footer__copy-link" href="{{ route('pages.index', ['page' => 'legal']) }}">читать подробнее.</a>
             <p>Информация на сайте не является публичной офертой. Наличие товара, количество и ассортимент подлежат уточнению до момента заключения договора купли-продажи</p>
         </div>
         <div class="footer__cards">

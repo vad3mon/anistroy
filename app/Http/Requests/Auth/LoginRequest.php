@@ -43,9 +43,8 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-
         $user = User::where('email', $this->login)
-                    ->orWhere('phone', $this->login)
+                    ->orWhere('phone', $this->phoneFormat($this->login))
                     ->first();
 
 //        if (! Auth::attempt($this->only('phone', 'password'), $this->boolean('remember'))) {
@@ -90,5 +89,41 @@ class LoginRequest extends FormRequest
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+    }
+
+    function phoneFormat($phone) {
+        $phone = trim($phone);
+
+        $res = preg_replace(
+            array(
+                '/[\+]?([7|8])[-|\s]?\([-|\s]?(\d{3})[-|\s]?\)[-|\s]?(\d{3})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
+                '/[\+]?([7|8])[-|\s]?(\d{3})[-|\s]?(\d{3})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
+                '/[\+]?([7|8])[-|\s]?\([-|\s]?(\d{4})[-|\s]?\)[-|\s]?(\d{2})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
+                '/[\+]?([7|8])[-|\s]?(\d{4})[-|\s]?(\d{2})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
+                '/[\+]?([7|8])[-|\s]?\([-|\s]?(\d{4})[-|\s]?\)[-|\s]?(\d{3})[-|\s]?(\d{3})/',
+                '/[\+]?([7|8])[-|\s]?(\d{4})[-|\s]?(\d{3})[-|\s]?(\d{3})/',
+            ),
+
+            array(
+
+                '+7($2)$3-$4-$5',
+
+                '+7($2)$3-$4-$5',
+
+                '+7($2)$3-$4-$5',
+
+                '+7($2)$3-$4-$5',
+
+                '+7($2)$3-$4',
+
+                '+7($2)$3-$4',
+
+            ),
+
+            $phone
+
+        );
+        return $res;
+
     }
 }

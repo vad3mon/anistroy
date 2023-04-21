@@ -5,11 +5,12 @@
 /***/ 368:
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-/* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(54);
+/* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(455);
 
- // главный слайдер index.html
 
-new swiper__WEBPACK_IMPORTED_MODULE_0__/* .default */ .ZP('.lead__swiper', {
+
+// главный слайдер index.html
+new swiper__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .ZP('.lead__swiper', {
   modules: [swiper__WEBPACK_IMPORTED_MODULE_0__/* .Pagination */ .tl, swiper__WEBPACK_IMPORTED_MODULE_0__/* .Navigation */ .W_, swiper__WEBPACK_IMPORTED_MODULE_0__/* .Autoplay */ .pt],
   speed: 1000,
   // autoplay: {
@@ -17,9 +18,10 @@ new swiper__WEBPACK_IMPORTED_MODULE_0__/* .default */ .ZP('.lead__swiper', {
   //   delay: 3000,
   // },
   loop: true
-}); // каталог на главной
+});
 
-new swiper__WEBPACK_IMPORTED_MODULE_0__/* .default */ .ZP('.products__swiper', {
+// каталог на главной
+new swiper__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .ZP('.products__swiper', {
   modules: [swiper__WEBPACK_IMPORTED_MODULE_0__/* .Navigation */ .W_],
   slidesPerGroup: 1,
   slidesPerView: 4,
@@ -56,7 +58,7 @@ new swiper__WEBPACK_IMPORTED_MODULE_0__/* .default */ .ZP('.products__swiper', {
     }
   }
 });
-new swiper__WEBPACK_IMPORTED_MODULE_0__/* .default */ .ZP(".product__slider", {
+new swiper__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .ZP(".product__slider", {
   modules: [swiper__WEBPACK_IMPORTED_MODULE_0__/* .Navigation */ .W_],
   loop: true,
   navigation: {
@@ -121,7 +123,8 @@ new swiper__WEBPACK_IMPORTED_MODULE_0__/* .default */ .ZP(".product__slider", {
 /******/ 				}
 /******/ 				if(fulfilled) {
 /******/ 					deferred.splice(i--, 1)
-/******/ 					result = fn();
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
@@ -174,19 +177,21 @@ new swiper__WEBPACK_IMPORTED_MODULE_0__/* .default */ .ZP(".product__slider", {
 /******/ 			// add "moreModules" to the modules object,
 /******/ 			// then flag all "chunkIds" as loaded and fire callback
 /******/ 			var moduleId, chunkId, i = 0;
-/******/ 			for(moduleId in moreModules) {
-/******/ 				if(__webpack_require__.o(moreModules, moduleId)) {
-/******/ 					__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
 /******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
 /******/ 			}
-/******/ 			if(runtime) var result = runtime(__webpack_require__);
 /******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
 /******/ 			for(;i < chunkIds.length; i++) {
 /******/ 				chunkId = chunkIds[i];
 /******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
 /******/ 					installedChunks[chunkId][0]();
 /******/ 				}
-/******/ 				installedChunks[chunkIds[i]] = 0;
+/******/ 				installedChunks[chunkId] = 0;
 /******/ 			}
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
@@ -201,7 +206,7 @@ new swiper__WEBPACK_IMPORTED_MODULE_0__/* .default */ .ZP(".product__slider", {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [54], () => (__webpack_require__(368)))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [455], () => (__webpack_require__(368)))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

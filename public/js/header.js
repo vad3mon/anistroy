@@ -3,7 +3,6 @@ var __webpack_exports__ = {};
 /* <меню-бургер> */
 const burgerBtn = document.querySelector('.header__mobile-menu');
 const nav = document.querySelector('.header__nav-wrapper');
-
 if (burgerBtn) {
   burgerBtn.addEventListener('click', () => {
     burgerBtn.classList.toggle('active');
@@ -18,9 +17,7 @@ if (burgerBtn) {
 }
 /* </меню-бургер> */
 
-
 const searchBar = document.querySelector('.header__search-box');
-
 if (searchBar) {
   const searchButton = searchBar.querySelector('.header__search-button');
   const submitButton = searchBar.querySelector('.header__submit-button');

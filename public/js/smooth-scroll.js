@@ -1,7 +1,6 @@
 /******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
 const smoothLinks = document.querySelectorAll('.anchor__item');
-
 if (smoothLinks.length > 0) {
   for (let smoothLink of smoothLinks) {
     smoothLink.addEventListener('click', evt => {
@@ -16,7 +15,6 @@ if (smoothLinks.length > 0) {
       });
     });
   }
-
   ;
 }
 /******/ })()

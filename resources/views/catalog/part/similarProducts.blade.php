@@ -12,21 +12,44 @@
             <a href="{{ route('catalog.product', ['category' => $parentCategory->slug, 'product'=>$similarProduct->slug]) }}" class="card__name">{{ $similarProduct->name }}</a>
             <div class="card__price-wrapper">
                 <p class="card__price">{{ $similarProduct->price }} <span>₽ / {{ $similarProduct->unit }}</span></p>
-                @if($product->old_price > 0)
-                    <p class="card__price-old">{{ $product->old_price }} <span>₽ / {{ $product->unit }}</span></p>
+                @if($similarProduct->old_price > 0)
+                    <p class="card__price-old">{{ $similarProduct->old_price }} <span>₽ / {{ $similarProduct->unit }}</span></p>
                 @endif
             </div>
-            <form action="">
+
+            <form action="{{ route('basket.add', ['id' => $similarProduct->id])  }}" method="post">
+                @csrf
                 <div class="card__counter-wrapper">
                     <div class="card__counter">
-                        <button class="card__minus-btn">-</button>
-                        <input class="card__input" type="number" value="1">
-                        <button class="card__plus-btn">+</button>
+                        <button class="card__minus-btn" type="button">-</button>
+                        <input class="card__input" type="number" value="1" name="quantity">
+                        <button class="card__plus-btn" type="button">+</button>
                     </div>
-{{--                    <p class="card__amount">В наличии</p>--}}
+
+                    {{--                                    @if ($product->volume > 3)--}}
+                    {{--                                        <p class="card__amount product__amount--green">В наличии</p>--}}
+                    {{--                                        <!-- или -->--}}
+                    {{--                                    @else--}}
+                    {{--                                        <p class="card__amount product__amount--red">Осталось {{ $product->volume }} шт.</p>--}}
+                    {{--                                    @endif--}}
+
                 </div>
-                <button class="card__cart-btn" title="Добавить в корзину">В корзину</button>
-                <button class="card__fav-btn" title="Добавить в избранное"></button>
+
+                @if (session()->get('inCart') && session()->get('inCart')->contains($similarProduct->id))
+                    <button class="card__cart-btn active" title="Перейти в корзину" type="submit">В корзине</button>
+                @else
+                    <button class="card__cart-btn" title="Добавить в корзину" type="submit">В корзину</button>
+                @endif
+
+            </form>
+
+            <form action="{{ route('favorite.add', ['id' => $similarProduct->id])  }}" method="post">
+                @csrf
+                @if (session()->get('inFav') && session()->get('inFav')->contains($similarProduct->id))
+                    <button class="card__fav-btn active" title="Удалить из избранного"></button>
+                @else
+                    <button class="card__fav-btn" title="Добавить в избранное"></button>
+                @endif
             </form>
         </li>
     @endif

@@ -5,8 +5,8 @@
     <title> {{ $title ?? 'Anistroy'}} </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="{{ asset('css/index.8ff14a9889db2a568ce7.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/slider.77893fdbf14175a4d1ad.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/slider.css') }}">
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
 </head>
 <body>
@@ -43,7 +43,7 @@
                     <div class="catalog__section-list init" data-spoilers>
 
                         @foreach($properties as $property)
-                            <div class="catalog__section-item">
+                                <div class="catalog__section-item">
                                 @if($property['type'] == 'range')
                                     <div class="catalog__range-slider range-slider">
                                         <p class="catalog__filter-title active" data-spoiler>{{ $property['title'] }}</p>
@@ -78,6 +78,7 @@
                                 @elseif($property['type'] == 'price')
                                     <div class="catalog__section-item">
                                         <div class="catalog__range-slider range-slider">
+                                            <p class="catalog__filter-title active" data-spoiler>{{ $property['title'] }}</p>
                                             <div class="range-slider__counter">
 
                                                 <input type="number"
@@ -150,22 +151,18 @@
     </div>
 </main>
 
+<section class="cookie">
+    <p>Оставаясь на нашем сайте, вы соглашаетесь с нашей <a class="cookie__link" href="{{ route('pages.index', ['page' => 'politika-obrabotki-personalnyh-dannyh']) }}"> политикой обработки персональных данных и использования кукис </a></p>
+    <button class="cookie__save-btn">Соглашаюсь</button>
+</section>
+
+
     @include('pages.footer_pages')
 
 </div>
 
-<script src="{{ asset('js/auth.f6bba4a20c4ae77f807e.js') }}"></script>
-<script src="{{ asset('js/validate.7d8d21e0792b4b716efd.js') }}"></script>
-<script src="{{ asset('js/catalog-and-spoiler.5b93e478149cef6b08ba.js') }}"></script>
-<script src="{{ asset('js/header.725bb8121f6d16923273.js') }}"></script>
-<script src="{{ asset('js/modal.c4556f2eebbfb77e49c4.js') }}"></script>
-<script src="{{ asset('js/product-item.822b961ebf917d00668a.js') }}"></script>
-<script src="{{ asset('js/54.d0fa7b73b5a57e677cd9.js') }}"></script>
-<script src="{{ asset('js/slider.4e43f9d3b8ed5d964970.js') }}"></script>
-<script src="{{ asset('js/cookie.cdb72658b07995caf8c5.js') }}"></script>
-<script src="{{ asset('js/smooth-scroll.57815a8e958fb878b943.js') }}"></script>
-<script src="{{ asset('js/index.1777611d218d1a8828b2.js') }}"></script>
 
+@include('layout.part.js')
 </body>
 
 </html>

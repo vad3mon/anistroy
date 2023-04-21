@@ -17,30 +17,36 @@ class SyncService
 {
     function setAttributes($product_id, $attributes)
     {
+
         $product = Product::find($product_id);
-        $category = Category::find($product->category->id);
+        if(isset($product->category)) {
+            $category = Category::find($product->category->id);
 
-        if ($attributes['name'] == "Характеристики")
-        {
-            $values = [];
-            $ids = [];
-            $stringData = explode("\n", $attributes['value']);
-
-            foreach ($stringData as $rowData)
+            if ($attributes['name'] == "Характеристики")
             {
-                list($key, $value) = explode("=", $rowData);
-                $property = Property::updateOrCreate(
-                    ['title' => $key],
-                    ['type' => 'list']
-                );
+                $values = [];
+                $ids = [];
+                $stringData = explode("\n", $attributes['value']);
 
-                $values[$property->id] = ['value' => $value];
-                $ids[] = $property->id;
+                foreach ($stringData as $rowData)
+                {
+                    if($rowData) {
+                        list($key, $value) = explode("=", $rowData);
+                        $property = Property::updateOrCreate(
+                            ['title' => $key],
+                            ['type' => 'list']
+                        );
+
+                        $values[$property->id] = ['value' => $value];
+                        $ids[] = $property->id;
+                    }
+                }
+
+                $product->properties()->sync($values);
+                $category->properties()->sync($ids);
             }
-
-            $product->properties()->sync($values);
-            $category->properties()->sync($ids);
         }
+
     }
     function msGetProductUom($uom_link) {
 
@@ -59,7 +65,7 @@ class SyncService
 
         $uom_json = json_decode($result, true);
 
-        return $uom_json['name'];
+        return isset($uom_json['name']) ? $uom_json['name'] : '';
 
     }
 
@@ -83,34 +89,35 @@ class SyncService
         $images_list_json = json_decode($result, true);
 
 
-//        $images_dir = $_SERVER['DOCUMENT_ROOT'] . '/images/products/' . $product_ms_id;
+        //        $images_dir = $_SERVER['DOCUMENT_ROOT'] . '/images/products/' . $product_ms_id;
 
         $images_dir = storage_path('images/products');
 
-//        if(!file_exists($images_dir )) {
-//            mkdir($images_dir, 0777, true);
-//        }
+        //        if(!file_exists($images_dir )) {
+        //            mkdir($images_dir, 0777, true);
+        //        }
 
+        if(isset($images_list_json['rows'])) {
+            foreach($images_list_json['rows'] as $image) {
+                $ch_image = curl_init();
+                curl_setopt($ch_image, CURLOPT_URL, $image['meta']['downloadHref']);
+                curl_setopt($ch_image, CURLOPT_HTTPHEADER, array('Content-Type: application/json' , $authorization));
+                curl_setopt($ch, CURLOPT_CAINFO, base_path('cacert-2023-01-10.pem'));
+                curl_setopt($ch_image, CURLOPT_CUSTOMREQUEST, 'GET');
+                curl_setopt($ch_image, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch_image, CURLOPT_FOLLOWLOCATION, 1);
+                $result = curl_exec($ch_image);
+                curl_close($ch_image);
 
-        foreach($images_list_json['rows'] as $image) {
-            $ch_image = curl_init();
-            curl_setopt($ch_image, CURLOPT_URL, $image['meta']['downloadHref']);
-            curl_setopt($ch_image, CURLOPT_HTTPHEADER, array('Content-Type: application/json' , $authorization));
-            curl_setopt($ch, CURLOPT_CAINFO, base_path('cacert-2023-01-10.pem'));
-            curl_setopt($ch_image, CURLOPT_CUSTOMREQUEST, 'GET');
-            curl_setopt($ch_image, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch_image, CURLOPT_FOLLOWLOCATION, 1);
-            $result = curl_exec($ch_image);
-            curl_close($ch_image);
+                if(!file_exists($images_dir . '/' . $image['filename'])) {
+                    Storage::put('public/products/' . $image['filename'], $result);
+                }
 
-            if(!file_exists($images_dir . '/' . $image['filename'])) {
-                Storage::put('public/products/' . $image['filename'], $result);
-//                file_put_contents($images_dir . '/' . $image['filename'], $result);
+                $return_result[] = $image['filename'];
+
             }
-
-            $return_result[] = $image['filename'];
-
         }
+
         return $return_result;
     }
 
@@ -186,7 +193,7 @@ class SyncService
         $result_size = 0;
 
         // проверяем прошлую синхронизацию
-//        $result_sync = $mysqli->query("SELECT * FROM `moyskladSync` WHERE `type`='product_folder' AND `result`='ok' ORDER BY `id` DESC LIMIT 0,1;") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+        //        $result_sync = $mysqli->query("SELECT * FROM `moyskladSync` WHERE `type`='product_folder' AND `result`='ok' ORDER BY `id` DESC LIMIT 0,1;") or die('error at ' . __LINE__ . ' in ' . __FILE__);
         $result_sync = MCsync::where([['type', 'product_folder'], ['result', 'ok']])->orderBy('id', 'desc')->limit(1)->get();
 
         foreach($result_sync as $row_sync) {
@@ -213,7 +220,7 @@ class SyncService
 
 
 
-//        Category::query()->update(['cmsDeleted' => 1]);
+        //        Category::query()->update(['cmsDeleted' => 1]);
 
 
 
@@ -286,7 +293,7 @@ class SyncService
 
                     // вставляем новые разделы
                     if(!isset($all_rubrics[$ms_id])) {
-//                        $mysqli->query("INSERT INTO `catalogRubrics` (`vis`, `msId`, `name`, `uri`, `ordr`) VALUES($ms_vis, '$ms_id', '$ms_name', '$uri', $ordr);") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+                        //                        $mysqli->query("INSERT INTO `catalogRubrics` (`vis`, `msId`, `name`, `uri`, `ordr`) VALUES($ms_vis, '$ms_id', '$ms_name', '$uri', $ordr);") or die('error at ' . __LINE__ . ' in ' . __FILE__);
                         $category = Category::create([
                             'name' => $ms_name,
                             'slug' => $slug,
@@ -299,7 +306,7 @@ class SyncService
                         ];
                     }
                     else {
-//                        $mysqli->query("UPDATE `catalogRubrics` SET `cmsDeleted`=0, `ordr`=$ordr, `name`='$ms_name', `vis`=$ms_vis WHERE `msId`='$ms_id';") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+                        //                        $mysqli->query("UPDATE `catalogRubrics` SET `cmsDeleted`=0, `ordr`=$ordr, `name`='$ms_name', `vis`=$ms_vis WHERE `msId`='$ms_id';") or die('error at ' . __LINE__ . ' in ' . __FILE__);
                         $category = Category::where('ms_id', $ms_id)
                             ->update([
                                 'name' => $ms_name,
@@ -323,7 +330,7 @@ class SyncService
                 $parent_id = null;
             }
 
-//            $mysqli->query("UPDATE `catalogRubrics` SET `name`='$ms_data[name]', `parentId`='$parent_id', `ordr`=$ordr WHERE `msId`='$ms_id';") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+            //            $mysqli->query("UPDATE `catalogRubrics` SET `name`='$ms_data[name]', `parentId`='$parent_id', `ordr`=$ordr WHERE `msId`='$ms_id';") or die('error at ' . __LINE__ . ' in ' . __FILE__);
             $category = Category::where('ms_id', $ms_id)
                 ->update([
                     'name' => $ms_data['name'],
@@ -349,7 +356,7 @@ class SyncService
         $result_size = 0;
 
         // проверяем прошлую синхронизацию
-//        $result_sync = $mysqli->query("SELECT * FROM `moyskladSync` WHERE `type`='product_folder' AND `result`='ok' ORDER BY `id` DESC LIMIT 0,1;") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+        //        $result_sync = $mysqli->query("SELECT * FROM `moyskladSync` WHERE `type`='product_folder' AND `result`='ok' ORDER BY `id` DESC LIMIT 0,1;") or die('error at ' . __LINE__ . ' in ' . __FILE__);
         $result_sync = MCsync::where([['type', 'product'], ['result', 'ok']])->orderBy('id', 'desc')->limit(1)->get();
 
         foreach ($result_sync as $row_sync) {
@@ -454,11 +461,12 @@ class SyncService
                 $existing_images = array();
                 if (isset($all_products[$ms_id])) {
                     // UPDATE
+                    echo('update<br><br>');
                     $product_id = $all_products[$ms_id];
 
-//                    $mysqli->query("UPDATE `catalogItems` SET `rubricId`='$parent_id', `rubricsIds`='$parents_ids', `name`='$name', `uri`='$uri', `article`='$article',
-//                      `image`='$main_image', `text`='$text', `price`='$price', `unitOfMeasure`='$uom', `weight`='$weight', `volume`='$volume'
-//                           WHERE `id`='$product_id';") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+                    //                    $mysqli->query("UPDATE `catalogItems` SET `rubricId`='$parent_id', `rubricsIds`='$parents_ids', `name`='$name', `uri`='$uri', `article`='$article',
+                    //                      `image`='$main_image', `text`='$text', `price`='$price', `unitOfMeasure`='$uom', `weight`='$weight', `volume`='$volume'
+                    //                           WHERE `id`='$product_id';") or die('error at ' . __LINE__ . ' in ' . __FILE__);
 
                     $exist_product = Product::find($product_id)->update([
                         'category_id' => $parent_id,
@@ -477,7 +485,7 @@ class SyncService
 
                     // $mysqli->query("UPDATE `catItems` SET `rubricsIds`='$parent_id_2', `name`='$name'  WHERE `id`='$product_id';") or die('error at ' . __LINE__ . ' in ' . __FILE__);
 
-//                    $result_images = $mysqli->query("SELECT * FROM `catalogImages` WHERE `catalogItemId`=$product_id;") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+                    //                    $result_images = $mysqli->query("SELECT * FROM `catalogImages` WHERE `catalogItemId`=$product_id;") or die('error at ' . __LINE__ . ' in ' . __FILE__);
 
                     $result_images = ProductImage::where('product_id', $product_id)->get();
 
@@ -486,10 +494,10 @@ class SyncService
                     }
                 } else {
                     // INSERT
-
-//                    $mysqli->query("INSERT INTO `catalogItems` (`ordr`, `vis`, `msId`, `rubricId`, `rubricsIds`, `name`, `uri`, `article`,
-// `image`, `text`, `price`, `unitOfMeasure`, `weight`, `volume`) VALUES($ordr, 1, '$ms_id', '$parent_id', '$parents_ids', '$name',
-// '$uri', '$article', '$main_image', '$text', '$price', '$uom', '$weight', '$volume');") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+                    echo('insert<br><br>');
+                    //                    $mysqli->query("INSERT INTO `catalogItems` (`ordr`, `vis`, `msId`, `rubricId`, `rubricsIds`, `name`, `uri`, `article`,
+                    // `image`, `text`, `price`, `unitOfMeasure`, `weight`, `volume`) VALUES($ordr, 1, '$ms_id', '$parent_id', '$parents_ids', '$name',
+                    // '$uri', '$article', '$main_image', '$text', '$price', '$uom', '$weight', '$volume');") or die('error at ' . __LINE__ . ' in ' . __FILE__);
 
                     $new_product = Product::create([
                         'ms_id' => $ms_id,
@@ -512,13 +520,14 @@ class SyncService
                 }
 
 
+                /*
                 // добавляем картинки
                 for ($i = 1; $i < count($new_images); $i++) {
                     if (!in_array($new_images[$i], $existing_images)) {
-//                        $mysqli->query("INSERT INTO `catalogImages` (`ordr`, `catalogItemId`, `image`) VALUES($i, $product_id, '" . $new_images[$i] . "');") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+                        //                        $mysqli->query("INSERT INTO `catalogImages` (`ordr`, `catalogItemId`, `image`) VALUES($i, $product_id, '" . $new_images[$i] . "');") or die('error at ' . __LINE__ . ' in ' . __FILE__);
                         ProductImage::create([
                             'product_id' => $product_id,
-                            'image' => " . $new_images[$i] . "
+                            'image' => $new_images[$i]
                         ]);
                     }
                 }
@@ -526,13 +535,16 @@ class SyncService
                 // убираем старые картинки
                 $images_remove = array_diff($existing_images, $new_images);
                 foreach ($images_remove as $image) {
-//                    $mysqli->query("DELETE FROM `catalogImages` WHERE `catalogItemId`='$product_id' AND `image`='$image';") or die('error at ' . __LINE__ . ' in ' . __FILE__);
-                    ProductImage::where([
+                    //                    $mysqli->query("DELETE FROM `catalogImages` WHERE `catalogItemId`='$product_id' AND `image`='$image';") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+                    $old_images = ProductImage::where([
                         ['product_id' => $product_id],
                         ['image' => $image]
-                    ])->delete();
+                    ]);
+                    if($old_images) {
+                        $old_images->delete();
+                    }
                 }
-
+                */
 
                 $result_size++;
 
@@ -781,7 +793,7 @@ class SyncService
                 // вставляем новых заказчиков
                 if(!isset($all_counterparties[$ms_id])) {
 
-                  $new_counterparty = OrderCustomer::create([
+                    $new_counterparty = OrderCustomer::create([
                         'name' => $ms_name,
                         'ms_id' => $ms_id,
                         'address' => $address,

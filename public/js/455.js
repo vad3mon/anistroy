@@ -1,9 +1,9 @@
-(self["webpackChunk"] = self["webpackChunk"] || []).push([[54],{
+"use strict";
+(self["webpackChunk"] = self["webpackChunk"] || []).push([[455],{
 
-/***/ 54:
+/***/ 455:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
@@ -167,15 +167,15 @@ function ssr_window_esm_getWindow() {
 
 ;// CONCATENATED MODULE: ../node_modules/dom7/dom7.esm.js
 /**
- * Dom7 4.0.4
+ * Dom7 4.0.6
  * Minimalistic JavaScript library for DOM manipulation, with a jQuery-compatible API
  * https://framework7.io/docs/dom7.html
  *
- * Copyright 2022, Vladimir Kharlampidi
+ * Copyright 2023, Vladimir Kharlampidi
  *
  * Licensed under MIT
  *
- * Released on: January 11, 2022
+ * Released on: February 2, 2023
  */
 
 
@@ -671,6 +671,22 @@ function trigger(...args) {
         delete el.dom7EventData;
       }
     }
+  }
+
+  return this;
+}
+
+function transitionStart(callback) {
+  const dom = this;
+
+  function fireCallBack(e) {
+    if (e.target !== this) return;
+    callback.call(this, e);
+    dom.off('transitionstart', fireCallBack);
+  }
+
+  if (callback) {
+    dom.on('transitionstart', fireCallBack);
   }
 
   return this;
@@ -3193,7 +3209,7 @@ function transitionEmit({
 }
 ;// CONCATENATED MODULE: ../node_modules/swiper/core/transition/transitionStart.js
 
-function transitionStart(runCallbacks = true, direction) {
+function transitionStart_transitionStart(runCallbacks = true, direction) {
   const swiper = this;
   const {
     params
@@ -3234,7 +3250,7 @@ function transitionEnd_transitionEnd(runCallbacks = true, direction) {
 
 /* harmony default export */ const core_transition = ({
   setTransition: setTransition,
-  transitionStart: transitionStart,
+  transitionStart: transitionStart_transitionStart,
   transitionEnd: transitionEnd_transitionEnd
 });
 ;// CONCATENATED MODULE: ../node_modules/swiper/core/slide/slideTo.js

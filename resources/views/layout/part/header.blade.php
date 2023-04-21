@@ -15,7 +15,6 @@
             </a>
 
             <form class="header__search-box" method="post" action="{{ route('catalog.search') }}">
-                @csrf
                 <input name="query" class="header__search-input" type="text" placeholder="Поиск по названию">
                 <button class="header__search-button active" type="button">Поиск</button>
                 <button class="header__submit-button" type="submit">Поиск</button>
@@ -24,12 +23,22 @@
             <div class="user-nav">
                 <a class="user-nav__link user-nav__link--fav" href="{{ route('favorite.index') }}">
                     <img class="user-nav__icon" src="{{ asset('images/icon-fav.svg') }}" alt="">
-                    <span class="user-nav__counter user-nav__counter--fav">0</span>
+                    @if (session()->get('inFav'))
+                        <span class="user-nav__counter user-nav__counter--fav">{{ count(session()->get('inFav')) }}</span>
+                    @else
+                        <span class="user-nav__counter user-nav__counter--fav">0</span>
+                    @endif
+
                     Избранное
                 </a>
                 <a class="user-nav__link user-nav__link--cart" href="{{ route('basket.index') }}">
                     <img class="user-nav__icon" src="{{ asset('images/icon-cart.svg') }}" alt="">
-                    <span class="user-nav__counter user-nav__counter--cart">0</span>
+                    @if (session()->get('inCart'))
+                        <span class="user-nav__counter user-nav__counter--cart">{{ count(session()->get('inCart')) }}</span>
+                    @else
+                        <span class="user-nav__counter user-nav__counter--cart">0</span>
+                    @endif
+
                     Корзина
                 </a>
 

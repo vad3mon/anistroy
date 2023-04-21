@@ -143,8 +143,8 @@ class CategoryService
                              {
                                  $q->where('name', 'like', '%' . $query . '%')
                                      ->orWhere('article', 'like', '%' . $query . '%')
-                                     ->orWhere('slug', 'like', '%' . $query . '%')
-                                     ->orWhere('text', 'like', '%' . $query . '%');
+                                     ->orWhere('slug', 'like', '%' . $query . '%');
+//                                     ->orWhere('text', 'like', '%' . $query . '%')
                              })->distinct()->with('category')->get();
 
 
@@ -211,7 +211,7 @@ class CategoryService
         foreach ($categories as $category)
         {
             foreach ($category->properties as $property) {
-                $values = $property->type == 'list' ? $this->getUniquePivotValues($property->values) : $this->getMinMaxPivotValues($property->values);
+                $values = $property->type == 'list' ? $this->getUniquePivotValues($category->id, $property->values) : $this->getMinMaxPivotValues($category->id, $property->values);
                 $properties[] =
                     collect([
                         'id' => $property->id,
@@ -224,24 +224,27 @@ class CategoryService
 
         $properties[] = $this->getCategoryPriceProperty($category_id);
 
+//        dd($properties);
         return collect($properties);
     }
 
-    public function getUniquePivotValues($values) {
+    public function getUniquePivotValues($category_id, $values) {
         $pivots = [];
         foreach ($values as $value)
         {
-            $pivots[] = $value->pivot->value;
+            if ($value->category_id == $category_id)
+                $pivots[] = $value->pivot->value;
         }
 
         return collect(array_unique($pivots));
     }
 
-    public function getMinMaxPivotValues($values) {
+    public function getMinMaxPivotValues($category_id, $values) {
         $pivots = [];
         foreach ($values as $value)
         {
-            $pivots[] = $value->pivot->value;
+            if ($value->category_id == $category_id)
+                $pivots[] = $value->pivot->value;
         }
 
         $pivots = array_unique($pivots);

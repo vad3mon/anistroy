@@ -37,14 +37,23 @@
                     </div>
 
                     <div class="product__button-box">
-                        <button class="product__cart-btn" type="submit">В корзину</button>
+                        @if (session()->get('inCart') && session()->get('inCart')->contains($product->id))
+                            <button class="product__cart-btn active" title="Перейти в корзину" type="submit">В корзине</button>
+                        @else
+                            <button class="product__cart-btn" title="Добавить в корзину" type="submit">В корзину</button>
+                        @endif
                     </div>
                 </form>
 
                 <form action="{{ route('favorite.add', ['id' => $product->id])  }}" method="post">
                     @csrf
                     <div class="product__button-box">
-                        <button class="product__fav-btn">В избранное</button>
+                        @if (session()->get('inFav') && session()->get('inFav')->contains($product->id))
+                            <button class="product__fav-btn active">В избранном</button>
+                        @else
+                            <button class="product__fav-btn">В избранное</button>
+                        @endif
+
                     </div>
                 </form>
 
@@ -92,20 +101,22 @@
     </section>
 
     <section class="product__anchor anchor">
-        <a class="anchor__item anchor__item--active" href="#description">Описание</a>
-        <a class="anchor__item" href="#about">Характеристики</a>
+        @if(!empty($product->text)) <a class="anchor__item anchor__item--active" href="#description">Описание</a> @endif
+        @if ($product->properties()->count()) <a class="anchor__item" href="#about">Характеристики</a> @endif
         <a class="anchor__item" href="#similar">Похожие товары</a>
     </section>
 
     <section class="product-info">
-        <div class="product-info__block" id="description">
-            <h2 class="product-info__title">Описание</h2>
-            <p class="product-info__description">{!! $product->text !!}</p>
+        @if(!empty($product->text))
+            <div class="product-info__block" id="description">
+                <h2 class="product-info__title">Описание</h2>
+                <p class="product-info__description">{!! $product->text !!}</p>
 
-{{--            <a class="product-info__link" href="https://res.cloudinary.com/lmru/image/upload/v1575382563/LMCode/82038772_ins.pdf" target="_blank">--}}
-{{--                Инструкция для {{ $product->name }}--}}
-{{--            </a>--}}
-        </div>
+    {{--            <a class="product-info__link" href="https://res.cloudinary.com/lmru/image/upload/v1575382563/LMCode/82038772_ins.pdf" target="_blank">--}}
+    {{--                Инструкция для {{ $product->name }}--}}
+    {{--            </a>--}}
+            </div>
+        @endif
 
         @if ($product->properties()->count())
             @include('catalog.part.properties')

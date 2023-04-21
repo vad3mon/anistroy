@@ -6,7 +6,6 @@
         <h2 class="products__title">Результаты поиска</h2>
 
         <ul class="products__list">
-            {{--        @each('catalog.part.product', $products, 'product')--}}
             @foreach($products as $product)
                 @include('catalog.part.product')
             @endforeach

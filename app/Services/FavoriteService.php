@@ -6,6 +6,7 @@ use App\Models\Basket;
 use App\Models\Favorite;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteService
 {
@@ -20,10 +21,12 @@ class FavoriteService
             }
         }
     }
-    public function getUserFavorite(Request $request)
+    public function getUserFavorite()
     {
         $session_id = session()->getId();
-        $user_id = !empty($request->user()) ? $request->user()->id : null;
+//        $user_id = !empty($request->user()) ? $request->user()->id : null;
+
+        $user_id = Auth::check() ? Auth()->user()->id : null;
 
         if (!empty($user_id))
         {
@@ -60,9 +63,6 @@ class FavoriteService
 
         $favorite->save();
         session()->put('favorite_id', $favorite_id);
-//        dd($basket_id !== session()->get('basket_id'));
-//        dd(session()->get('basket_id') == $basket_id);
-//        dd($basket->products);
         return $favorite;
 
 
@@ -105,11 +105,12 @@ class FavoriteService
 
         $favorite->touch();
 
-        return $favorite;
+        $this->sessionSave();
     }
-    public function getFavorite(Request $request)
+    public function getFavorite()
     {
-        $favorite = self::getUserFavorite($request);
+        $favorite = self::getUserFavorite();
+
         return $favorite;
     }
 
@@ -120,6 +121,8 @@ class FavoriteService
         $favorite->products()->detach($product_id);
 
         $favorite->touch();
+
+        $this->sessionSave();
     }
 
     public function clear($favorite_id)
@@ -129,6 +132,9 @@ class FavoriteService
         $favorite->products()->detach();
 
         $favorite->touch();
+
+        $this->sessionSave();
+
     }
 
     public function getProduct($favoriteId, $productId)
@@ -141,5 +147,11 @@ class FavoriteService
         }
 
         return false;
+    }
+
+    public function sessionSave()
+    {
+        $inFav = self::getFavorite();
+        session()->put('inFav', $inFav->products->pluck('id'));
     }
 }

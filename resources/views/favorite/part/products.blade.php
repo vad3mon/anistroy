@@ -13,7 +13,13 @@
 
             <form action="{{ route('basket.add', ['id' => $product->id])  }}" method="post">
                 @csrf
-                <button class="fav-item__cart-btn active" type="submit">В корзину</button>
+
+                @if (session()->get('inCart') && session()->get('inCart')->contains($product->id))
+                    <button class="fav-item__cart-btn active" type="submit">В корзине</button>
+                @else
+                    <button class="fav-item__cart-btn" type="submit">В корзину</button>
+                @endif
+
             </form>
 
 

@@ -2,8 +2,9 @@
 var __webpack_exports__ = {};
 const showButtons = document.querySelectorAll('[data-open]');
 const body = document.querySelector('body');
-const fixedElements = document.querySelectorAll('[data-fixed]'); // открытие / закрытие попапов
+const fixedElements = document.querySelectorAll('[data-fixed]');
 
+// открытие / закрытие попапов
 if (showButtons.length > 0) {
   showButtons.forEach(btn => {
     btn.addEventListener('click', evt => {
@@ -14,7 +15,6 @@ if (showButtons.length > 0) {
       bodyLock();
     });
     const closeBtns = document.querySelectorAll(`[data-close]`);
-
     if (closeBtns.length > 0) {
       closeBtns.forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
@@ -24,26 +24,23 @@ if (showButtons.length > 0) {
       });
     }
   });
-} // плавное скрытие скролла у body {overflow-y: hidden} при появлении модалок
+}
 
+// плавное скрытие скролла у body {overflow-y: hidden} при появлении модалок
 
 function bodyLock() {
   const scrollWidth = window.innerWidth - body.offsetWidth + 'px';
-
   for (let i = 0; i < fixedElements.length; i++) {
     const element = fixedElements[i];
     element.style.paddingRight = scrollWidth;
   }
-
   body.classList.add('lock');
 }
-
 function bodyUnlock() {
   for (let i = 0; i < fixedElements.length; i++) {
     const element = fixedElements[i];
     element.style.paddingRight = 0;
   }
-
   body.classList.remove('lock');
 }
 /******/ })()

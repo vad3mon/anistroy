@@ -1,3 +1,4 @@
+{{--@php dd(session()->get('favorite')) @endphp--}}
 <li class="card" data-pid="{{ $product->id }}" data-stock="100" data-img="{{ $product->image }}" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
     <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__image">
         @if (file_exists('images/products/' . $product->image) && $product->image)
@@ -31,11 +32,19 @@
 {{--            @endif--}}
 
         </div>
-        <button class="card__cart-btn" title="Добавить в корзину" type="submit">В корзину</button>
+        @if (session()->get('inCart') && session()->get('inCart')->contains($product->id))
+            <button class="card__cart-btn active" title="Перейти в корзину" type="submit">В корзине</button>
+        @else
+            <button class="card__cart-btn" title="Добавить в корзину" type="submit">В корзину</button>
+        @endif
     </form>
 
     <form action="{{ route('favorite.add', ['id' => $product->id])  }}" method="post">
         @csrf
-        <button class="card__fav-btn" title="Добавить в избранное"></button>
+        @if (session()->get('inFav') && session()->get('inFav')->contains($product->id))
+            <button class="card__fav-btn active" title="Удалить из избранного"></button>
+        @else
+            <button class="card__fav-btn" title="Добавить в избранное"></button>
+        @endif
     </form>
 </li>

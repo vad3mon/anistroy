@@ -23,33 +23,35 @@ class FavoriteController extends Controller
     }
 
 
-    public function index(Request $request)
+    public function index()
     {
-        $favorite = $this->favoriteService->getFavorite($request);
+        $favorite = $this->favoriteService->getFavorite();
         $categories = $this->categoryService->getAllCategories();
         $products = $favorite->products;
 
         return view('favorite.index', compact('categories', 'products'));
     }
 
-    public function add(Request $request, $id)
+    public function add($id)
     {
-        $favorite = $this->favoriteService->getFavorite($request);
+        $favorite = $this->favoriteService->getFavorite();
 
-            if ($this->favoriteService->getProduct($favorite->id, $id)) {
-                $this->favoriteService->remove($favorite->id, $id);
-                return back();
-            }
+        if ($this->favoriteService->getProduct($favorite->id, $id)) {
+            $this->favoriteService->remove($favorite->id, $id);
+            return back();
+        }
 
-        $categories = $this->categoryService->getAllCategories();
-        $this->favoriteService->addProduct($favorite->id, $id);
-        $products = $favorite->products;
-        return view('favorite.index', compact('categories', 'products'));
+        else
+        {
+            $this->favoriteService->addProduct($favorite->id, $id);
+            return back();
+        }
+
     }
 
-    public function remove(Request $request, $product_id)
+    public function remove($product_id)
     {
-        $favorite = $this->favoriteService->getFavorite($request);
+        $favorite = $this->favoriteService->getFavorite();
         $this->favoriteService->remove($favorite->id, $product_id);
 
         return redirect()->route('favorite.index');

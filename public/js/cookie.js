@@ -1,7 +1,6 @@
 /******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
 const cookie = document.querySelector('.cookie');
-
 if (cookie) {
   if (!localStorage.getItem('cookieSubmit')) {
     cookie.classList.add('open');

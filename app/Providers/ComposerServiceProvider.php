@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\HeaderComposer;
 use App\Models\Category;
 use App\Models\Page;
-use App\Services\PageService;
 use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Support\Facades\View;
@@ -39,6 +39,8 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer('pages.footer_pages', function($view) {
             $view->with(['items' => Page::getFooterPages()]);
         });
+
+        View::composer('layout.site', HeaderComposer::class);
 
     }
 }

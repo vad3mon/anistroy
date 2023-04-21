@@ -21,10 +21,12 @@ class BasketService
             }
         }
     }
-    public function getUserBasket(Request $request)
+    public function getUserBasket()
     {
         $session_id = session()->getId();
-        $user_id = !empty($request->user()) ? $request->user()->id : null;
+//        $user_id = !empty($request->user()) ? $request->user()->id : null;
+
+        $user_id = Auth::check() ? Auth()->user()->id : null;
 
         if (!empty($user_id))
         {
@@ -95,9 +97,9 @@ class BasketService
         return $basket;
     }
 
-    public function getBasket(Request $request)
+    public function getBasket()
     {
-        $basket = self::getUserBasket($request);
+        $basket = self::getUserBasket();
         return $basket;
     }
 
@@ -139,6 +141,8 @@ class BasketService
         }
 
         $basket->touch();
+
+        $this->saveSession();
     }
 
     public function getProduct($basketId, $productId)
@@ -171,6 +175,8 @@ class BasketService
         $basket->products()->detach($product_id);
 
         $basket->touch();
+
+        $this->saveSession();
     }
 
     public function clear($basket_id)
@@ -180,5 +186,14 @@ class BasketService
         $basket->products()->detach();
 
         $basket->touch();
+
+        $this->saveSession();
+    }
+
+    public function saveSession()
+    {
+        $inCart = $this->getBasket();
+
+        session()->put('inCart', $inCart->products->pluck('id'));
     }
 }

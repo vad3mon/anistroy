@@ -174,5 +174,11 @@
     "wheres_your_team": "Где Ваша команда?",
     "you_have_been_invited_to_join_team": "Вас пригласили присоединиться к команде :teamName!",
     "you_have_x_invitations_remaining": "В настоящее время у Вас осталось :count приглашений(я).",
-    "you_have_x_teams_remaining": "В настоящее время у Вас :teamCount команд(ы)."
+    "you_have_x_teams_remaining": "В настоящее время у Вас :teamCount команд(ы).",
+
+    "Reset Password Notification": "Изменение пароля на сайте anistroy.ru",
+    "You are receiving this email because we received a password reset request for your account.": "Вы (или еще кто-то) запросили изменение пароля для входа в личный кабинет на сайте anistroy.ru",
+    "Reset Password": "Изменение пароля",
+    "This password reset link will expire in :count minutes.": "Срок действия этой ссылки для сброса пароля истечет через:count минут",
+    "If you did not request a password reset, no further action is required.": "Если запрос был отправлен не вами, просто проигнорируйте это письмо."
 }

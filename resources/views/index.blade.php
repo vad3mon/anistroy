@@ -68,13 +68,22 @@
 {{--                                    @endif--}}
 
                                 </div>
-                                <button class="card__cart-btn" title="Добавить в корзину" type="submit">В корзину</button>
+
+                                @if (session()->get('inCart') && session()->get('inCart')->contains($product->id))
+                                    <button class="card__cart-btn active" title="Перейти в корзину" type="submit">В корзине</button>
+                                @else
+                                    <button class="card__cart-btn" title="Добавить в корзину" type="submit">В корзину</button>
+                                @endif
 
                             </form>
 
                             <form action="{{ route('favorite.add', ['id' => $product->id])  }}" method="post">
                                 @csrf
-                               <button class="card__fav-btn" title="Добавить в избранное"></button>
+                                @if (session()->get('inFav') && session()->get('inFav')->contains($product->id))
+                                    <button class="card__fav-btn active" title="Удалить из избранного"></button>
+                                @else
+                                    <button class="card__fav-btn" title="Добавить в избранное"></button>
+                                @endif
                             </form>
                         </li>
                     @endforeach
@@ -85,10 +94,5 @@
                 <button class="swiper-button-next"></button>
             </div>
         </div>
-    </section>
-
-    <section class="cookie">
-        <p>We use cookie to improve your experience on our site. By using our site you consent cookies. <a class="cookie__link" href="">Learn more</a>We use cookie to improve your experience on our site. By using our site you consent cookies. <a class="cookie__link" href="">Learn more</a>We use cookie to improve your experience on our site. By using our site you consent cookies. <a class="cookie__link" href="">Learn more</a>We use cookie to improve your experience on our site. By using our site you consent cookies. <a class="cookie__link" href="">Learn more</a></p>
-        <button class="cookie__save-btn">Принимаю</button>
     </section>
 @endsection
