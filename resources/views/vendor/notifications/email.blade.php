@@ -206,7 +206,7 @@
                         <tr>
                             <td style="padding: 19px 0 19px 0;text-align: center;">
                                 <a href="https://anistroy.ru" target="_blank">
-                                    <img src="{{ $message->embed('images/logo-anistroy-2.png') }}" alt="Anistroy Logo" border="0" width="153" />
+                                    <img src="{{ url('images/logo-anistroy-2.png') }}" alt="Anistroy Logo" border="0" width="153" />
                                 </a>
                             </td>
                         </tr>
@@ -220,7 +220,7 @@
                         <tr>
                             <td style="padding: 19px 0 19px 0;text-align: center;">
                                 <a href="https://anistroy.ru" target="_blank">
-                                    <img src="{{ $message->embed('images/logo-anistroy-1.png') }}" alt="Anistroy Logo" border="0" width="153" />
+                                    <img src="{{ url('images/logo-anistroy-1.png') }}" alt="Anistroy Logo" border="0" width="153" />
                                 </a>
                             </td>
                         </tr>

@@ -122,7 +122,7 @@
 
                                         <div class="catalog__button-box">
                                             <button class="catalog__show-btn" type="submit">Показать</button>
-                                            <button class="catalog__reset-btn" type="reset">Сбросить</button>
+                                            <a class="catalog__reset-btn" type="reset" href="{{ route('catalog.category', ['category' => $currentCategory]) }}">Сбросить</a>
                                         </div>
                                     </div>
                                 @endif
