@@ -28,9 +28,9 @@
                         <a class="catalog__section-item catalog__section-item--link @if(array_key_exists('category', Route::current()->originalParameters())) {{Route::current()->originalParameters()['category'] == $category->slug ? "selected" : ""}} @endif" href="{{ route('catalog.category', ['category' => $category]) }}">
                             <span>{{ $category->name }}</span>
 
-                            @if ($category->childrenCategories && $category->childrenCategories->count())
-                                <span>{{ $category->childrenCategories->count() }}</span>
-                            @endif
+{{--                            @if ($category->childrenCategories && $category->childrenCategories->count())--}}
+{{--                                <span>{{ $category->childrenCategories->count() }}</span>--}}
+{{--                            @endif--}}
                         </a>
                     @endforeach
                 </div>

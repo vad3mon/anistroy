@@ -1,0 +1,110 @@
+.sel_pos_container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.sel_pos_container .sel_pos_list {
+    display: flex;
+}
+
+.sel_pos_container ul {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+}
+
+.sel_pos_container li {
+    list-style: none;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 5px;
+    padding: 4px 10px;
+    background: white;
+    border: 1px solid silver;
+    border-radius: 3px;
+}
+
+.sel_pos_container li button {
+    display: inline-block;
+    margin-left: 10px;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    vertical-align: middle;
+    color: white;
+    background: #f44;
+    border: none;
+    border-radius: 0;
+}
+
+.sel_pos_container li button:after {
+    content: '✗';
+}
+
+.sel_pos_container .sel_pos_add {
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    background: #0a0;
+    border: none;
+    border-radius: 3px;
+}
+
+.sel_pos_container .sel_pos_add:after {
+    content: '+';
+}
+
+
+.sel_pos_container .sel_pos_popup {
+    display: none;
+}
+
+.sel_pos_container.action_show_popup .sel_pos_popup {
+    display: block;
+}
+
+.sel_pos_container .sel_pos_popup select {
+    width: 100%;
+}
+
+
+
+
+
+
+ul.sortable {
+    display: inline-block;
+    list-style: none;
+    background: #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.4);
+    margin: 20px 0;
+    padding: 5px;
+}
+
+
+ul.sortable > li {
+    display: inline-block;
+    margin: 1px;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: move;
+    background: #fff;
+}
+
+ul.sortable > li:hover {
+    background: #ffffe0;
+}
+
+ul.sortable > li.active {
+    background: #ccc;
+}
+
+ul.sortable > li.dragging {
+    background: #e0ffff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    opacity: 0.5;
+}

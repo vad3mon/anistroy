@@ -40,9 +40,9 @@ Route::group([
     'as' => 'catalog.',
     'prefix' => 'catalog',
 ], function() {
+    Route::get('/search', [\App\Http\Controllers\CatalogController::class, 'search'])->name('search');;
     Route::get('/{category:slug}', [\App\Http\Controllers\CatalogController::class, 'category'])->name('category');
     Route::get('/{category:slug}/{product:slug}', [\App\Http\Controllers\ProductController::class, 'show'])->name('product');
-    Route::post('/search', [\App\Http\Controllers\CatalogController::class, 'search'])->name('search');;
 });
 
 
@@ -68,10 +68,6 @@ Route::group([
     Route::post('/remove/{id}', [\App\Http\Controllers\FavoriteController::class, 'remove'])->name('remove');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile/change_password', [ProfileController::class, 'change_password'])->name('profile.change_password');
@@ -81,3 +77,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+require __DIR__.'/cms.php';

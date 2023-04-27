@@ -93,10 +93,13 @@ class CategoryService
     public function getDiscountProducts()
     {
         $products = [];
-        $discountProducts = DiscountProducts::orderBy('queue')->get();
+        $discountProducts = DiscountProducts::where('published', 1)->orderBy('position')->get();
         foreach ($discountProducts as $discountProduct)
         {
-            $products[] = $discountProduct->product;
+            if ($discountProduct->product->category_id)
+            {
+                $products[] = $discountProduct->product;
+            }
         }
 
         return $products;
@@ -105,10 +108,13 @@ class CategoryService
     public function getBannerProducts()
     {
         $products = [];
-        $bannerProducts = BannerProducts::orderBy('queue')->get();
+        $bannerProducts = BannerProducts::where('published', 1)->orderBy('position')->get();
         foreach ($bannerProducts as $bannerProduct)
         {
-            $products[] = $bannerProduct->product;
+            if ($bannerProduct->product->category_id)
+            {
+                $products[] = $bannerProduct->product;
+            }
         }
 
         return $products;
@@ -145,8 +151,7 @@ class CategoryService
                                      ->orWhere('article', 'like', '%' . $query . '%')
                                      ->orWhere('slug', 'like', '%' . $query . '%');
 //                                     ->orWhere('text', 'like', '%' . $query . '%')
-                             })->distinct()->with('category')->get();
-
+                             })->distinct()->with('category')->paginate(20)->withQueryString();
 
         return $products;
     }

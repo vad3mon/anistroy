@@ -12,7 +12,12 @@
             </h2>
             <div class="product__sell-box">
                 <div class="product__price-wrapper">
-                    <p class="product__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
+                    @if($product->price > 0)
+                        <p class="product__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
+                    @else
+                        <p class="product__price">Под заказ</p>
+                    @endif
+
                     @if($product->old_price > 0)
                         <p class="product__price-old">{{ $product->old_price }} <span>₽ / {{ $product->unit }}</span></p>
                     @endif

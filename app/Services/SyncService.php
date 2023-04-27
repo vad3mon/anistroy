@@ -642,15 +642,20 @@ class SyncService
 
                     $res = json_decode($result, true);
 
-                    $ms_order_id = $res['id'];
-                    if($ms_order_id) {
-//                        $mysqli->query("UPDATE `orders` SET `ms_id`='$ms_order_id' WHERE `id`=$order_id;") or die('error at ' . __LINE__ . ' in ' . __FILE__);
-                        Order::find($order_id)->update([
-                            'ms_id' => $ms_order_id
-                        ]);
+                    if(isset($res['id'])) {
+                        $ms_order_id = $res['id'];
+                        if($ms_order_id) {
+                            //                        $mysqli->query("UPDATE `orders` SET `ms_id`='$ms_order_id' WHERE `id`=$order_id;") or die('error at ' . __LINE__ . ' in ' . __FILE__);
+                            Order::find($order_id)->update([
+                                'ms_id' => $ms_order_id
+                            ]);
+                        }
+                        elseif($res['errors']) {
+                            $result = 'Ошибка занесения заказа, возможн он уже добавлен в МС';
+                        }
                     }
-                    elseif($res['errors']) {
-                        $result = 'Ошибка занесения заказа, возможн он уже добавлен в МС';
+                    else {
+                        $result = $res['errors'][0]['error'];
                     }
                 }
                 else {

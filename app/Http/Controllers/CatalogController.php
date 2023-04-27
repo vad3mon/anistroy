@@ -44,9 +44,7 @@ class CatalogController extends Controller
 
     public function search(Request $request)
     {
-        $products = $this->categoryService->search($request['query']);
-
-        $products  = $this->categoryService->paginate($products, 20);
+        $products = $this->categoryService->search($request->input('query'));
 
         $categories = $this->categoryService->getAllCategories();
 

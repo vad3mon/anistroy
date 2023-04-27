@@ -9,6 +9,14 @@ class Page extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'published',
+        'binding',
+        'name',
+        'slug',
+        'content',
+    ];
+
     public static function getTopPages()
     {
         return self::where('binding', 'header')->orWhere('binding', 'header_footer')->get();

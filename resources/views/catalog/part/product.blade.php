@@ -1,4 +1,3 @@
-{{--@php dd(session()->get('favorite')) @endphp--}}
 <li class="card" data-pid="{{ $product->id }}" data-stock="100" data-img="{{ $product->image }}" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
     <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__image">
         @if (file_exists('images/products/' . $product->image) && $product->image)
@@ -9,7 +8,11 @@
     </a>
     <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__name">{{ $product->name }}</a>
     <div class="card__price-wrapper">
-        <p class="card__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
+        @if($product->price > 0)
+            <p class="card__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
+        @else
+            <p class="card__price">Под заказ</p>
+        @endif
 
         @if($product->old_price > 0)
             <p class="card__price-old">{{ $product->old_price }} <span>₽ / {{ $product->unit }}</span></p>

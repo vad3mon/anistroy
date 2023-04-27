@@ -14,7 +14,7 @@
               </span>
             </a>
 
-            <form class="header__search-box" method="post" action="{{ route('catalog.search') }}">
+            <form class="header__search-box" action="{{ route('catalog.search') }}">
                 <input name="query" class="header__search-input" type="text" placeholder="Поиск по названию">
                 <button class="header__search-button active" type="button">Поиск</button>
                 <button class="header__submit-button" type="submit">Поиск</button>

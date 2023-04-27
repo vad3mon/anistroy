@@ -78,60 +78,17 @@ class BasketController extends Controller
 
     public function saveOrder(Request $request)
     {
-        $basket = $this->basketService->getBasket();
         $this->validate($request,
             [
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255',
                 'phone' => 'required|max:255',
-                'address' => 'required|max:255'
+                'address' => 'max:255'
             ]);
 
         $user_id = !empty($request->user()) ? $request->user()->id : null;
         $session_id = empty($user_id) ? session()->getId() : null;
-
-        $order = Order::create($request->all() + ['amount' => $this->basketService->getAmount($basket),
-                'user_id' => $user_id,
-                'session_id' => $session_id]);
-
-        $order->save();
-
-        $mailData = [
-            'id' => $order->id,
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'phone' => $request['phone'],
-            'address' => $request['address'],
-            'date' => $order->created_at->format('d.m.Y'),
-            'status' => 'Ожидает оплаты',
-            'payment_status' => 'Ожидает оплаты',
-            'amount' => $this->basketService->getAmount($basket)
-        ];
-
-        foreach ($basket->products as $product) {
-            $order->items()->create([
-                'product_id' => $product->id,
-                'name' => $product->name,
-                'price' => $product->price,
-                'quantity' => $product->pivot->quantity,
-                'cost' => $product->price * $product->pivot->quantity,
-            ]);
-
-            $mailData['products'][] = [
-                'name' => $product->name,
-                'price' => $product->price,
-                'quantity' => $product->pivot->quantity,
-                'cost' => $product->price * $product->pivot->quantity,
-                'image' => $product->image
-            ];
-        }
-
-
-
-
-        $this->basketService->clear($basket->id);
-
-        Mail::to($request['email'])->send(new OrderMailer($mailData));
+        $order = $this->basketService->saveOrder($request);
 
         return redirect()->route('getOrder', ['session_id' => $session_id ?? $user_id, 'order_id' => $order->id]);
 

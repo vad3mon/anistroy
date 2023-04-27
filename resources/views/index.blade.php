@@ -44,7 +44,11 @@
                             </a>
                             <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__name">{{ $product->name }}</a>
                             <div class="card__price-wrapper">
-                                <p class="card__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
+                                @if($product->price > 0)
+                                    <p class="card__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
+                                @else
+                                    <p class="card__price">Под заказ</p>
+                                @endif
 
                                 @if($product->old_price > 0)
                                     <p class="card__price-old">{{ $product->old_price }} <span>₽ / {{ $product->unit }}</span></p>

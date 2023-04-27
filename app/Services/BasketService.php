@@ -2,11 +2,16 @@
 
 namespace App\Services;
 
+use App\Mail\OrderMailer;
 use App\Models\Basket;
+use App\Models\Order;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class BasketService
 {
@@ -195,5 +200,73 @@ class BasketService
         $inCart = $this->getBasket();
 
         session()->put('inCart', $inCart->products->pluck('id'));
+    }
+
+    public function saveOrder($request)
+    {
+        $basket = $this->getBasket();
+
+        $user_id = !empty($request->user()) ? $request->user()->id : null;
+        $session_id = empty($user_id) ? session()->getId() : null;
+
+        $order = Order::create($request->all() + ['amount' => $this->getAmount($basket),
+                'user_id' => $user_id,
+                'session_id' => $session_id]);
+
+        $order->save();
+
+        $mailData = [
+            'id' => $order->id,
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'phone' => $request['phone'],
+            'address' => $request['address'],
+            'date' => $order->created_at->format('d.m.Y'),
+            'status' => 'Ожидает оплаты',
+            'payment_status' => 'Ожидает оплаты',
+            'amount' => $this->getAmount($basket),
+        ];
+
+        foreach ($basket->products as $product) {
+            $order->items()->create([
+                'product_id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $product->pivot->quantity,
+                'cost' => $product->price * $product->pivot->quantity,
+            ]);
+
+            $mailData['products'][] = [
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $product->pivot->quantity,
+                'cost' => $product->price * $product->pivot->quantity,
+                'image' => $product->image
+            ];
+        }
+
+        $this->clear($basket->id);
+
+        try {
+            Mail::to($request['email'])->send(new OrderMailer($mailData));
+        }
+
+        catch (\Exception $e)
+        {
+            Log::channel('maillog')->error('Error with sending order mail', [
+                date('Y-m-d H:i:s') => [
+                    'Ошибка отправки почты',
+                    $order->id,
+                    $request['email'],
+                    $request['name'],
+                    $request['phone'],
+                    $request['address'],
+                    'products' => $mailData['products']
+                ]
+            ]);
+        }
+
+
+        return $order;
     }
 }
