@@ -12,7 +12,7 @@
 
         </ul>
         <div class="cart__result">
-            @if ($amount > 0)
+            @if (count($products))
                 <b class="cart__result-text">Итого:</b>
                 <b class="cart__result-price">{{ $amount }} ₽</b>
 

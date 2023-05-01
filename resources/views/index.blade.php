@@ -19,7 +19,13 @@
                             <h3 class="lead__name">
                                 {{ $bannerProduct->name }} <br class="hide-on-mobile">
                             </h3>
-                            <p class="lead__price">{{ $bannerProduct->price }} <span>₽ / {{ $bannerProduct->unit }}</span></p>
+
+                            @if($bannerProduct->price > 0)
+                                <p class="lead__price">{{ $bannerProduct->price }} <span>₽ / {{ $bannerProduct->unit }}</span></p>
+                            @else
+                                <p class="lead__price">Под заказ</p>
+                            @endif
+
                             <a class="lead__more-btn" href="{{ route('catalog.product', ['category' => $bannerProduct->category->slug, 'product'=>$bannerProduct->slug]) }}">Подробнее</a>
                         </div>
                     </div>

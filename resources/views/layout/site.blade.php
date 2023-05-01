@@ -5,9 +5,7 @@
     <title> {{ $title ?? 'Anistroy'}} </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/slider.css') }}">
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
+    @include('layout.part.css')
 </head>
 <body>
 <div class="site-wrapper">
@@ -16,6 +14,7 @@
 <main class="main">
     <div class="main__container container">
         <section class="catalog" data-spoilers>
+            <button class="catalog__filter-button" data-trigger="filter"></button>
             <h2 class="catalog__title" data-spoiler><span>Каталог товаров</span></h2>
             @include('catalog.burger')
 
@@ -37,7 +36,7 @@
             </section>
 
             @if (Route::is('catalog.category'))
-                <form action="{{ route('catalog.category', ['category' => $currentCategory]) }}" class="catalog__section init" data-spoilers>
+                <form action="{{ route('catalog.category', ['category' => $currentCategory]) }}" class="catalog__section init catalog__filter" data-spoilers data-submenu="filter">
                     <h3 class="catalog__section-header active" data-spoiler>Фильтр по параметрам</h3>
 
                     <div class="catalog__section-list init" data-spoilers>
@@ -59,15 +58,15 @@
 
                                 @elseif($property['type'] == 'list')
                                     <p class="catalog__filter-title active" data-spoiler>{{ $property['title'] }}</p>
-                                    <ul class="catalog__filter-list">
+                                        <ul class="catalog__filter-list">
                                         @foreach($property['values'] as $key => $value)
-                                            <li class="catalog__filter-item">
+                                                <li class="catalog__filter-item">
                                                 <input class="catalog__filter-input"
                                                        type="checkbox"
                                                        id="filters-properties-{{ $property['id'] }}-{{ $key }}"
                                                        name="filters[properties][{{ $property['id'] }}][{{ $value }}]"
                                                        value="{{ $value }}"
-                                                       @checked(request('filters.properties.' . $property['id'] . '.' . $value))
+                                                       @checked(isset(request('filters.properties.' . $property['id'])[$value]) ? : '')
                                                 >
                                                 <label class="catalog__filter-label" for="filters-properties-{{ $property['id'] }}-{{ $key }}">{{ $value }}</label>
                                             </li>
@@ -122,7 +121,7 @@
 
                                         <div class="catalog__button-box">
                                             <button class="catalog__show-btn" type="submit">Показать</button>
-                                            <a class="catalog__reset-btn" type="reset" href="{{ route('catalog.category', ['category' => $currentCategory]) }}">Сбросить</a>
+                                            <a class="catalog__reset-btn" type="button" href="{{ route('catalog.category', ['category' => $currentCategory]) }}">Сбросить</a>
                                         </div>
                                     </div>
                                 @endif

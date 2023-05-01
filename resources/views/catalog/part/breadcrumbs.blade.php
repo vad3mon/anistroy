@@ -3,7 +3,7 @@
 
     @foreach($parentCategories as $parentCategory)
         <li class="breadcrumbs__item">
-            @if($parentCategory == $parentCategories->last())
+            @if($parentCategory == $parentCategories->last() && !isset($product))
                 <span class="breadcrumbs__current">{{ $parentCategory->name }}</span>
             @else
                 <a href="{{ route('catalog.category', ['category' => $parentCategory]) }}" class="breadcrumbs__link">{{ $parentCategory->name }}</a>

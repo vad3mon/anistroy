@@ -9,7 +9,13 @@
                 @endif
             </a>
             <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="fav-item__name">{{ $product->name }}</a>
-            <p class="fav-item__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
+
+            @if($product->price > 0)
+                <p class="fav-item__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
+            @else
+                <p class="fav-item__price">Под заказ</p>
+            @endif
+
 
             <form action="{{ route('basket.add', ['id' => $product->id])  }}" method="post">
                 @csrf

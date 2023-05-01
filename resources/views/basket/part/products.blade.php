@@ -9,7 +9,12 @@
             @endif
         </a>
         <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="cart-item__name">{{ $product->name }}</a>
-        <p class="cart-item__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
+
+        @if($product->price > 0)
+            <p class="cart-item__price">{{ $product->price }} <span>₽ / {{ $product->unit }}</span></p>
+        @else
+            <p class="cart-item__price">Под заказ</p>
+        @endif
 
         <div class="cart-item__counter">
 
@@ -26,7 +31,13 @@
             </form>
         </div>
 
-        <p class="cart-item__full-price"><span>{{ $product->pivot->quantity * $product->price }}</span> <span>₽</span></p>
+
+        @if($product->price > 0)
+            <p class="cart-item__full-price"><span>{{ $product->pivot->quantity * $product->price }}</span> <span>₽</span></p>
+        @else
+            <p class="cart-item__full-price">Под заказ</p>
+        @endif
+
 
         <form action="{{ route('basket.remove', ['id' => $product->id])  }}" method="post">
             @csrf

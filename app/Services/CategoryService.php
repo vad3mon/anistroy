@@ -211,26 +211,38 @@ class CategoryService
         $categories = $category->childrenCategories;
         $categories->push($category);
 
-        $properties = [];
+        $properties = collect();
 
         foreach ($categories as $category)
         {
             foreach ($category->properties as $property) {
-                $values = $property->type == 'list' ? $this->getUniquePivotValues($category->id, $property->values) : $this->getMinMaxPivotValues($category->id, $property->values);
-                $properties[] =
-                    collect([
-                        'id' => $property->id,
-                        'title' => $property->title,
-                        'type' => $property->type,
-                        'values' => $values
-                    ]);
+
+                if ($properties->contains('id', $property->id))
+                {
+                    $curProp = $properties->where('id', $property->id)->first();
+                    $values = $property->type == 'list' ? $this->getUniquePivotValues($category->id, $property->values) : $this->getMinMaxPivotValues($category->id, $property->values);
+//                    dd($curProp['values']);
+                    $curProp['values'] = ($curProp['values']->merge($values))->unique();
+                }
+
+                else {
+                    $values = $property->type == 'list' ? $this->getUniquePivotValues($category->id, $property->values) : $this->getMinMaxPivotValues($category->id, $property->values);
+                    $properties->add(
+                        collect([
+                            'id' => $property->id,
+                            'title' => $property->title,
+                            'type' => $property->type,
+                            'values' => $values
+                        ]));
+                }
+
+
             }
         }
 
-        $properties[] = $this->getCategoryPriceProperty($category_id);
+        $properties->add($this->getCategoryPriceProperty($category_id));
 
-//        dd($properties);
-        return collect($properties);
+        return $properties;
     }
 
     public function getUniquePivotValues($category_id, $values) {

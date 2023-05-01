@@ -306,7 +306,7 @@ class CmsModelsController extends Controller
 
             if ($id == 'add') {
                 // перенаправляем на редактирование, если создавался новвый элемент
-                return redirect()->route('cms.models.item', [$modelName, $item->id]);
+                return redirect()->route('cms.models.item', [$module, $item->id]);
             } else {
                 return back();
             }

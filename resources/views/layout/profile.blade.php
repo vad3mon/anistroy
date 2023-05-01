@@ -5,9 +5,7 @@
     <title> {{ $title ?? 'Anistroy'}} </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="{{ asset('css/slider.css') }}">
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    @include('layout.part.css')
 
 </head>
 <body>
