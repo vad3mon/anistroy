@@ -204,44 +204,66 @@ class CategoryService
         return $property;
     }
 
+    public function getChildrenRecursive($childrenCategories, $categories)
+    {
+        foreach ($childrenCategories as $childrenCategory)
+        {
+            $categories->add($childrenCategory);
+            if ($childrenCategory->childrenCategories->count())
+            {
+                self::getChildrenRecursive($childrenCategory->childrenCategories, $categories);
+            }
+        }
+    }
+
     public function getCategoryProperties($category_id)
     {
         $category = Category::find($category_id);
 
         $categories = $category->childrenCategories;
-        $categories->push($category);
-
-        $properties = collect();
 
         foreach ($categories as $category)
         {
-            foreach ($category->properties as $property) {
-
-                if ($properties->contains('id', $property->id))
-                {
-                    $curProp = $properties->where('id', $property->id)->first();
-                    $values = $property->type == 'list' ? $this->getUniquePivotValues($category->id, $property->values) : $this->getMinMaxPivotValues($category->id, $property->values);
-//                    dd($curProp['values']);
-                    $curProp['values'] = ($curProp['values']->merge($values))->unique();
-                }
-
-                else {
-                    $values = $property->type == 'list' ? $this->getUniquePivotValues($category->id, $property->values) : $this->getMinMaxPivotValues($category->id, $property->values);
-                    $properties->add(
-                        collect([
-                            'id' => $property->id,
-                            'title' => $property->title,
-                            'type' => $property->type,
-                            'values' => $values
-                        ]));
-                }
-
-
+            if ($category->childrenCategories->count()) {
+                self::getChildrenRecursive($category->childrenCategories, $categories);
             }
         }
 
-        $properties->add($this->getCategoryPriceProperty($category_id));
+        $properties = collect();
+        $categories->push($category);
 
+        foreach ($categories as $category)
+        {
+            if ($category->has('properties'))
+            {
+//                var_dump($category->name);
+                foreach ($category->properties as $property) {
+                    if ($properties->contains('id', $property->id))
+                    {
+                        $curProp = $properties->where('id', $property->id)->first();
+                        $values = $property->type == 'list' ? $this->getUniquePivotValues($category->id, $property->values) : $this->getMinMaxPivotValues($category->id, $property->values);
+                        $curProp['values'] = ($curProp['values']->merge($values))->unique();
+                    }
+
+                    else {
+                        $values = $property->type == 'list' ? $this->getUniquePivotValues($category->id, $property->values) : $this->getMinMaxPivotValues($category->id, $property->values);
+                        $properties->add(
+                            collect([
+                                'id' => $property->id,
+                                'title' => $property->title,
+                                'type' => $property->type,
+                                'values' => $values
+                            ]));
+                    }
+
+
+                }
+            }
+
+
+        }
+
+        $properties->add($this->getCategoryPriceProperty($category_id));
         return $properties;
     }
 
