@@ -283,7 +283,8 @@ class CategoryService
         foreach ($values as $value)
         {
             if ($value->category_id == $category_id)
-                $pivots[] = $value->pivot->value;
+                preg_match_all('/\d+/', $value->pivot->value, $matches);
+                $pivots[] = $matches[0][0];
         }
 
         $pivots = array_unique($pivots);

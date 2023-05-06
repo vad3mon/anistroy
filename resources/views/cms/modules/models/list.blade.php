@@ -110,7 +110,7 @@
                 </thead>
                 <tbody>
                     @forelse($list as $item)
-                        <tr data-id="{{ $item->id }}" class="@if($editorSettings['has_published']) published_{{ $item->published }} @endif">
+                    <tr data-id="{{ $item->id }}" class="table__row {{ $editorSettings['has_published'] && !$item['published'] ? 'unpublished' : '' }}">
                             @if($parented)
                                 <td class="table__folder">
                                     <a class="table__folder-btn" href="{{ route('cms.models.home', [$module, 'parent' => $item->id]) }}">

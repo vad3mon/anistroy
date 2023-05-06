@@ -14,7 +14,7 @@
 <main class="main">
     <div class="main__container container">
         <section class="catalog" data-spoilers>
-            <button class="catalog__filter-button" data-trigger="filter"></button>
+            @isset($properties)<button class="catalog__filter-button" data-trigger="filter"></button>@endisset
             <h2 class="catalog__title" data-spoiler><span>Каталог товаров</span></h2>
             @include('catalog.burger')
 

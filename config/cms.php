@@ -19,6 +19,11 @@ return [
             'module' => 'Models',
             'model' => 'Page'
         ],        
+        'properties' => [
+            'name' => 'Способы фильтрации',
+            'module' => 'Models',
+            'model' => 'Property'
+        ],        
         'filters' => [
             'name' => 'Фильтры',
             'module' => 'Models',
@@ -44,7 +49,7 @@ return [
         ],
         [
             'name' => 'Фильтры',
-            'modules' => 'filters'
+            'modules' => ['properties', 'filters']
         ],
         [
             'name' => 'Текстовые страницы',
