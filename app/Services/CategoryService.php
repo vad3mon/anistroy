@@ -186,11 +186,12 @@ class CategoryService
         return $num * pow(10, $precision);
     }
 
-    public function getCategoryPriceProperty($category_id)
+    public function getCategoryPriceProperty($category)
     {
-        $products = array_unique(Product::categoryProducts($category_id)
+        $products = array_unique(Product::categoryProducts($category->id)
 //          ->filtered()
             ->get('price')->pluck('price')->toArray());
+
         $property =  collect([
             'title' => 'Цена',
             'type' => 'price',
@@ -204,39 +205,25 @@ class CategoryService
         return $property;
     }
 
-    public function getChildrenRecursive($childrenCategories, $categories)
+    public function getCategoryProperties($category)
     {
-        foreach ($childrenCategories as $childrenCategory)
-        {
-            $categories->add($childrenCategory);
-            if ($childrenCategory->childrenCategories->count())
-            {
-                self::getChildrenRecursive($childrenCategory->childrenCategories, $categories);
-            }
-        }
-    }
-
-    public function getCategoryProperties($category_id)
-    {
-        $category = Category::find($category_id);
-
-        $categories = $category->childrenCategories;
-
-        foreach ($categories as $category)
-        {
-            if ($category->childrenCategories->count()) {
-                self::getChildrenRecursive($category->childrenCategories, $categories);
-            }
-        }
-
+        $curCat = $category;
         $properties = collect();
-        $categories->push($category);
+
+        $ids = collect();
+        $ids = Category::getAllChildren($category->id)->pluck('id');
+        $ids->push($category->id);
+
+        $categories = Category::whereIn('id', $ids)->with(['properties', 'properties.values' => function ($query) use ($ids) {
+            $query->select('category_id', 'value')->whereIn('category_id', $ids);
+        }])->get();
+
 
         foreach ($categories as $category)
         {
             if ($category->has('properties'))
+
             {
-//                var_dump($category->name);
                 foreach ($category->properties as $property) {
                     if ($properties->contains('id', $property->id))
                     {
@@ -259,11 +246,9 @@ class CategoryService
 
                 }
             }
-
-
         }
 
-        $properties->add($this->getCategoryPriceProperty($category_id));
+        $properties->add($this->getCategoryPriceProperty($curCat));
         return $properties;
     }
 
@@ -284,26 +269,15 @@ class CategoryService
         {
             if ($value->category_id == $category_id)
                 preg_match_all('/\d+/', $value->pivot->value, $matches);
-                $pivots[] = $matches[0][0];
+                $pivots[] = isset($matches[0][0]) ? $matches[0][0] : $value->pivot->value;
         }
 
         $pivots = array_unique($pivots);
+
         return collect([
             'min' => min($pivots),
             'max' => max($pivots)
         ]);
     }
 
-    public function getParentCategories($category)
-    {
-        $parentCategories = [$category];
-        while ($category->parent)
-        {
-            $parent = $category->parent;
-
-            $parentCategories = array_merge($parentCategories, [$parent]);
-
-            $category = $category->parent;
-        }
-    }
 }

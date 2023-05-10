@@ -225,6 +225,7 @@ class BasketService
             'status' => 'Ожидает оплаты',
             'payment_status' => 'Ожидает оплаты',
             'amount' => $this->getAmount($basket),
+            'comment' => $request['comment']
         ];
 
         foreach ($basket->products as $product) {
@@ -261,6 +262,7 @@ class BasketService
                     $request['name'],
                     $request['phone'],
                     $request['address'],
+                    $request['comment'],
                     'products' => $mailData['products']
                 ]
             ]);

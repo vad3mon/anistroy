@@ -51,14 +51,15 @@ class Category extends Model
 
     public static function getAllChildren($id) {
         $children = self::where('parent_id', $id)->with('categories')->get();
-        $ids = [];
+        $categories = [];
+
         foreach ($children as $child) {
-            $ids[] = $child->id;
+            $categories[] = $child;
             if ($child->categories->count()) {
-                $ids = array_merge($ids, self::getAllChildren($child->id));
+                $categories = array_merge($categories, self::getAllChildren($child->id)->toArray());
             }
         }
 
-        return $ids;
+        return collect($categories);
     }
 }

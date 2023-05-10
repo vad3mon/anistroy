@@ -233,6 +233,13 @@
                           <p style="margin: 0; font-size: 14px;">{{ $mailData['email'] }}</p>
                         </td>
                       </tr>
+
+                        <tr>
+                            <td style="padding-top: 20px">
+                                <span style="margin: 0 0 5px 0; color: #1061AB; font-size: 14px; font-weight: 700;">Комментарий</span>
+                                <p style="margin: 0; font-size: 14px;">{{ $mailData['comment'] }}</p>
+                            </td>
+                        </tr>
                     </table>
                   </td>
                 </tr>

@@ -52,6 +52,12 @@
                         <p class="form__error-text">{{ $errors->first('address') }}</p>
                     </div>
 
+                    <div class="form__item">
+                        <label class="form__label">Комментарий</label>
+                        <textarea type="text" class="form__input" name="comment" data-valid="true"></textarea>
+                        <p class="form__error-text">{{ $errors->first('comment') }}</p>
+                    </div>
+
                     <div class="form__agreement">
                         <input class="form__checkbox" type="checkbox" id="agreement" name="agreement">
                         <label for="agreement" class="form__agreement-text">Согласен на обработку</label>

@@ -84,8 +84,9 @@ class Product extends Model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCategoryProducts(Builder $builder, $id) {
-        $descendants = Category::getAllChildren($id);
+        $descendants = Category::getAllChildren($id)->pluck('id');
         $descendants[] = $id;
+
         return $builder->whereIn('category_id', $descendants);
     }
 }

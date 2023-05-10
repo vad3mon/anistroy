@@ -19,6 +19,7 @@ class Order extends Model
         'amount',
         'status',
         'payment_status',
+        'comment',
         'ms_id',
         'ms_error',
         'ms_products_added'

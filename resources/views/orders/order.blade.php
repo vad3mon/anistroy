@@ -37,6 +37,11 @@
                 <h4 class="profile__label">Электронная почта</h4>
                 <p class="profile__info">{{ $order->email }}</p>
             </div>
+
+            <div class="profile__info-box profile__info-box--wide">
+                <h4 class="profile__label">Комментарий</h4>
+                <p class="profile__info">{{ $order->comment }}</p>
+            </div>
         </div>
 
         <h3 class="profile__subtitle">

@@ -29,15 +29,19 @@ class CatalogController extends Controller
 
     public function category(Category $category)
     {
+//        \DB::connection()->enableQueryLog();
+
         $currentCategory = $this->categoryService->getCategory($category->id);
 
-        $properties = $this->categoryService->getCategoryProperties($currentCategory->id);
+        $properties = $this->categoryService->getCategoryProperties($currentCategory);
 
         $categories = $this->categoryService->getChildrenCategories($category->id);
 
         $products = $this->categoryService->getCategoryProducts($category->id);
 
         $fullPath = $this->categoryService->getFullPath($category->id);
+
+//        dd( \DB::getQueryLog());
 
         return view('catalog.category', compact('categories', 'products', 'currentCategory', 'properties', 'fullPath'));
     }
