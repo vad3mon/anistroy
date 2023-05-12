@@ -9,10 +9,18 @@
             </a>
             @include('pages.top_pages')
         </nav>
-        <nav class="login-nav" data-submenu="login">
-            <a class="login-nav__link" href="{{ route('login') }}">Вход</a>
-            <a class="login-nav__link" href="{{ route('register') }}">Регистрация</a>
-        </nav>
+
+        @if (auth()->user())
+            <nav class="profile-nav">
+                <a class="profile-nav__link" href="{{ route('profile.edit') }}">{{ auth()->user()->name }}</a>
+            </nav>
+        @else
+            <nav class="login-nav" data-submenu="login">
+                <a class="login-nav__link" href="{{ route('login') }}">Вход</a>
+                <a class="login-nav__link" href="{{ route('register') }}">Регистрация</a>
+            </nav>
+        @endif
+
     </div>
 
     <div class="header__bottom">
@@ -57,17 +65,20 @@
 
                 Корзина
             </a>
+
             @if (auth()->user())
                 <!-- если залогинен -->
-            				<a class="user-nav__link user-nav__link&#45;&#45;profile" href="{{ route('profile.edit') }}">
-            					<img class="user-nav__icon user-nav__icon&#45;&#45;profile" src="{{ asset('images/icon-profile.svg') }}" alt="">
-            				</a>
+                <a class="user-nav__link user-nav__link--profile" href="{{ route('profile.edit') }}">
+                    <img class="user-nav__icon user-nav__icon--profile" src="{{ asset('images/icon-profile.svg') }}" alt="">
+                </a>
             @else
                 <!-- если не залогинен -->
-                <button class="user-nav__link user-nav__link--login" data-trigger="login">
-                    <img class="user-nav__icon user-nav__icon--login" src="{{ asset('images/icon-login.svg') }}" alt="">
+                <button class="user-nav__link user-nav__link&#45;&#45;login" data-trigger="login">
+                    <img class="user-nav__icon user-nav__icon&#45;&#45;login" src="{{ asset('images/icon-login.svg') }}" alt="">
                 </button>
+
             @endif
+
         </div>
     </div>
 </header>

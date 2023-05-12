@@ -46,14 +46,29 @@
                                 @if($property['type'] == 'range')
                                     <div class="catalog__range-slider range-slider">
                                         <p class="catalog__filter-title active" data-spoiler>{{ $property['title'] }}</p>
-                                        <div>
+{{--                                        <div>--}}
                                             <div class="range-slider__counter">
-                                                <input type="number" value="{{ request('filters.range' . $property['id'] . '.from', $property['values']['min']) }}" min="{{ $property['values']['min'] }}" max="{{ $property['values']['max'] }}" name="filters[range][{{ $property['id'] }}][from]">
-                                                <input type="number" value="{{ request('filters.range' . $property['id'] . '.to', $property['values']['max']) }}" min="{{ $property['values']['min'] }}" max="{{ $property['values']['max'] }}" name="filters[range][{{ $property['id'] }}][to]">
+                                                <input type="number" value="{{ request('filters.range.' . $property['id'] . '.from', $property['values']['min']) }}"
+                                                       min="{{ $property['values']['min'] }}"
+                                                       max="{{ $property['values']['max'] - 1 }}"
+                                                       name="filters[range][{{ $property['id'] }}][from]">
+
+                                                <input type="number" value="{{ request('filters.range.' . $property['id'] . '.to', $property['values']['max']) }}"
+                                                       min="{{ $property['values']['min'] + 1 }}"
+                                                       max="{{ $property['values']['max'] }}"
+                                                       name="filters[range][{{ $property['id'] }}][to]">
                                             </div>
-                                            <input value="{{ request('filters.range' . $property['id'] . '.from', $property['values']['min']) }}" min="{{ $property['values']['min'] }}" max="{{ $property['values']['max'] }}" step="500" type="range">
-                                            <input value="{{ request('filters.range' . $property['id'] . '.to', $property['values']['max']) }}" min="{{ $property['values']['min'] }}" max="{{ $property['values']['max'] }}" step="500" type="range">
-                                        </div>
+
+                                            <input value="{{ request('filters.range.' . $property['id'] . '.from', $property['values']['min']) }}"
+                                                   min="{{ $property['values']['min'] }}"
+                                                   max="{{ $property['values']['max'] - 1 }}" step="1"
+                                                   type="range">
+
+                                            <input value="{{ request('filters.range.' . $property['id'] . '.to', $property['values']['max']) }}"
+                                                   min="{{ $property['values']['min'] + 1 }}"
+                                                   max="{{ $property['values']['max'] }}" step="1"
+                                                   type="range">
+{{--                                        </div>--}}
                                     </div>
 
                                 @elseif($property['type'] == 'list')

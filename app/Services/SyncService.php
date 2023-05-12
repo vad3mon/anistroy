@@ -34,7 +34,7 @@ class SyncService
                         list($key, $value) = explode("=", $rowData);
                         $property = Property::updateOrCreate(
                             ['title' => $key],
-                            ['type' => 'list']
+                            // ['type' => 'list']
                         );
 
                         $values[$property->id] = ['value' => $value];

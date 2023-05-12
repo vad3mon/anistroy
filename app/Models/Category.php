@@ -19,7 +19,7 @@ class Category extends Model
 
     public function categories()
     {
-        return $this->hasMany(Category::class, 'parent_id');
+        return $this->hasMany(Category::class, 'parent_id')->orderBy('name');
     }
 
     public function parent()
@@ -29,13 +29,14 @@ class Category extends Model
 
     public function childrenCategories()
     {
-        return $this->hasMany(Category::class, 'parent_id')->with(['categories']);
+        return $this->hasMany(Category::class, 'parent_id')->with(['categories'])->orderBy('name');
     }
 
     public static function all_categories()
     {
         return self::whereNull('parent_id')
             ->with('childrenCategories')
+            ->orderBy('name')
             ->get();
     }
 

@@ -1,4 +1,4 @@
-<li class="card" data-pid="{{ $product->id }}" data-stock="100" data-img="{{ $product->image }}" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
+<li class="card" data-pid="{{ $product->id }}" data-stock="10000000" data-img="{{ $product->image }}" data-price="{{ $product->price }}" data-title="{{ $product->name }}">
     <a href="{{ route('catalog.product', ['category' => $product->category->slug, 'product'=>$product->slug]) }}" class="card__image">
         @if (file_exists('images/products/' . $product->image) && $product->image)
             <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}">

@@ -34,19 +34,19 @@
 
                     <div class="form__item">
                         <label class="form__label">Почта</label>
-                        <input type="text" class="form__input" name="email" data-valid="true" value="{{ auth()->user() ? auth()->user()->email : "" }}">
+                        <input type="text" class="form__input" name="email" data-required="true" value="{{ auth()->user() ? auth()->user()->email : "" }}">
                         <p class="form__error-text">{{ $errors->first('email') }}</p>
                     </div>
 
                     <div class="form__item">
                         <label class="form__label">Телефон<sup>*</sup></label>
-                        <input type="text" class="form__input" name="phone" data-required="" data-valid="true" value="{{ auth()->user() ? auth()->user()->phone : "" }}">
+                        <input type="text" class="form__input" name="phone" data-required="true" value="{{ auth()->user() ? auth()->user()->phone : "" }}">
                         <p class="form__error-text">{{ $errors->first('phone') }}</p>
                     </div>
 
                     <div class="form__item">
                         <label class="form__label">Адрес доставки</label>
-                        <input type="text" class="form__input" name="address" data-valid="true"
+                        <input type="text" class="form__input" name="address" data-required="true"
 {{--                               value="{{ auth()->user()->orders()->get()->last() ? auth()->user()->orders()->get()->last()->address : "" }}"--}}
                         >
                         <p class="form__error-text">{{ $errors->first('address') }}</p>
@@ -54,7 +54,7 @@
 
                     <div class="form__item">
                         <label class="form__label">Комментарий</label>
-                        <textarea type="text" class="form__input" name="comment" data-valid="true"></textarea>
+                        <textarea type="text" class="form__input" name="comment"></textarea>
                         <p class="form__error-text">{{ $errors->first('comment') }}</p>
                     </div>
 

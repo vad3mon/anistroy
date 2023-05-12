@@ -13,11 +13,15 @@
 new swiper__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .ZP('.lead__swiper', {
   modules: [swiper__WEBPACK_IMPORTED_MODULE_0__/* .Pagination */ .tl, swiper__WEBPACK_IMPORTED_MODULE_0__/* .Navigation */ .W_, swiper__WEBPACK_IMPORTED_MODULE_0__/* .Autoplay */ .pt],
   speed: 1000,
-  // autoplay: {
-  //   disableOnInteraction: false,
-  //   delay: 3000,
-  // },
-  loop: true
+  autoplay: {
+    disableOnInteraction: false,
+    delay: 4000
+  },
+  loop: true,
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev'
+  }
 });
 
 // каталог на главной

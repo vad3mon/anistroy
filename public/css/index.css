@@ -113,6 +113,7 @@ h6 {
 }
 .header {
   position: fixed;
+  overflow-x: hidden;
   z-index: 100;
   top: 0;
   left: 0;
@@ -127,6 +128,21 @@ h6 {
 }
 .header__top, .header__bottom {
   display: contents;
+  max-width: 1700px;
+  margin: 0 auto;
+  width: 100%;
+}
+.header__bottom {
+  position: relative;
+}
+.header__bottom::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 200vw;
+  background-color: #E1EEFB;
+  height: 100%;
+  left: -100vw;
 }
 .header__logo {
   display: inline-block;
@@ -261,7 +277,8 @@ h6 {
 }
 
 .site-nav,
-.login-nav {
+.login-nav,
+.profile-nav {
   display: flex;
   color: #004C93;
   font-weight: 700;
@@ -269,17 +286,20 @@ h6 {
   transition: all 0.3s ease-in-out;
 }
 .site-nav__link,
-.login-nav__link {
+.login-nav__link,
+.profile-nav__link {
   font-size: 14px;
   margin-right: 25px;
   transition: all 0.3s ease-in-out;
 }
 .site-nav__link:last-child,
-.login-nav__link:last-child {
+.login-nav__link:last-child,
+.profile-nav__link:last-child {
   margin-right: 0;
 }
 .site-nav__link:hover,
-.login-nav__link:hover {
+.login-nav__link:hover,
+.profile-nav__link:hover {
   color: #2B7BC6;
 }
 
@@ -410,6 +430,10 @@ h6 {
   margin-right: 15px;
 }
 
+.profile-nav {
+  display: none;
+}
+
 @media (min-width: 992px) {
   .header {
     position: static;
@@ -442,7 +466,8 @@ h6 {
     width: 100%;
     z-index: 100;
     top: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
   }
   .header__logo {
     display: inline-block;
@@ -598,6 +623,42 @@ h6 {
   .user-nav__icon--profile, .user-nav__icon--login {
     margin-right: 15px;
   }
+  .profile-nav {
+    display: flex;
+  }
+  .profile-nav__link {
+    position: relative;
+    display: flex;
+    padding-left: 25px;
+    white-space: nowrap;
+  }
+  .profile-nav__link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    background-image: url(../images/icon-profile.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px;
+    font-size: 0;
+    border-radius: 50%;
+    background-color: transparent;
+    transform: translate(-50%, -50%);
+  }
+  .profile-nav__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    background-color: rgba(43, 123, 198, 0.2);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
   .login-nav {
     padding: 0;
     justify-content: flex-end;
@@ -633,6 +694,43 @@ h6 {
   height: 100%;
   background: linear-gradient(305.44deg, rgba(225, 238, 251, 0.7) 9.82%, rgba(173, 226, 249, 0) 36.8%);
   pointer-events: none;
+}
+.lead .swiper-button-next, .lead .swiper-button-prev {
+  top: 33px;
+  right: 20px;
+  background-color: #004C93;
+  width: 25px;
+  height: 25px;
+  transition: all 0.3s ease-in-out;
+}
+.lead .swiper-button-next:hover, .lead .swiper-button-prev:hover {
+  background-color: #2B7BC6;
+}
+.lead .swiper-button-next::before, .lead .swiper-button-prev::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 15px;
+  height: 2px;
+  background-color: #ffffff;
+}
+.lead .swiper-button-next::after, .lead .swiper-button-prev::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+}
+.lead .swiper-button-prev {
+  transform: rotate(180deg);
+  left: auto;
+  right: 55px;
 }
 .lead__slide {
   padding: 20px 0;
@@ -2711,9 +2809,6 @@ h6 {
     grid-gap: 40px;
     gap: 40px;
   }
-  .footer .container {
-    padding: 0 70px;
-  }
   .footer__list {
     margin-bottom: 0;
   }
@@ -3222,6 +3317,7 @@ body.lock::after {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  overflow-x: hidden;
 }
 
 .main {

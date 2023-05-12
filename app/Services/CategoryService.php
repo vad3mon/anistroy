@@ -19,6 +19,7 @@ class CategoryService
     {
         $categories = Category::whereNull('parent_id')
             ->with('childrenCategories')
+            ->orderBy('name')
             ->get();
 
         return $categories;
@@ -36,7 +37,7 @@ class CategoryService
         $category = Category::find($id);
         $categories = count($category->childrenCategories) > 1 ? $category->childrenCategories : $category->parent->childrenCategories;
 
-        return $categories;
+        return $categories->sortBy('name');
     }
 
     public function getProducts($id)
@@ -241,6 +242,7 @@ class CategoryService
                                 'type' => $property->type,
                                 'values' => $values
                             ]));
+
                     }
 
 
@@ -248,6 +250,15 @@ class CategoryService
             }
         }
 
+        $properties->each(function ($property) {
+            $sorted = $property['values']->sortBy(null, SORT_NATURAL)->sortBy(function ($value) {
+                return (float) preg_replace('/[^\d\.]/', '', str_replace(',', '.', $value));
+            });
+
+            $property['values'] = $sorted;
+        });
+
+        $properties->sortBy('title');
         $properties->add($this->getCategoryPriceProperty($curCat));
         return $properties;
     }
@@ -256,11 +267,14 @@ class CategoryService
         $pivots = [];
         foreach ($values as $value)
         {
-            if ($value->category_id == $category_id)
+            if ($value->category_id == $category_id) {
                 $pivots[] = $value->pivot->value;
+            }
         }
 
-        return collect(array_unique($pivots));
+        $pivots = array_unique($pivots);
+
+        return collect($pivots);
     }
 
     public function getMinMaxPivotValues($category_id, $values) {
@@ -268,15 +282,14 @@ class CategoryService
         foreach ($values as $value)
         {
             if ($value->category_id == $category_id)
-                preg_match_all('/\d+/', $value->pivot->value, $matches);
-                $pivots[] = isset($matches[0][0]) ? $matches[0][0] : $value->pivot->value;
+                $pivots[] = (float) preg_replace('/[^\d\.]/', '', str_replace(',', '.', $value->pivot->value));
         }
 
         $pivots = array_unique($pivots);
 
         return collect([
-            'min' => min($pivots),
-            'max' => max($pivots)
+            'min' => floor(min($pivots)),
+            'max' => ceil(max($pivots))
         ]);
     }
 

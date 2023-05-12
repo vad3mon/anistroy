@@ -4989,17 +4989,14 @@ var __webpack_exports__ = {};
 const orderForm = document.querySelector('.form');
 const agreementCheckbox = document.querySelector('.form__checkbox');
 if (orderForm) {
-  const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  document.addEventListener('DOMContentLoaded', () => {
+    isValidFields(orderForm);
+  });
   const formItems = document.querySelectorAll('.form__item');
   formItems.forEach(item => {
     const input = item.querySelector('.form__input');
     const errorField = item.querySelector('.form__error-text');
     let phoneMask;
-    if (Object.keys(userData).length > 0 && userData[input.name]) {
-      input.value = userData[input.name].value;
-      input.dataset.valid = userData[input.name].valid;
-      isValidFields(orderForm);
-    }
     if (input.name === 'phone') {
       phoneMask = _imask__WEBPACK_IMPORTED_MODULE_0___default()(input, {
         mask: '+{7}(000)000-00-00',
@@ -5013,55 +5010,45 @@ if (orderForm) {
       if (input.name === 'address') validateAddress(input, errorField);
       isValidFields(orderForm);
     });
-    input.addEventListener('blur', () => {
-      const isValid = input.getAttribute('data-valid');
-      if (isValid === 'true') {
-        userData[input.name] = {
-          valid: true,
-          value: input.value
-        };
-        localStorage.setItem('userData', JSON.stringify(userData));
-      }
-    });
   });
   agreementCheckbox.addEventListener('click', () => {
     isValidFields(orderForm);
   });
 }
 function validateUserName(input, errorField) {
-  if (!input.value.trim() == '') {
-    input.dataset.valid = true;
+  if (input.value.trim() !== '') {
+    input.dataset.valid = 'true';
     errorField.textContent = '';
   } else {
-    input.dataset.valid = false;
+    input.dataset.valid = 'false';
     errorField.textContent = 'Поле не должно быть пустым';
   }
 }
 function validateEmail(input, errorField) {
   const mailformat = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
   if (input.value.match(mailformat)) {
-    input.dataset.valid = true;
+    input.dataset.valid = 'true';
     errorField.textContent = '';
-  } else if (input.value.trim() == '') {
-    input.dataset.valid = false;
+  } else if (input.value.trim() === '') {
+    input.dataset.valid = 'false';
     errorField.textContent = 'Поле не должно быть пустым';
   } else {
-    input.dataset.valid = false;
+    input.dataset.valid = 'false';
     errorField.textContent = 'Некорректный email';
   }
 }
 function validatePhone(phoneMask, input, errorField) {
-  if (phoneMask.unmaskedValue.length == 11) {
-    input.dataset.valid = true;
+  if (phoneMask.unmaskedValue.length === 11) {
+    input.dataset.valid = 'true';
     errorField.textContent = '';
   } else {
-    input.dataset.valid = false;
+    input.dataset.valid = 'false';
     errorField.textContent = 'Введите корректный номер телефона';
   }
 }
 function validateAddress(input, errorField) {
-  if (!input.value.trim() == '') {
-    input.dataset.valid = true;
+  if (input.value.trim() !== '') {
+    input.dataset.valid = 'true';
     errorField.textContent = '';
   } else {
     input.dataset.valid = '';
