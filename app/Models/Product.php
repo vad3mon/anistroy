@@ -44,33 +44,33 @@ class Product extends Model
     {
         $query->when(request('filters.price'), function (Builder $q) {
             $q->whereBetween('price', [
-                (isset(request('filters.properties.availability')['Под заказ']) ? 0 :
+                (isset(request('filters.availability')['Под заказ']) ? 0 :
                 request('filters.price.from', 0)),
                 request('filters.price.to', 120000)
             ]);
         })
+            ->when(request('filters.availability'), function (Builder $q) {
+                $values = request('filters.availability');
+                $operator = "";
+
+                if (in_array("В наличии", $values)) $operator .= ">";
+
+                if (in_array("Под заказ", $values))
+                {
+                    $operator .= "=";
+                }
+
+                $q->where('price', $operator, 0);
+            })
+
             ->when(request('filters.properties'), function (Builder $q) {
                 foreach(request('filters.properties') as $id => $value)
                 {
-                        if ($id == 'availability')
-                        {
-                            $operator = "";
-
-                            if (in_array("В наличии", $value)) $operator .= ">";
-
-                            if (in_array("Под заказ", $value))
-                            {
-                                $operator .= "=";
-                            }
-
-                            $q->where('price', $operator, 0);
-                        }
-
-                        else
-                        {
-                            $q->where('property_id','=', $id)
+                    $q->whereHas('properties', function (Builder $query) use ($id, $value)
+                    {
+                            $query->where('property_id','=', $id)
                                 ->whereIn('value', $value);
-                        }
+                    });
                 }
 
 
@@ -79,13 +79,17 @@ class Product extends Model
             ->when(request('filters.range'), function (Builder $q) {
                 foreach(request('filters.range') as $id => $value)
                 {
-                    $q->where('property_id','=', $id)
-                        ->whereBetween('value', [
-                            (int)$value['from'],
-                            (int)$value['to']
-                        ]);
+                    $q->whereHas('properties', function (Builder $query) use ($id, $value)
+                    {
+                        $query->where('property_id', '=', $id)
+                            ->whereBetween('value', [
+                                (int)$value['from'],
+                                (int)$value['to']
+                            ]);
+                    });
                 }
             });
+
     }
 
 

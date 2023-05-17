@@ -73,6 +73,23 @@
 {{--                                        </div>--}}
                                     </div>
 
+                                @elseif($property['type'] == 'list' && $property['id'] == 'availability')
+                                        <p class="catalog__filter-title active" data-spoiler>{{ $property['title'] }}</p>
+                                        <ul class="catalog__filter-list">
+                                            @foreach($property['values'] as $key => $value)
+                                                <li class="catalog__filter-item">
+                                                    <input class="catalog__filter-input"
+                                                           type="checkbox"
+                                                           id="filters-{{ $property['id'] }}-{{ $key }}"
+                                                           name="filters[{{ $property['id'] }}][{{ $value }}]"
+                                                           value="{{ $value }}"
+                                                        @checked(isset(request('filters.' . $property['id'])[$value]) ? : '')
+                                                    >
+                                                    <label class="catalog__filter-label" for="filters-{{ $property['id'] }}-{{ $key }}">{{ $value }}</label>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+
                                 @elseif($property['type'] == 'list')
                                     <p class="catalog__filter-title active" data-spoiler>{{ $property['title'] }}</p>
                                         <ul class="catalog__filter-list">
