@@ -9,9 +9,19 @@
                 @endif
             </a>
             <a href="{{ route('catalog.product', ['category' => $item->product->category->slug, 'product'=>$item->product->slug]) }}" class="cart-item__name">{{ $item->product->name }}</a>
-            <p class="cart-item__price">{{ $item->price }} <span>₽ / {{ $item->product->unit }}</span></p>
+            @if($item->price > 0)
+                <p class="cart-item__price">{{ $item->price }} <span>₽ / {{ $item->product->unit }}</span></p>
+            @else
+                <p class="cart-item__price">Под заказ</p>
+            @endif
+
             <p class="cart-item__amount">{{ $item->quantity }} <span>{{ $item->product->unit }}</span></p>
-            <p class="cart-item__full-price"><span>{{ $item->price * $item->quantity }}</span> <span>₽</span></p>
+
+            @if($item->price > 0)
+                <p class="cart-item__full-price"><span>{{ $item->price * $item->quantity }}</span> <span>₽</span></p>
+            @else
+                <p class="cart-item__full-price">Под заказ</p>
+            @endif
         </li>
     @endforeach
 </ul>

@@ -152,7 +152,7 @@ class CategoryService
                                      ->orWhere('article', 'like', '%' . $query . '%')
                                      ->orWhere('slug', 'like', '%' . $query . '%');
 //                                     ->orWhere('text', 'like', '%' . $query . '%')
-                             })->distinct()->with('category')->paginate(20)->withQueryString();
+                             })->distinct()->with('category')->sorted()->paginate(20)->withQueryString();
 
         return $products;
     }
@@ -174,6 +174,7 @@ class CategoryService
     {
         $products = Product::categoryProducts($category_id)
                 ->filtered()
+                ->sorted()
                 ->paginate(20)
                 ->withQueryString();
 
@@ -259,7 +260,20 @@ class CategoryService
         });
 
         $properties->sortBy('title');
-        $properties->add($this->getCategoryPriceProperty($curCat));
+
+        $properties->prepend(
+            collect([
+                'id' => 'availability',
+                'title' => 'Наличие',
+                'type' => 'list',
+                'values' => collect([
+                    'В наличии',
+                    'Под заказ'
+                ])
+            ])
+        );
+        $properties->prepend($this->getCategoryPriceProperty($curCat));
+
         return $properties;
     }
 

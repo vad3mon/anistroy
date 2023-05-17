@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Models\Settings;
 use App\Services\BasketService;
 use App\Services\FavoriteService;
 use Illuminate\View\View;
@@ -16,7 +17,8 @@ class HeaderComposer
     }
 
     public function compose(View $view) {
-        return $view->with(['favorite', $this->favoriteService->sessionSave()],
-                            ['basket', $this->basketService->saveSession()]);
+        return $view->with(['favorite', $this->favoriteService->sessionSave(),
+                            'basket', $this->basketService->saveSession(),
+                            'settings' => Settings::get()->pluck('settings')->first()]);
     }
 }

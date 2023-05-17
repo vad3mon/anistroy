@@ -5,15 +5,21 @@
                 <h4 class="footer__title" data-spoiler>{{ $page->name }}</h4>
                 <div class="footer__list">
                     @foreach($page->childrens as $children)
-                        @if ($page->id == 8)
-                            <span class="footer__span">{{ $children->name }}</span>
-                        @else
-                            <a class="footer__link" href="{{ route('pages.index', ['page' => $children->slug]) }}">{{ $children->name }}</a>
-                        @endif
+                        <a class="footer__link" href="{{ route('pages.index', ['page' => $children->slug]) }}">{{ $children->name }}</a>
                     @endforeach
                 </div>
             </div>
         @endforeach
+
+            <div class="footer__col" data-spoilers="800">
+                <h4 class="footer__title" data-spoiler>Мы на связи</h4>
+                <div class="footer__list">
+                    <span class="footer__span">{{ $settings['phone_footer'] }}</span>
+                    <span class="footer__span">{{ $settings['email'] }}</span>
+                    <span class="footer__span">{{ $settings['address'] }}</span>
+                </div>
+            </div>
+
 
         <div class="footer__copy">
             © "Анистрой" 2022-2023. Все права защищены, <a class="footer__copy-link" href="{{ route('pages.index', ['page' => 'legal']) }}">читать подробнее.</a>

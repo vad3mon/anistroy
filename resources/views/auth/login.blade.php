@@ -18,28 +18,31 @@
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
+
             <div class="form">
                 <h2 class="form__title">Авторизация</h2>
                 <div class="form__item">
                     <label class="form__label" for="phone">Телефон или email<sup>*</sup></label>
-                    <input type="text" class="form__input" name="login" id="login" data-required value="{{ old('login') ?? '' }}">
+                    <input type="text" class="form__input" name="login" id="login" value="{{ old('login') ?? '' }}">
                     <p class="form__error-text">{{ $errors->first('login') }}</p>
                 </div>
 
                 <div class="form__item">
                     <label class="form__label">Пароль<sup>*</sup></label>
-                    <input type="password" class="form__input form__input--icon" name="password" id="password" data-required>
+                    <input type="password" class="form__input form__input--icon" name="password" id="password">
                     <p class="form__error-text">{{ $errors->first('password') }}</p>
                     <a class="form__link" href="{{ route('password.request') }}">Забыли пароль?</a>
                 </div>
 
-                <button type="submit" class="form__auth-btn">Авторизация</button>
+                <button type="submit" class="form__btn form__auth-btn">Авторизация</button>
 
                 <p class="form__text">
                     Еще нет аккаунта?
                     <a class="form__link" href="{{ route('register') }}">Зарегистрироваться</a>
                 </p>
             </div>
+
+
         </form>
     </section>
 </div>

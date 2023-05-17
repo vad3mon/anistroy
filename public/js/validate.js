@@ -4914,7 +4914,7 @@
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -4928,14 +4928,14 @@
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -4948,7 +4948,7 @@
 /******/ 			return getter;
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -4960,7 +4960,7 @@
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -4972,12 +4972,12 @@
 /******/ 			}
 /******/ 		})();
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/ 	
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -4990,30 +4990,44 @@ const orderForm = document.querySelector('.form');
 const agreementCheckbox = document.querySelector('.form__checkbox');
 if (orderForm) {
   document.addEventListener('DOMContentLoaded', () => {
-    isValidFields(orderForm);
+    validateOnLoad();
   });
+}
+function validateOnLoad() {
   const formItems = document.querySelectorAll('.form__item');
   formItems.forEach(item => {
     const input = item.querySelector('.form__input');
     const errorField = item.querySelector('.form__error-text');
     let phoneMask;
+    let mask = '+7(___)___-__-__';
     if (input.name === 'phone') {
       phoneMask = _imask__WEBPACK_IMPORTED_MODULE_0___default()(input, {
         mask: '+{7}(000)000-00-00',
         lazy: false
       });
     }
+    if (input.value.trim() !== '' && input.value !== mask) {
+      validateInput(orderForm, input);
+    }
     input.addEventListener('input', () => {
+      validateInput(orderForm, input);
+    });
+    function validateInput(orderForm, input) {
       if (input.name === 'name') validateUserName(input, errorField);
       if (input.name === 'email') validateEmail(input, errorField);
       if (input.name === 'phone') validatePhone(phoneMask, input, errorField);
       if (input.name === 'address') validateAddress(input, errorField);
+      if (input.name === 'password') validateUserName(input, errorField);
+      if (input.name === 'password_confirmation') validateUserName(input, errorField);
+      isValidFields(orderForm);
+    }
+  });
+  if (agreementCheckbox) {
+    agreementCheckbox.addEventListener('change', () => {
+      validateAgreement(agreementCheckbox);
       isValidFields(orderForm);
     });
-  });
-  agreementCheckbox.addEventListener('click', () => {
-    isValidFields(orderForm);
-  });
+  }
 }
 function validateUserName(input, errorField) {
   if (input.value.trim() !== '') {
@@ -5054,11 +5068,14 @@ function validateAddress(input, errorField) {
     input.dataset.valid = '';
   }
 }
+function validateAgreement(input) {
+  input.checked ? input.dataset.valid = 'true' : input.dataset.valid = 'false';
+}
 function isValidFields(formName) {
   const requiredFields = formName.querySelectorAll('[data-required]');
   const validFields = formName.querySelectorAll('[data-valid=true][data-required]');
-  const formBtn = formName.querySelector('.form__buy-btn');
-  if (validFields.length === requiredFields.length && agreementCheckbox.checked) {
+  const formBtn = formName.querySelector('.form__btn');
+  if (validFields.length === requiredFields.length) {
     formBtn.disabled = false;
   } else {
     formBtn.disabled = true;

@@ -24,11 +24,11 @@
 
                 <div class="form__item">
                     <label class="form__label">Почта</label>
-                    <input type="text" class="form__input" name="email" value="{{ old('email') }}">
+                    <input type="text" class="form__input" name="email" value="{{ old('email') }}" data-required>
                     <p class="form__error-text">{{ $errors->first('email') }}</p>
                 </div>
 
-                <button type="submit" class="form__auth-btn">Отправить</button>
+                <button type="submit" class="form__btn form__auth-btn" disabled="disabled">Отправить</button>
             </div>
         </form>
     </section>

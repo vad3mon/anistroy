@@ -271,9 +271,18 @@
                         style="width: 65px; height: 65px; object-fit: cover" />
                     </td>
                     <td style="padding: 0 5px 0 5px; min-width: 250px;">{{ $product['name'] }}</td>
-                    <td style="padding: 0 5px 0 5px; text-align: center; min-width: 100px;">{{ $product['price'] }} руб.</td>
+                      @if($product['price'] > 0)
+                        <td style="padding: 0 5px 0 5px; text-align: center; min-width: 100px;">{{ $product['price'] }} руб. / {{ $product['unit'] }}</td>
+                      @else
+                          <td style="padding: 0 5px 0 5px; text-align: center; min-width: 100px;">Под заказ</td>
+                      @endif
                     <td style="padding: 0 5px 0 5px; text-align: center; min-width: 60px;">{{ $product['quantity'] }}</td>
-                    <td style="padding: 0 5px 0 5px; text-align: center; min-width: 100px;">{{ $product['cost'] }} руб.</td>
+                      @if($product['cost'] > 0)
+                          <td style="padding: 0 5px 0 5px; text-align: center; min-width: 100px;">{{ $product['cost']  }} руб. / {{ $product['unit'] }}</td>
+                      @else
+                          <td style="padding: 0 5px 0 5px; text-align: center; min-width: 100px;">Под заказ</td>
+                      @endif
+
                   </tr>
                 @endforeach
 
@@ -288,12 +297,14 @@
           </tr>
           <tr>
             <td>
-              <table style="width: 100%;" border="0" cellspacing="0" cellpadding="0" role="presentation">
-                <tr>
-                  <td style="font-weight: 700; padding: 0 20px 50px 20px">Итого:</td>
-                  <td style="font-weight: 700; text-align: right; white-space: nowrap; padding: 0 20px 50px 20px">{{ $mailData['amount'] }} руб.</td>
-                </tr>
-              </table>
+                @if($mailData['amount'] > 0)
+                  <table style="width: 100%;" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                    <tr>
+                      <td style="font-weight: 700; padding: 0 20px 50px 20px">Итого:</td>
+                      <td style="font-weight: 700; text-align: right; white-space: nowrap; padding: 0 20px 50px 20px">{{ $mailData['amount'] }} руб.</td>
+                    </tr>
+                  </table>
+                @endif
             </td>
           </tr>
           <!-- End Order -->

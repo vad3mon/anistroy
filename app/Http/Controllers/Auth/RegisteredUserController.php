@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
             'phone' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'agreement' => ['accepted']
+            'checkbox' => ['accepted']
         ]);
 
 

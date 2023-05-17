@@ -17,8 +17,8 @@
                 </div>
 
                 <div class="form__item">
-                    <label class="form__label">Почта</label>
-                    <input type="text" class="form__input" name="email" value="{{ auth()->user()->email }}">
+                    <label class="form__label">Почта<sup>*</sup></label>
+                    <input type="text" class="form__input" name="email" value="{{ auth()->user()->email }}" data-required>
                     <p class="form__error-text">{{ $errors->first('email') }}</p>
                 </div>
 
@@ -28,7 +28,7 @@
                     <p class="form__error-text">{{ $errors->first('phone') }}</p>
                 </div>
 
-                <button type="submit" class="form__save-btn">Сохранить</button>
+                <button type="submit" class="form__btn form__save-btn" disabled="disabled">Сохранить</button>
             </div>
         </form>
     </section>

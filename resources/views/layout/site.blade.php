@@ -6,6 +6,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     @include('layout.part.css')
+    {!! $settings['codes_head'] !!}
+
 </head>
 <body>
 <div class="site-wrapper">
@@ -134,15 +136,15 @@
 
                                         </div>
 
-                                        <div class="catalog__button-box">
-                                            <button class="catalog__show-btn" type="submit">Показать</button>
-                                            <a class="catalog__reset-btn" type="button" href="{{ route('catalog.category', ['category' => $currentCategory]) }}">Сбросить</a>
-                                        </div>
                                     </div>
-                                @endif
-                            </div>
+                                    @endif
+                                </div>
                         @endforeach
 
+                    </div>
+                    <div class="catalog__button-box">
+                        <button class="catalog__show-btn" type="submit">Показать</button>
+                        <a class="catalog__reset-btn" type="button" href="{{ route('catalog.category', ['category' => $currentCategory]) }}">Сбросить</a>
                     </div>
 
                     <div class="catalog__bubble">
@@ -177,6 +179,7 @@
 
 
 @include('layout.part.js')
+    {!! $settings['codes_body'] !!}
 </body>
 
 </html>

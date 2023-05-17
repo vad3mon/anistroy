@@ -240,6 +240,7 @@ class BasketService
             $mailData['products'][] = [
                 'name' => $product->name,
                 'price' => $product->price,
+                'unit' => $product->unit,
                 'quantity' => $product->pivot->quantity,
                 'cost' => $product->price * $product->pivot->quantity,
                 'image' => $product->image

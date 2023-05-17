@@ -50,10 +50,13 @@
 
         <section class="buy">
             @include('orders.part.products', ['items' => $order->items])
-            <div class="buy__result">
-                <b class="buy__result-text">К оплате:</b>
-                <b class="buy__result-price">{{ $order->amount }} ₽</b>
-            </div>
+
+            @if ($order->amount > 0)
+                <div class="buy__result">
+                    <b class="buy__result-text">К оплате:</b>
+                    <b class="buy__result-price">{{ $order->amount }} ₽</b>
+                </div>
+            @endif
         </section>
     </section>
 @endsection

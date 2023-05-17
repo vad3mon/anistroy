@@ -28,43 +28,43 @@
                     <h2 class="cart__title">Введите данные для заказа</h2>
                     <div class="form__item">
                         <label class="form__label">Имя<sup>*</sup></label>
-                        <input type="text" class="form__input" name="name" data-required="true" value="{{ auth()->user() ? auth()->user()->name : "" }}">
+                        <input type="text" class="form__input" name="name" data-required value="{{ auth()->user() ? auth()->user()->name : "" }}">
                         <p class="form__error-text">{{ $errors->first('name') }}</p>
                     </div>
 
                     <div class="form__item">
                         <label class="form__label">Почта</label>
-                        <input type="text" class="form__input" name="email" data-required="true" value="{{ auth()->user() ? auth()->user()->email : "" }}">
+                        <input type="text" class="form__input" name="email" data-required value="{{ auth()->user() ? auth()->user()->email : "" }}">
                         <p class="form__error-text">{{ $errors->first('email') }}</p>
                     </div>
 
                     <div class="form__item">
                         <label class="form__label">Телефон<sup>*</sup></label>
-                        <input type="text" class="form__input" name="phone" data-required="true" value="{{ auth()->user() ? auth()->user()->phone : "" }}">
+                        <input type="text" class="form__input" name="phone" data-required value="{{ auth()->user() ? auth()->user()->phone : "" }}">
                         <p class="form__error-text">{{ $errors->first('phone') }}</p>
                     </div>
 
                     <div class="form__item">
-                        <label class="form__label">Адрес доставки</label>
-                        <input type="text" class="form__input" name="address" data-required="true"
+                        <label class="form__label">Адрес доставки <sup>*</sup></label>
+                        <input type="text" class="form__input" name="address"
 {{--                               value="{{ auth()->user()->orders()->get()->last() ? auth()->user()->orders()->get()->last()->address : "" }}"--}}
-                        >
+                    data-required>
                         <p class="form__error-text">{{ $errors->first('address') }}</p>
                     </div>
 
                     <div class="form__item">
                         <label class="form__label">Комментарий</label>
-                        <textarea type="text" class="form__input" name="comment"></textarea>
+                        <textarea class="form__input" name="comment" autocomplete="off"></textarea>
                         <p class="form__error-text">{{ $errors->first('comment') }}</p>
                     </div>
 
                     <div class="form__agreement">
-                        <input class="form__checkbox" type="checkbox" id="agreement" name="agreement">
+                        <input class="form__checkbox" type="checkbox" id="agreement" name="checkbox" data-required>
                         <label for="agreement" class="form__agreement-text">Согласен на обработку</label>
                         <a href="{{ route('agreement') }}" class="form__agreement-link">персональных данных</a>
                     </div>
 
-                    <button type="submit" class="form__buy-btn" disabled="">Оформить заказ</button>
+                    <button type="submit" class="form__btn form__buy-btn" disabled="">Оформить заказ</button>
                 </form>
             </div>
         </div>

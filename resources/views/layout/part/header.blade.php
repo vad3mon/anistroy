@@ -1,10 +1,10 @@
 <header class="header">
     <div class="header__top">
         <nav class="site-nav">
-            <a class="phone-box phone-box--mobile" href="tel:88005558213">
+            <a class="phone-box phone-box--mobile" href="tel:{{ $settings['phone_header'] }}">
                 <img class="phone-box__icon" src="{{ asset('images/icon-phone.svg') }}" alt="">
                 <span class="phone-box__text">
-                8 (800) 555-82-13
+                    {{ $settings['phone_header'] }}
               </span>
             </a>
             @include('pages.top_pages')
@@ -36,10 +36,10 @@
             <button class="header__submit-button" type="submit">Поиск</button>
         </form>
 
-        <a class="phone-box phone-box--desktop" href="tel:88005558213">
+        <a class="phone-box phone-box--desktop" href="tel:{{ $settings['phone_header'] }}">
             <img class="phone-box__icon" src="{{ asset('images/icon-phone.svg') }}" alt="">
             <span class="phone-box__text">
-                8 (800) 555-82-13
+                {{ $settings['phone_header'] }}
               </span>
         </a>
 

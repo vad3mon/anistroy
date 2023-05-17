@@ -19,12 +19,16 @@ class Page extends Model
 
     public static function getTopPages()
     {
-        return self::where('binding', 'header')->orWhere('binding', 'header_footer')->get();
+        return self::whereIn('binding', ['header', 'header_footer'])->where('published', 1)->get();
     }
 
     public static function getFooterPages()
     {
-        return (self::whereNull('parent_id'))->whereIn('binding', ['footer', 'header_footer'])->with('childrens')->get();
+        return (self::whereNull('parent_id'))->whereIn('binding', ['footer', 'header_footer'])->where('published', 1)->with([
+            'childrens' => function ($query) {
+                $query->whereIn('binding', ['footer', 'header_footer'])->where('published', 1);
+            }
+        ])->get();
     }
 
     public function childrens()

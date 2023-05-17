@@ -26,8 +26,8 @@
                 <h2 class="form__title">Восстановление</h2>
 
                 <div class="form__item">
-                    <label class="form__label">Почта</label>
-                    <input type="text" class="form__input" name="email" value="{{ $request->email }}">
+                    <label class="form__label">Почта <sup>*</sup></label>
+                    <input type="text" class="form__input" name="email" value="{{ $request->email }}" data-required>
                     <p class="form__error-text">{{ $errors->first('email') }}</p>
                 </div>
 
@@ -49,7 +49,7 @@
                     <p class="form__error-text">{{ $errors->first('password_confirmation') }}</p>
                 </div>
 
-                <button type="submit" class="form__auth-btn">Отправить</button>
+                <button type="submit" class="form__btn form__auth-btn" disabled="disabled">Отправить</button>
             </div>
         </form>
     </section>

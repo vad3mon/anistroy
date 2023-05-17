@@ -27,13 +27,13 @@
 
                 <div class="form__item">
                     <label class="form__label" for="email">Почта</label>
-                    <input type="text" class="form__input" name="email" id="email" value="{{ old('email') ?? '' }}">
+                    <input type="text" class="form__input" name="email" id="email" data-required value="{{ old('email') ?? '' }}">
                     <p class="form__error-text">{{ $errors->first('email') }}</p>
                 </div>
 
                 <div class="form__item">
                     <label class="form__label">Телефон<sup>*</sup></label>
-                    <input type="text" class="form__input" name="phone" id="phone" data-required>
+                    <input type="text" class="form__input" name="phone" id="phone" data-required value="{{ old('email') ?? '' }}">
                     <p class="form__error-text">{{ $errors->first('phone') }}</p>
                 </div>
 
@@ -56,13 +56,13 @@
                 </div>
 
                 <div class="form__agreement">
-                    <input class="form__checkbox" type="checkbox" id="agreement" name="agreement" data-required>
+                    <input class="form__checkbox" type="checkbox" id="agreement" name="checkbox" data-required>
                     <label for="agreement" class="form__agreement-text">Согласен на обработку</label>
                     <a href="{{ route('pages.index', ['page' => 'agreement']) }}" class="form__agreement-link">персональных данных</a>
                     <p class="form__error-text">{{ $errors->first('agreement') }}</p>
                 </div>
 
-                <button type="submit" class="form__auth-btn">Регистрация</button>
+                <button type="submit" class="form__btn form__auth-btn" disabled="disabled">Регистрация</button>
 
                 <p class="form__text">
                     Есть аккаунт?
