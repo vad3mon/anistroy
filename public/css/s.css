@@ -2732,10 +2732,6 @@ h6 {
   padding: 10px 25px;
 }
 
-/*.checkbox-spoiler__checkbox :checked + .checkbox-spoiler__label::after {*/
-/*  transform: rotate(222deg) scale(1);*/
-/*}*/
-
 .checkbox__input {
   display: none;
 }
@@ -2769,7 +2765,6 @@ h6 {
 .checkbox__label:hover::before {
   background-color: #E1EEFB;
 }
-
 .checkbox__input:checked + .checkbox__label::after {
   transform: rotate(222deg) scale(1);
 }

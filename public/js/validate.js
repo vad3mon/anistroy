@@ -4914,7 +4914,7 @@
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/
+/******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -4928,14 +4928,14 @@
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/
+/******/ 	
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -4948,7 +4948,7 @@
 /******/ 			return getter;
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -4960,7 +4960,7 @@
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -4972,12 +4972,12 @@
 /******/ 			}
 /******/ 		})();
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -4987,38 +4987,40 @@ var __webpack_exports__ = {};
 /* harmony import */ var _imask__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_imask__WEBPACK_IMPORTED_MODULE_0__);
 
 const orderForm = document.querySelector('.form');
-const agreementCheckbox = document.querySelector('.form__checkbox');
+const agreementCheckbox = document.querySelector('.js-checkbox');
 if (orderForm) {
   document.addEventListener('DOMContentLoaded', () => {
     validateOnLoad();
   });
 }
 function validateOnLoad() {
-  const formItems = document.querySelectorAll('.form__item');
+  const formItems = document.querySelectorAll('.js-form-item');
   formItems.forEach(item => {
-    const input = item.querySelector('.form__input');
-    const errorField = item.querySelector('.form__error-text');
+    const inputs = item.querySelectorAll('.js-input');
+    const errorField = item.querySelector('.js-error-text');
     let phoneMask;
     let mask = '+7(___)___-__-__';
-    if (input.name === 'phone') {
-      phoneMask = _imask__WEBPACK_IMPORTED_MODULE_0___default()(input, {
-        mask: '+{7}(000)000-00-00',
-        lazy: false
+    inputs.forEach(input => {
+      if (input.name === 'phone') {
+        phoneMask = _imask__WEBPACK_IMPORTED_MODULE_0___default()(input, {
+          mask: '+{7}(000)000-00-00',
+          lazy: false
+        });
+      }
+      if (input.value.trim() !== '' && input.value !== mask) {
+        validateInput(orderForm, input);
+      }
+      input.addEventListener('input', () => {
+        validateInput(orderForm, input);
       });
-    }
-    if (input.value.trim() !== '' && input.value !== mask) {
-      validateInput(orderForm, input);
-    }
-    input.addEventListener('input', () => {
-      validateInput(orderForm, input);
     });
     function validateInput(orderForm, input) {
       if (input.name === 'name') validateUserName(input, errorField);
       if (input.name === 'email') validateEmail(input, errorField);
       if (input.name === 'phone') validatePhone(phoneMask, input, errorField);
       if (input.name === 'address') validateAddress(input, errorField);
-      if (input.name === 'password') validateUserName(input, errorField);
-      if (input.name === 'password_confirmation') validateUserName(input, errorField);
+      if (input.name === 'pass') validateUserName(input, errorField);
+      if (input.name === 'pass2') validateUserName(input, errorField);
       isValidFields(orderForm);
     }
   });
@@ -5032,40 +5034,40 @@ function validateOnLoad() {
 function validateUserName(input, errorField) {
   if (input.value.trim() !== '') {
     input.dataset.valid = 'true';
-    errorField.textContent = '';
+    if (errorField) errorField.textContent = '';
   } else {
     input.dataset.valid = 'false';
-    errorField.textContent = 'Поле не должно быть пустым';
+    if (errorField) errorField.textContent = 'Поле не должно быть пустым';
   }
 }
 function validateEmail(input, errorField) {
   const mailformat = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
   if (input.value.match(mailformat)) {
     input.dataset.valid = 'true';
-    errorField.textContent = '';
+    if (errorField) errorField.textContent = '';
   } else if (input.value.trim() === '') {
     input.dataset.valid = 'false';
-    errorField.textContent = 'Поле не должно быть пустым';
+    if (errorField) errorField.textContent = 'Поле не должно быть пустым';
   } else {
     input.dataset.valid = 'false';
-    errorField.textContent = 'Некорректный email';
+    if (errorField) errorField.textContent = 'Некорректный email';
   }
 }
 function validatePhone(phoneMask, input, errorField) {
   if (phoneMask.unmaskedValue.length === 11) {
     input.dataset.valid = 'true';
-    errorField.textContent = '';
+    if (errorField) errorField.textContent = '';
   } else {
     input.dataset.valid = 'false';
-    errorField.textContent = 'Введите корректный номер телефона';
+    if (errorField) errorField.textContent = 'Введите корректный номер телефона';
   }
 }
 function validateAddress(input, errorField) {
   if (input.value.trim() !== '') {
     input.dataset.valid = 'true';
-    errorField.textContent = '';
+    if (errorField) errorField.textContent = '';
   } else {
-    input.dataset.valid = '';
+    if (errorField) input.dataset.valid = '';
   }
 }
 function validateAgreement(input) {
@@ -5074,7 +5076,7 @@ function validateAgreement(input) {
 function isValidFields(formName) {
   const requiredFields = formName.querySelectorAll('[data-required]');
   const validFields = formName.querySelectorAll('[data-valid=true][data-required]');
-  const formBtn = formName.querySelector('.form__btn');
+  const formBtn = formName.querySelector('.js-form-submit');
   if (validFields.length === requiredFields.length) {
     formBtn.disabled = false;
   } else {

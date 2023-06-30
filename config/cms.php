@@ -8,27 +8,27 @@ return [
             'name' => 'Банеры',
             'module' => 'Models',
             'model' => 'BannerProducts'
-        ],        
+        ],
         'discount' => [
             'name' => 'Товары со скидкой',
             'module' => 'Models',
             'model' => 'DiscountProducts'
-        ],        
+        ],
         'pages' => [
             'name' => 'Текстотвые страницы',
             'module' => 'Models',
             'model' => 'Page'
-        ],        
+        ],
         'properties' => [
             'name' => 'Способы фильтрации',
             'module' => 'Models',
             'model' => 'Property'
-        ],        
+        ],
         'filters' => [
             'name' => 'Фильтры',
             'module' => 'Models',
             'model' => 'Category'
-        ],        
+        ],
         'settings' => [
             'name' => 'Настройки',
             'route' => 'cms.settings.',
@@ -40,7 +40,7 @@ return [
             'admin_only' => true
         ],
     ],
-    
+
 
     'menu' => [
         [
@@ -57,7 +57,7 @@ return [
         ],
         [
             'name' => 'Настройки',
-            'modules' => 'settings' 
+            'modules' => 'settings'
         ],
         [
             'name' => 'Редакторы',
@@ -85,7 +85,7 @@ return [
                 'address' => [
                     'title' => 'Адрес',
                     'type' => 'text',
-                ],              
+                ],
             ]
         ],
         'block_2' => [
@@ -94,11 +94,41 @@ return [
                 'codes_head' => [
                     'title' => 'Коды в <head>',
                     'type' => 'text',
-                ],              
+                ],
                 'codes_body' => [
                     'title' => 'Коды в <BODY>',
                     'type' => 'text',
-                ],              
+                ],
+            ]
+        ],
+        'block_3' => [
+            'name' => 'Доставка - грузчики',
+            'fields' => [
+                'loader_base' => [
+                    'title' => 'Базовая стоимость разгрузки за 100 кг (Разгрузка, пронос до 25 метров, подъем на лифте) (руб.)',
+                    'type' => 'line',
+                    'value' => 1000
+                ],
+                'loader_more_carry' => [
+                    'title' => 'Пронос свыше 25 метров. За кг за 20 метров (руб.)',
+                    'type' => 'line',
+                    'value' => 1
+                ],
+                'loader_lift' => [
+                    'title' => 'Подъем без лифта за 100 кг за этаж (руб.)',
+                    'type' => 'line',
+                    'value' => 100
+                ],
+                'loader_min' => [
+                    'title' => 'Минимальная стоимость разгрузки и подъема (руб.)',
+                    'type' => 'line',
+                    'value' => 1000
+                ],
+                'loader_cleaning' => [
+                    'title' => 'Уборка (руб.)',
+                    'type' => 'line',
+                    'value' => 1000
+                ],
             ]
         ],
     ]

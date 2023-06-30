@@ -21,7 +21,10 @@ class Product extends Model
         'price',
         'unit',
         'weight',
-        'volume'
+        'volume',
+        'length',
+        'width',
+        'height'
     ];
 
     public function category()

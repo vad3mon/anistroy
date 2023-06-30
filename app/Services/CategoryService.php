@@ -121,27 +121,6 @@ class CategoryService
         return $products;
     }
 
-
-    public static function paginate(Collection $results, $pageSize)
-    {
-        $page = Paginator::resolveCurrentPage('page');
-
-        $total = $results->count();
-
-        return self::paginator($results->forPage($page, $pageSize), $total, $pageSize, $page, [
-            'path' => Paginator::resolveCurrentPath(),
-            'pageName' => 'page',
-        ]);
-
-    }
-
-    protected static function paginator($items, $total, $perPage, $currentPage, $options)
-    {
-        return Container::getInstance()->makeWith(LengthAwarePaginator::class, compact(
-            'items', 'total', 'perPage', 'currentPage', 'options'
-        ));
-    }
-
     public function search($query)
     {
         $query = trim($query);
@@ -179,13 +158,6 @@ class CategoryService
                 ->withQueryString();
 
         return $products;
-    }
-
-//    функция округления до сотого числа (если вдруг шаг будет не 1)
-    function round_up($num, $precision) {
-        $num = $num / pow(10, $precision);
-        $num = ceil($num);
-        return $num * pow(10, $precision);
     }
 
     public function getCategoryPriceProperty($category)

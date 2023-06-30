@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/ymaps', function (){
+    return view('ymaps');
+});
+
 Route::get('/sync_product_folder', [\App\Http\Controllers\SyncController::class, 'sync_product_folder']);
 Route::get('/sync_products', [\App\Http\Controllers\SyncController::class, 'sync_products']);
 Route::get('/sync_orders', [\App\Http\Controllers\SyncController::class, 'sync_orders']);
@@ -32,7 +36,6 @@ Route::group([
 ], function() {
     Route::get('/{page:slug}', [\App\Http\Controllers\PageController::class, 'index'])->name('index');
 });
-
 
 Route::get('/order/{session_id}/{order_id}', [\App\Http\Controllers\OrderController::class, 'show'])->name('getOrder');
 
@@ -56,7 +59,13 @@ Route::group([
     Route::post('/minus/{id}', [\App\Http\Controllers\BasketController::class, 'minus'])->name('minus');
     Route::post('/remove/{id}', [\App\Http\Controllers\BasketController::class, 'remove'])->name('remove');
     Route::post('/saveorder', [\App\Http\Controllers\BasketController::class, 'saveOrder'])->name('saveorder');
+    Route::post('/saveNewOrder', [\App\Http\Controllers\BasketController::class, 'saveNewOrder'])->name('saveNewOrder');
 
+    Route::post('/stringAddress', [\App\Http\Controllers\BasketController::class, 'stringAddress'])->name('stringAddress');
+    Route::post('/coordsAddress', [\App\Http\Controllers\BasketController::class, 'coordsAddress'])->name('coordsAddress');
+    Route::post('/getDeliveryPrice', [\App\Http\Controllers\BasketController::class, 'getDeliveryPrice'])->name('getDeliveryPrice');
+
+    Route::get('/new_basket', [\App\Http\Controllers\BasketController::class, 'newBasket'])->name('newBasket');
 });
 
 Route::group([

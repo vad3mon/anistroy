@@ -1,3 +1,7 @@
+<script src="{{ asset('js/datepicker.js') }}"></script>
+<script src="{{ asset('js/calendar-lang.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}"></script>
+<script src="{{ asset('js/tabs.js') }}"></script>
 <script src="{{ asset('js/auth.js') }}"></script>
 <script src="{{ asset('js/validate.js') }}"></script>
 <script src="{{ asset('js/catalog-and-spoiler.js') }}"></script>

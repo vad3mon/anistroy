@@ -9,9 +9,16 @@ class Favorite extends Model
 {
     use HasFactory;
 
+    public $fillable = [
+        'id',
+        'session_id',
+        'user_id'
+    ];
+
     public function products()
     {
         return $this->belongsToMany(Product::class);
     }
+
 }
 

@@ -212,7 +212,7 @@ if (spoilersArray.length > 0) {
         spoilerTitle.classList.toggle('active');
         _slideToggle(spoilerTitle.nextElementSibling, 300);
       }
-      e.preventDefault();
+      // e.preventDefault();
     }
   }
   function hidespoilersBody(spoilersBlock) {
